@@ -1,1 +1,0 @@
-Use "pull" and then "push" in order to be a contributer
