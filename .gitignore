@@ -8,6 +8,11 @@
 *.lib
 *.a
 
+# Latex File
+*.aux
+*.log
+*.gz
+
 # Shared objects (inc. Windows DLLs)
 *.dll
 *.so

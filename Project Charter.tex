@@ -1,0 +1,119 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.1 (25/3/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+%\usepackage[version=3]{mhchem} % Package for chemical equation typesetting
+%\usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
+\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry} % Document margins
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{natbib} % Required to change bibliography style to APA
+\usepackage{amsmath} % Required for some math elements 
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Software Engineering \\ Project Charter \\ CS 307} % Title
+
+\author{Team \textsc{13}} % Author name
+
+\date{\today} % Date for the report
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+\begin{center}
+\begin{tabular}{l r}
+Members: & Nathan Chang \\ % Partner names
+& Xiaojing Ji \\
+& Zilun Mai \\
+& Saranyu Phusit \\
+& Yao Xiao \\
+\\
+
+
+
+Instructor: & Professor Buster Dunsmore % Instructor/supervisor
+\end{tabular}
+\end{center}
+
+% If you wish to include an abstract, uncomment the lines below
+% \begin{abstract}
+% Abstract text
+% \end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+
+\newpage
+\section{Problem Statement}
+
+Purdue has a large amount of new students coming in every year. They are not familiar with the campus and are in deep need of navigation. Even though apps are available, they still have problems in finding indoor rooms, nearby restrooms, water fountains, etc. Asking from other students is one way to get the path, but we want to make it more convenient for them. Using GPS navigation is another way. But since GPS accuracy is not entirely reliable in small spaces, students have failed in many cases.
+
+\section{Project Objective}
+
+This project aims at providing indoor navigation, thus the following objectives will be implemented
+\begin{itemize}
+\item To provide an indoor navigation to public facilities and classrooms for the user
+\item To minimize the travelling time looking for the destination (possibly by calculating the shortest path or the path with fewer people)
+\item To show the user who on the friends list visit the building recently(optional)
+\end{itemize}
+
+\section{Stakeholders}
+
+\begin{itemize}
+\item The team of developers
+\item The students who will use this program, mainly new students on campus or new to a building.
+\item State Farm if they get ownership.
+\item The TA that will be our project coordinator
+\end{itemize}
+
+\section{Deliverables}
+
+
+
+\begin{itemize}
+
+\item The QR codes for the sample test building, which will be put on important corners for the indoor navigation.
+\item A mobile application for indoor navigation with the following features: \\ \\
+  -  Easy to follow navigation to the classrooms and public facilities. The app will update the location based on the QR code scanned then tell the user how to go to their destinations, as well as show images of some places and maps of each floor. \\ \\
+  -  A user friendly graphic user interface which minimizes the number of taps needed to navigate. \\ \\
+  -  A map showing the user’s friends that have used our app in the building recently (optional)
+\end{itemize}
+
+
+
+\section{Miscellaneous}
+
+Yes, we would like a State Farm Project Owner
+
+
+\end{document}
