@@ -1,0 +1,142 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.1 (25/3/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+%\usepackage[version=3]{mhchem} % Package for chemical equation typesetting
+%\usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
+\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry} % Document margins
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{pdfpages}
+\usepackage{natbib} % Required to change bibliography style to APA
+\usepackage{amsmath} % Required for some math elements 
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{\textbf{Find A Room} \\ Design Document \\ CS 307} % Title
+
+\author{Team \textsc{13}(Snoxy)} % Author name
+
+\date{\today} % Date for the report
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+\begin{center}
+\begin{tabular}{l r}
+Members: & Nathan Chang \\ % Partner names
+& Xiaojing Ji \\
+& Zilun Mai(Owen) \\
+& \textbf{Saranyu Phusit(Team Leader)} \\
+& Yao Xiao \\
+\\
+\bigskip
+Instructor: & Professor Buster Dunsmore \\% Instructor/supervisor 
+Project Coordinator: & Miguel Villarreal-Vasquez % Instructor/supervisor
+
+\end{tabular}
+\end{center}
+
+\newpage
+\tableofcontents
+
+% If you wish to include an abstract, uncomment the lines below
+% \begin{abstract}
+% Abstract text
+% \end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+
+\newpage
+\section{Purpose}
+
+A mobile application that will give directions indoors by scanning QR codes put on walls throughout a building. The app will direct them towards their destination from where they are.
+
+
+\section{Design Outline}
+
+\subsection{Requirements}
+The design should meet the following requirements.
+
+\begin{itemize}
+\item Having a visual guide with photos for navigating me to destination.
+\item Navigating to the closest restrooms and water fountains and other destinations.
+\item Getting the current location.
+\item Automation adding my building map into an app and specify important destinations at ease. 
+\item Response Time: The response time after user starts walking should not be more than 1 second
+
+\end{itemize}
+
+\subsection{General Priority}
+The decisions that we make in this document are based on the priorities that we have set for the
+project. These are (in order of importance):
+\begin{itemize}
+\item \textbf{Reliability:} The app should lead the user to the destination as quickly and precisely as possible. We take it seriously since that's the most important part of our project.
+\item \textbf{Scalability:} The app should work with any building with basic structure.
+\item \textbf{Size:} The size of the app should be small, the user should download it quickly.
+\item \textbf{Supportability:} The app should work without having the developers add the map and checkpoints manually. We may add it if time allows.
+\end{itemize}
+
+\subsection{Outline Figures}
+
+
+Figure here...
+
+
+
+\section{Design Issue}
+
+We run into several issues.
+
+\subsection{Functional Issue}
+\subsubsection{Issue 1}
+Mobile app or Website app? \\
+Option 1: Mobile \\
+Option 2: Webapp \\
+
+We choose option 2 since we can use XXX to transfer to a mobile program and it doesn't need native support for iOS/Andriod.
+...
+
+\subsection{Non-functional Issue}
+\subsubsection{Issue X}
+...
+
+\section{Design Details}
+
+\subsection{Components}
+
+Diagram...
+\subsection{Process}
+
+\subsection{UI mockup}
+\end{document}

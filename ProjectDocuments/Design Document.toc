@@ -1,0 +1,14 @@
+\contentsline {section}{\numberline {1}Purpose}{3}
+\contentsline {section}{\numberline {2}Design Outline}{3}
+\contentsline {subsection}{\numberline {2.1}Requirements}{3}
+\contentsline {subsection}{\numberline {2.2}General Priority}{3}
+\contentsline {subsection}{\numberline {2.3}Outline Figures}{3}
+\contentsline {section}{\numberline {3}Design Issue}{3}
+\contentsline {subsection}{\numberline {3.1}Functional Issue}{4}
+\contentsline {subsubsection}{\numberline {3.1.1}Issue 1}{4}
+\contentsline {subsection}{\numberline {3.2}Non-functional Issue}{4}
+\contentsline {subsubsection}{\numberline {3.2.1}Issue X}{4}
+\contentsline {section}{\numberline {4}Design Details}{4}
+\contentsline {subsection}{\numberline {4.1}Components}{4}
+\contentsline {subsection}{\numberline {4.2}Process}{4}
+\contentsline {subsection}{\numberline {4.3}UI mockup}{4}
