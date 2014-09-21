@@ -3,12 +3,13 @@
 \contentsline {subsection}{\numberline {2.1}Requirements}{3}
 \contentsline {subsection}{\numberline {2.2}General Priority}{3}
 \contentsline {subsection}{\numberline {2.3}Outline Figures}{3}
-\contentsline {section}{\numberline {3}Design Issue}{3}
+\contentsline {section}{\numberline {3}Design Issue}{4}
 \contentsline {subsection}{\numberline {3.1}Functional Issue}{4}
 \contentsline {subsubsection}{\numberline {3.1.1}Issue 1}{4}
-\contentsline {subsection}{\numberline {3.2}Non-functional Issue}{4}
-\contentsline {subsubsection}{\numberline {3.2.1}Issue X}{4}
-\contentsline {section}{\numberline {4}Design Details}{4}
-\contentsline {subsection}{\numberline {4.1}Components}{4}
-\contentsline {subsection}{\numberline {4.2}Process}{4}
-\contentsline {subsection}{\numberline {4.3}UI mockup}{4}
+\contentsline {subsubsection}{\numberline {3.1.2}Issue 2}{4}
+\contentsline {subsection}{\numberline {3.2}Non-functional Issue}{5}
+\contentsline {subsubsection}{\numberline {3.2.1}Issue X}{5}
+\contentsline {section}{\numberline {4}Design Details}{5}
+\contentsline {subsection}{\numberline {4.1}Components}{5}
+\contentsline {subsection}{\numberline {4.2}Process}{7}
+\contentsline {subsection}{\numberline {4.3}UI mockup}{9}
