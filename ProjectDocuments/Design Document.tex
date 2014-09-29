@@ -92,8 +92,6 @@ The design should meet the following requirements.
 \item A room search function for rooms that are not on that list.
 \item A very fast and easy path finding algorithm.
 \item A good display of directions both as a list of directions and a highlighted map.
-
-
 \end{itemize}
 
 
@@ -134,7 +132,7 @@ The last necessary components we need is the real map of the floor building. At 
 
 
 \begin{center}
-\includegraphics[scale=0.8]{image/user_outline.png}
+\includegraphics[scale=0.8]{image/image04.jpg}
 \end{center}
 
 
@@ -143,9 +141,9 @@ The last necessary components we need is the real map of the floor building. At 
 
 We run into several issues.
 
-\subsection{Functional Issue}
 
-\subsubsection{Issue 1}
+
+\subsection{Issue 1}
 How to measure the location of the user? \\ \\
 
 Option 1: QR on the wall \\
@@ -153,7 +151,7 @@ Option 2: Use bluetooth to measure the distance \\
 
 We choose Option 1 since option 2 needs at least 3 bluetooth devices to determine user’s location and the bluetooth can’t support the distance over 5 meters while the length of a path is usually longer. Option 1 is better since the QR code is easy for user to scan, get information and far cheaper.
 
-\subsubsection{Issue 2}
+\subsection{Issue 2}
 
 Where to put QR Code. \\ \\
 
@@ -162,7 +160,7 @@ Option 2: On the corner of the building \\
 
 Although Option 1 will make the path-finding easier, we still decide to use option 2 since the user won’t go through the wrong way when on an edge, and it is a waste of time to put all the QR code on the wall.
 
-\subsubsection{Issue 3}
+\subsection{Issue 3}
 How should user get the map database? \\ \\
 
 Option 1: Download it with the app. \\
@@ -170,14 +168,14 @@ Option 2: Download when user want it. \\
 
 We choose Option 1 since when user needs to use it, he or she must be in hurry of finding a classroom or bathroom so he or she may not have time to download it. 
 
-\subsubsection{Issue 4}
+\subsection{Issue 4}
 How to let user input their destination? \\ \\
 Option 1: We have a list of rooms/ nodes for users to pick while the user inputting their destination. \\
 Option 2: We provide a map for user to point at. \\
 
 Option 1 would be our answer. Letting user pointing at the map might be cooler but it’s way more time consuming for user to find their location. Besides the accuracy of pointing would be low. By inputting search bar, it would be quicker and more accurate. 
 
-\subsubsection{Issue 5}
+\subsection{Issue 5}
 How should the navigation be displayed in the app? \\
 
 Option 1: Display the map of the current building floor and draw out directions with the QR code along as parameters. \\
@@ -186,9 +184,7 @@ Option 2: Display current location photo and give direction with text. \\
 Option 1 is the way to go.  Our app places accuracy as the most important issue. So we want to make sure our layout is easily understood, and not misleading. If we put it in text and say “Turn right or left within xxx meters”, that would be too vague and misleading. We wanted the user to recognize where they are right now, and how long they need to get to the destination.
 
 
-
-\subsection{Non-functional Issue}
-\subsubsection{Issue 6}
+\subsection{Issue 6}
 How should an app be implemented?  \\ \\
 Option 1: Native  \\
 Option 2: HTML + Phonegap \\
@@ -205,6 +201,14 @@ The navigation system will calculate the shortest distance between two nodes usi
 
 
 \subsection{Components}
+
+
+\begin{center}
+\includegraphics[scale=0.6]{image/image02.png}
+\\
+\textit{Figure 1. The Class diagram}
+\end{center}
+
 \textbf{QRcode:}	Each QR code stores its own ID. It will use QR code ID to find the corresponding map, so that users can locate themselves and obtain the floor map by simply scanning and sending the QR code to our app \\ \\
 \textbf{Map: }
 	Each map can be identified by its own ID named MapID. Since the real map is translated to graph, rooms and water fountains, stairs, elevators, etc. are represented by nodes, the paths between two neighborhoods are represented by edges. NodeList stores every node displayed on the map, as well as EdgeList stores every edge with direction.  MapImg holds the real life map for better user visualization.  The MapImg will be pumped out on the screen once the app successfully identify user’s location and load the corresponding map. 
@@ -222,11 +226,8 @@ Edges all have their own ID called EdgeID, and their starting and ending QR code
 Destination is parsed from user’s selection on the lecture rooms list, or public facilities. Each of them can be identified by it DestinationID.\\ \\
 
 
-\begin{center}
-\includegraphics[scale=0.6]{image/image02.png}
-\\
-\textit{Figure 1. The Class diagram}
-\end{center}
+
+\newpage
 \subsection{Process}
 We have two main processes for this project. The user should scan the QR code and get the location of the current position, as well as providing the destination( this can be done by selecting one destination from the list we provide or picking public facilities choice)  . The client should provide directions and show the map of current area. The client maps each QR code to a corresponding location of a specific map, thus once it gets the destination, it will set up the connection between the starting point and end point on the map. 
 
@@ -234,6 +235,7 @@ We have two main processes for this project. The user should scan the QR code an
 \includegraphics[scale=0.6]{image/image01.png}
 \end{center}
 
+\newpage
 Locating where is the User
 This allows the application to find where the user is. The application uses a QR code to locate the user once the user scans the QR code.
 
@@ -243,7 +245,7 @@ This allows the application to find where the user is. The application uses a QR
 
 
 
-
+\newpage
 \subsection{UI mockup}
 Here is the UI mockup showing the 5 main states of an app.
 
