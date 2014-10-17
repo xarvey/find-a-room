@@ -43,7 +43,6 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
     public static final int MANUAL = 2;
     
     private ScanditSDK mBarcodePicker;
-    private boolean mContinuousMode = false;
     
     
     @Override
@@ -62,14 +61,14 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
         ScanditSDKGlobals.usedFramework = "phonegap";
         
         if (ScanditSDKBarcodePicker.canRunPortraitPicker()) {
-            int facing = ScanditSDK.CAMERA_FACING_BACK;
-            if (extras.getBoolean("preferFrontCamera")) {
-                facing = ScanditSDK.CAMERA_FACING_FRONT;
-            }
+        	int facing = ScanditSDK.CAMERA_FACING_BACK;
+        	if (extras.getBoolean("preferFrontCamera")) {
+        		facing = ScanditSDK.CAMERA_FACING_FRONT;
+        	}
             // create ScanditSDKBarcodePicker that takes care of the camera access and
             // barcode recognition.
             ScanditSDKBarcodePicker picker = new ScanditSDKBarcodePicker(
-                                                                         this, extras.getString("appKey"), facing);
+            		this, extras.getString("appKey"), facing);
             
             // Add both views to activity, with the scan GUI on top.
             this.setContentView(picker);
@@ -82,7 +81,7 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
             // create ScanditSDKBarcodePicker that takes care of the camera access and
             // barcode recognition.
             LegacyPortraitScanditSDKBarcodePicker picker = new LegacyPortraitScanditSDKBarcodePicker(
-                                                                                                     this, extras.getString("appKey"));
+            		this, extras.getString("appKey"));
             
             // Add both views to activity, with the scan GUI on top.
             this.setContentView(picker);
@@ -145,18 +144,18 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
             mBarcodePicker.setMsiPlesseyEnabled(extras.getBoolean("msiPlessey"));
         }
         if (extras.containsKey("msiPlesseyChecksumType")) {
-            String checksum = extras.getString("msiPlesseyChecksumType");
-            int actualChecksum = ScanditSDK.CHECKSUM_MOD_10;
-            if (checksum.equals("none")) {
-                actualChecksum = ScanditSDK.CHECKSUM_NONE;
-            } else if (checksum.equals("mod11")) {
-                actualChecksum = ScanditSDK.CHECKSUM_MOD_11;
-            } else if (checksum.equals("mod1010")) {
-                actualChecksum = ScanditSDK.CHECKSUM_MOD_1010;
-            } else if (checksum.equals("mod1110")) {
-                actualChecksum = ScanditSDK.CHECKSUM_MOD_1110;
-            }
-            mBarcodePicker.setMsiPlesseyChecksumType(actualChecksum);
+        	String checksum = extras.getString("msiPlesseyChecksumType");
+        	int actualChecksum = ScanditSDK.CHECKSUM_MOD_10;
+        	if (checksum.equals("none")) {
+        		actualChecksum = ScanditSDK.CHECKSUM_NONE;
+        	} else if (checksum.equals("mod11")) {
+        		actualChecksum = ScanditSDK.CHECKSUM_MOD_11;
+        	} else if (checksum.equals("mod1010")) {
+        		actualChecksum = ScanditSDK.CHECKSUM_MOD_1010;
+        	} else if (checksum.equals("mod1110")) {
+        		actualChecksum = ScanditSDK.CHECKSUM_MOD_1110;
+        	}
+        	mBarcodePicker.setMsiPlesseyChecksumType(actualChecksum);
         }
         
         if (extras.containsKey("inverseRecognition")) {
@@ -214,7 +213,7 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
                     Float y = Float.valueOf(split[1]);
                     int width = Integer.valueOf(split[2]);
                     int height = Integer.valueOf(split[3]);
-                    mBarcodePicker.getOverlayView().setTorchButtonPosition(x, y, width, height);
+                	mBarcodePicker.getOverlayView().setTorchButtonPosition(x, y, width, height);
                 } catch (NumberFormatException e) {}
             }
         }
@@ -223,9 +222,9 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
             String visibility = extras.getString("cameraSwitchVisibility");
             int actualVisibility = ScanditSDKOverlay.CAMERA_SWITCH_NEVER;
             if (visibility.equals("tablet")) {
-                actualVisibility = ScanditSDKOverlay.CAMERA_SWITCH_ON_TABLET;
+            	actualVisibility = ScanditSDKOverlay.CAMERA_SWITCH_ON_TABLET;
             } else if (visibility.equals("always")) {
-                actualVisibility = ScanditSDKOverlay.CAMERA_SWITCH_ALWAYS;
+            	actualVisibility = ScanditSDKOverlay.CAMERA_SWITCH_ALWAYS;
             }
             mBarcodePicker.getOverlayView().setCameraSwitchVisibility(actualVisibility);
         }
@@ -238,47 +237,47 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
                     Float y = Float.valueOf(split[1]);
                     int width = Integer.valueOf(split[2]);
                     int height = Integer.valueOf(split[3]);
-                    mBarcodePicker.getOverlayView().setCameraSwitchButtonPosition(
-                                                                                  x, y, width, height);
+                	mBarcodePicker.getOverlayView().setCameraSwitchButtonPosition(
+                			x, y, width, height);
                 } catch (NumberFormatException e) {}
             }
         }
         
         if (extras.containsKey("textForInitialScanScreenState")) {
             mBarcodePicker.getOverlayView().setTextForInitialScanScreenState(
-                                                                             extras.getString("textForInitialScanScreenState"));
+            		extras.getString("textForInitialScanScreenState"));
         }
         if (extras.containsKey("textForBarcodePresenceDetected")) {
             mBarcodePicker.getOverlayView().setTextForBarcodePresenceDetected(
-                                                                              extras.getString("textForBarcodePresenceDetected"));
+            		extras.getString("textForBarcodePresenceDetected"));
         }
         if (extras.containsKey("textForBarcodeDecodingInProgress")) {
             mBarcodePicker.getOverlayView().setTextForBarcodeDecodingInProgress(
-                                                                                extras.getString("textForBarcodeDecodingInProgress"));
+            		extras.getString("textForBarcodeDecodingInProgress"));
         }
         if (extras.containsKey("titleMessage")) {
             mBarcodePicker.getOverlayView().setTitleMessage(
-                                                            extras.getString("titleMessage"));
+            		extras.getString("titleMessage"));
         }
         if (extras.containsKey("leftButtonCaption")) {
             mBarcodePicker.getOverlayView().setLeftButtonCaption(
-                                                                 extras.getString("leftButtonCaption"));
+            		extras.getString("leftButtonCaption"));
         }
         if (extras.containsKey("leftButtonCaptionWhenKeypadVisible")) {
             mBarcodePicker.getOverlayView().setLeftButtonCaptionWhenKeypadVisible(
-                                                                                  extras.getString("leftButtonCaptionWhenKeypadVisible"));
+            		extras.getString("leftButtonCaptionWhenKeypadVisible"));
         }
         if (extras.containsKey("rightButtonCaption")) {
             mBarcodePicker.getOverlayView().setRightButtonCaption(
-                                                                  extras.getString("rightButtonCaption"));
+            		extras.getString("rightButtonCaption"));
         }
         if (extras.containsKey("rightButtonCaptionWhenKeypadVisible")) {
             mBarcodePicker.getOverlayView().setRightButtonCaptionWhenKeypadVisible(
-                                                                                   extras.getString("rightButtonCaptionWhenKeypadVisible"));
+            		extras.getString("rightButtonCaptionWhenKeypadVisible"));
         }
         if (extras.containsKey("setSearchBarPlaceholderText")) {
             mBarcodePicker.getOverlayView().setSearchBarPlaceholderText(
-                                                                        extras.getString("setSearchBarPlaceholderText"));
+            		extras.getString("setSearchBarPlaceholderText"));
         }
         
         if (extras.containsKey("viewfinderDimension")) {
@@ -288,7 +287,7 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
                 try {
                     Float width = Float.valueOf(split[0]);
                     Float height = Float.valueOf(split[1]);
-                    mBarcodePicker.getOverlayView().setViewfinderDimension(width, height);
+                	mBarcodePicker.getOverlayView().setViewfinderDimension(width, height);
                 } catch (NumberFormatException e) {}
             } else if (split.length == 4) {
                 try {
@@ -296,8 +295,8 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
                     Float height = Float.valueOf(split[1]);
                     Float landscapeWidth = Float.valueOf(split[2]);
                     Float landscapeHeight = Float.valueOf(split[3]);
-                    mBarcodePicker.getOverlayView().setViewfinderDimension(
-                                                                           width, height, landscapeWidth, landscapeHeight);
+                	mBarcodePicker.getOverlayView().setViewfinderDimension(
+                			width, height, landscapeWidth, landscapeHeight);
                 } catch (NumberFormatException e) {}
             }
         }
@@ -309,7 +308,7 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
                 try {
                     Float width = Float.valueOf(split[0]);
                     Float height = Float.valueOf(split[1]);
-                    mBarcodePicker.getOverlayView().setViewfinderDimension(width, height);
+                	mBarcodePicker.getOverlayView().setViewfinderDimension(width, height);
                 } catch (NumberFormatException e) {}
             } else if (split.length == 4) {
                 try {
@@ -317,15 +316,15 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
                     Float height = Float.valueOf(split[1]);
                     Float landscapeWidth = Float.valueOf(split[2]);
                     Float landscapeHeight = Float.valueOf(split[3]);
-                    mBarcodePicker.getOverlayView().setViewfinderDimension(
-                                                                           width, height, landscapeWidth, landscapeHeight);
+                	mBarcodePicker.getOverlayView().setViewfinderDimension(
+                			width, height, landscapeWidth, landscapeHeight);
                 } catch (NumberFormatException e) {}
             }
         }
         
         if (extras.containsKey("viewfinderTextHook")) {
-            mBarcodePicker.getOverlayView().drawViewfinderTextHook(
-                                                                   extras.getBoolean("viewfinderTextHook"));
+        	mBarcodePicker.getOverlayView().drawViewfinderTextHook(
+        			extras.getBoolean("viewfinderTextHook"));
         }
         if (extras.containsKey("viewfinderColor")) {
             String color = extras.getString("viewfinderColor");
@@ -364,17 +363,13 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
                     Float yOffset = Float.valueOf(split[1].trim());
                     Float landscapeXOffset = Float.valueOf(split[2].trim());
                     Float landscapeYOffset = Float.valueOf(split[3].trim());
-                    mBarcodePicker.getOverlayView().setViewfinderDimension(
-                                                                           xOffset, yOffset, landscapeXOffset, landscapeYOffset);
+                	mBarcodePicker.getOverlayView().setViewfinderDimension(
+                			xOffset, yOffset, landscapeXOffset, landscapeYOffset);
                 } catch (NumberFormatException e) {}
             }
         }
         if (extras.containsKey("zoom")) {
-            mBarcodePicker.setZoom(extras.getFloat("zoom"));
-        }
-        
-        if (extras.containsKey("continuousMode")) {
-            mContinuousMode = extras.getBoolean("continuousMode");
+        	mBarcodePicker.setZoom(extras.getFloat("zoom"));
         }
         
         // Register listener, in order to be notified about relevant events
@@ -414,20 +409,13 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
      * @param symbology Scanned bar code symbology .
      */
     public void didScanBarcode(String barcode, String symbology) {
-        if (!mContinuousMode) {
-            finishView();
-            
-            Intent intent = new Intent();
-            intent.putExtra("barcode", barcode.trim());
-            intent.putExtra("symbology", symbology);
-            setResult(SCAN, intent);
-            finish();
-        } else {
-            Bundle bundle = new Bundle();
-            bundle.putString("barcode", barcode.trim());
-            bundle.putString("symbology", symbology);
-            ScanditSDKResultRelay.onResult(bundle);
-        }
+        finishView();
+        
+        Intent intent = new Intent();
+        intent.putExtra("barcode", barcode.trim());
+        intent.putExtra("symbology", symbology);
+        setResult(SCAN, intent);
+        finish();
     }
     
     /** 
@@ -436,18 +424,11 @@ public class ScanditSDKActivity extends Activity implements ScanditSDKListener {
      * @param entry The information entered by the user.
      */
     public void didManualSearch(String entry) {
-        if (!mContinuousMode) {
-            Intent intent = new Intent();
-            intent.putExtra("barcode", entry.trim());
-            intent.putExtra("symbology", "UNKNOWN");
-            setResult(MANUAL, intent);
-            finish();
-        } else {
-            Bundle bundle = new Bundle();
-            bundle.putString("barcode", entry.trim());
-            bundle.putString("symbology", "UNKNOWN");
-            ScanditSDKResultRelay.onResult(bundle);
-        }
+        Intent intent = new Intent();
+        intent.putExtra("barcode", entry.trim());
+        intent.putExtra("symbology", "UNKNOWN");
+        setResult(MANUAL, intent);
+        finish();
     }
     
     /**

@@ -29,13 +29,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
-import com.mirasense.scanditsdk.plugin.ScanditSDKResultRelay.ScanditSDKResultRelayCallback;
 
-
-public class ScanditSDK extends CordovaPlugin implements ScanditSDKResultRelayCallback {
+public class ScanditSDK extends CordovaPlugin {
     
     public static final String SCAN = "scan";
     
@@ -244,10 +241,6 @@ public class ScanditSDK extends CordovaPlugin implements ScanditSDKResultRelayCa
      *
      * zoom: 0.4
      * Sets the zoom to the given percentage of the max zoom possible.
-     *
-     * continuousMode: false
-     * Enable continous mode. If a barcode is scanned, the activity is not dismissed and the user
-     * is able to continue scanning until he presses the back button to close the activity.
      */
     private void scan(JSONArray data) {
         Intent intent = new Intent(cordova.getActivity(), ScanditSDKActivity.class);
@@ -262,37 +255,32 @@ public class ScanditSDK extends CordovaPlugin implements ScanditSDKResultRelayCa
         if (data.length() > 1) {
             // We extract all options and add them to the intent extra bundle.
             try {
-                setOptionsOnIntent(data.getJSONObject(1), intent);
+                JSONObject options = data.getJSONObject(1);
+                @SuppressWarnings("unchecked")
+                Iterator<String> iter = (Iterator<String>) options.keys();
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    Object obj = options.opt(key);
+                    if (obj != null) {
+                        if (obj instanceof Integer) {
+                            intent.putExtra(key, (Integer) obj);
+                        } else if (obj instanceof Boolean) {
+                            intent.putExtra(key, (Boolean) obj);
+                        } else if (obj instanceof String) {
+                            intent.putExtra(key, (String) obj);
+                        }
+                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        ScanditSDKResultRelay.setCallback(this);
         cordova.startActivityForResult(this, intent, 1);
-    }
-    
-    private void setOptionsOnIntent(JSONObject options, Intent intent) {
-        @SuppressWarnings("unchecked")
-        Iterator<String> iter = (Iterator<String>) options.keys();
-        while (iter.hasNext()) {
-            String key = iter.next();
-            Object obj = options.opt(key);
-            if (obj != null) {
-                if (obj instanceof Integer) {
-                    intent.putExtra(key, (Integer) obj);
-                } else if (obj instanceof Boolean) {
-                    intent.putExtra(key, (Boolean) obj);
-                } else if (obj instanceof String) {
-                    intent.putExtra(key, (String) obj);
-                }
-            }
-        }
     }
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ScanditSDKResultRelay.setCallback(null);
-        if (resultCode == ScanditSDKActivity.SCAN || resultCode == ScanditSDKActivity.MANUAL) {
+        if (resultCode == ScanditSDKActivity.SCAN) {
             String barcode = data.getExtras().getString("barcode");
             String symbology = data.getExtras().getString("symbology");
             JSONArray args = new JSONArray();
@@ -300,20 +288,15 @@ public class ScanditSDK extends CordovaPlugin implements ScanditSDKResultRelayCa
             args.put(symbology);
             mCallbackContext.success(args);
             
+        } else if (resultCode == ScanditSDKActivity.MANUAL) {
+            String barcode = data.getExtras().getString("barcode");
+            JSONArray args = new JSONArray();
+            args.put(barcode);
+            args.put("UNKNOWN");
+            mCallbackContext.success(args);
+            
         } else if (resultCode == ScanditSDKActivity.CANCEL) {
-            mCallbackContext.error("Canceled");
+        	mCallbackContext.error("Canceled");
         }
-    }
-    
-    @Override
-    public void onResultByRelay(Bundle bundle) {
-        String barcode = bundle.getString("barcode");
-        String symbology = bundle.getString("symbology");
-        JSONArray args = new JSONArray();
-        args.put(barcode);
-        args.put(symbology);
-        PluginResult result = new PluginResult(Status.OK, args);
-        result.setKeepCallback(true);
-        mCallbackContext.sendPluginResult(result);
     }
 }

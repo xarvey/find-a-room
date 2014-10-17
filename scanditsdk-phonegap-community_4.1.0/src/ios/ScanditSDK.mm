@@ -22,7 +22,6 @@
 @implementation ScanditSDK
 
 @synthesize callbackId;
-@synthesize continuousMode;
 @synthesize hasPendingOperation;
 @synthesize bufferedResult;
 @synthesize scanditSDKBarcodePicker;
@@ -42,13 +41,6 @@
     
     NSString *appKey = [command.arguments objectAtIndex:0];
 	NSDictionary *options = [command.arguments objectAtIndex:1];
-
-    // Continuous mode support
-    self.continuousMode = NO;
-    NSObject *continuousMode = [options objectForKey:@"continuousMode"];
-    if (continuousMode && [continuousMode isKindOfClass:[NSNumber class]]) {
-        self.continuousMode = [((NSNumber *)continuousMode) boolValue];
-    }
     
     // Hide the status bar to get a bigger area of the video feed. We have to set this before we add
     // GUI elements to the overview, such that the views are aware of the fact that there is no
@@ -430,29 +422,24 @@
 		self.bufferedResult = nil;
 	}
 	
-    // Prepare result
+    if (!wasStatusBarHidden) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    }
+	
 	NSString *symbology = [barcodeResult objectForKey:@"symbology"];
 	NSString *barcode = [barcodeResult objectForKey:@"barcode"];
     
+    [self.viewController dismissModalViewControllerAnimated:YES];
+	[self.scanditSDKBarcodePicker stopScanning];
+	self.scanditSDKBarcodePicker = nil;
+	
     NSArray *result = [[NSArray alloc] initWithObjects:barcode, symbology, nil];
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                       messageAsArray:result];
-    
-    if (!self.continuousMode) {
-        if (!wasStatusBarHidden) {
-            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-        }
-
-        [self.viewController dismissModalViewControllerAnimated:YES];
-        [self.scanditSDKBarcodePicker stopScanning];
-        self.scanditSDKBarcodePicker = nil;
-        self.hasPendingOperation = NO;
-    } else {
-        [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
-    }
+													   messageAsArray:result];
 	
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackId]];
+    self.hasPendingOperation = NO;
 }
 
 /**
@@ -486,25 +473,20 @@
 - (void)scanditSDKOverlayController:(ScanditSDKOverlayController *)scanditSDKOverlayController
                     didManualSearch:(NSString *)input {
 	
+    if (!wasStatusBarHidden) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    }
+	
+    [self.viewController dismissModalViewControllerAnimated:YES];
+	self.scanditSDKBarcodePicker = nil;
+    
+	
     NSArray *result = [[NSArray alloc] initWithObjects:input, @"UNKNOWN", nil];
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                       messageAsArray:result];
-    if (!self.continuousMode) {
-        if (!wasStatusBarHidden) {
-            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-        }
-        
-        [self.viewController dismissModalViewControllerAnimated:YES];
-        [self.scanditSDKBarcodePicker stopScanning];
-        self.scanditSDKBarcodePicker = nil;
-        self.hasPendingOperation = NO;
-    } else {
-        [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
-        [self.scanditSDKBarcodePicker.overlayController resetUI];
-    }
-    
+													   messageAsArray:result];
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackId]];
+    self.hasPendingOperation = NO;
 }
 
 
