@@ -28,7 +28,7 @@ function string_split(str) {
 //spint the string from QR code to building/floor/position
 
 
-var node = string_split("LWSN_B_2");
+var node = string_split("LWSN_B_1");
 //node---->img
 
 var img_string="img/"+node.bldg+"_"+node.floor+".jpg";
@@ -48,7 +48,7 @@ var context = canvas.getContext('2d');
 var imageObj = new Image();
 
 imageObj.onload = function() {
-        context.drawImage(imageObj, 0, 0,canvas.width ,canvas.height);
+        context.drawImage(imageObj, 0,0,imageObj.width ,imageObj.height);
         var centerX = canvas.width*Node_from_img.Posx/100;
         var centerY = canvas.height*Node_from_img.Posy/100;
         var radius = canvas.width/80;

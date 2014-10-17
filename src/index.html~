@@ -1,9 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<body>
-<h1> I wanna know where I am !!!!</h1>
-<img id=mapImg>
-
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>index</title>
+  <link href="http://fonts.googleapis.com/css?family=Montserrat:400,400,700|Open+Sans:300,400" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/standardize.css">
+  <link rel="stylesheet" href="css/index-grid.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body class="body page-index clearfix">
+  <div class="navbar navbar-1"></div>
+  <input class="_input" type="text">
+  <p class="text text-1">no more adventure finding any room!</p>
+  <p class="text text-2">FIND-A-ROOM</p>
+  
+  <div class="navbar navbar-2"></div>
+  <p class="text text-3">Restrooms</p>
+  <div class="navbar navbar-3"></div>
+  <p class="text text-4">Water Fountain</p>
 </body>
 </html>
-

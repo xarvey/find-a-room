@@ -1,0 +1,110 @@
+body {
+  background-color: rgb(255, 255, 255);
+  font: 400 1em/1.38 Montserrat;
+  color: rgb(255, 255, 255);
+}
+
+.element {
+  position: relative;
+  float: left;
+  clear: both;
+  z-index: 3;
+  width: 100%;
+  height: 456px;
+  margin-top: -6px;
+  background: url('../images/LWSN_1.jpg') rgb(222, 222, 222);
+  background-size: 800px 1809px;
+  background-position: 75% 20%;
+}
+
+.navbar {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+
+.text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  line-height: 1.38;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+._input {
+  display: block;
+  position: absolute;
+  top: 561px;
+  left: 0;
+  right: 0;
+  z-index: 6;
+  width: 94.0625%;
+  height: 34px;
+  margin: 0 auto;
+  padding: 0 10px;
+  background-color: rgb(62, 155, 207);
+  font: 400 0.813em/1.38 'Open Sans';
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+.navbar-1 {
+  z-index: 0;
+  height: 118px;
+  margin-top: 495px;
+  background-color: rgb(68, 165, 219);
+  opacity: 0.9;
+}
+
+.navbar-2 {
+  clear: both;
+  z-index: 4;
+  height: 55px;
+  margin-top: -110px;
+  border-bottom: 1px solid rgb(64, 64, 64);
+  background-color: rgb(82, 82, 82);
+}
+
+.navbar-3 {
+  z-index: 5;
+  height: 55px;
+  margin-top: -55px;
+  background-color: rgb(82, 82, 82);
+}
+
+.text-1 {
+  top: 533px;
+  z-index: 2;
+  width: 77.8125%;
+  min-height: 20px;
+  font-family: 'Open Sans';
+  font-size: 0.75em;
+  font-weight: 300;
+}
+
+.text-2 {
+  top: 510px;
+  z-index: 1;
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.text-3 {
+  top: 970px;
+  z-index: 7;
+  width: 51.875%;
+  min-height: 16px;
+  font-size: 1em;
+  font-weight: 400;
+}
+
+.text-4 {
+  top: 1023px;
+  z-index: 8;
+  width: 51.875%;
+  min-height: 16px;
+  font-size: 1em;
+  font-weight: 400;
+}
