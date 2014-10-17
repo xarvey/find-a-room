@@ -11,4 +11,5 @@
 git pull
 git add --all
 git commit -a -m "Auto-commit from Yao"
-git push
+git push github
+
