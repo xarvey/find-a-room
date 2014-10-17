@@ -27,8 +27,32 @@ function string_split(str) {
 
 //spint the string from QR code to building/floor/position
 
+//input while typing
 
-var node = string_split("LWSN_B_0");
+var typingTimer;                //timer identifier
+var doneTypingInterval = 500;  //time in ms, 5 second for example
+
+//on keyup, start the countdown
+$('#my_input').keyup(function(){
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+});
+
+//on keydown, clear the countdown 
+$('#my_input').keydown(function(){
+    clearTimeout(typingTimer);
+});
+var node ;
+//user is "finished typing," do something
+function doneTyping () {
+var bla = $('#my_input').val();
+//alert(bla);
+show_position(bla);
+}
+
+function show_position(string)
+{
+var node = string_split(string);
 //node---->img
 
 var img_string="img/"+node.bldg+"_"+node.floor+".jpg";
@@ -79,5 +103,5 @@ imageObj.onload = function() {
       };
 
 imageObj.src = img_string;
-
+}
 

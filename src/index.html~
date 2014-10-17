@@ -14,7 +14,11 @@
   <input class="_input" type="text">
   <p class="text text-1">no more adventure finding any room!</p>
   <p class="text text-2">FIND-A-ROOM</p>
-  
+  <canvas id=myCanvas width="320" height="568" ></canvas> 
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/map.js"></script>
+
   <div class="navbar navbar-2"></div>
   <p class="text text-3">Restrooms</p>
   <div class="navbar navbar-3"></div>
