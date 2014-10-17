@@ -9,14 +9,30 @@ function makeStruct(names) {
   return constructor;
 }
 
-var Map = makeStruct("Map_Id Building MapImg");
+
+var Map = makeStruct("Map_Id Building Floor MapImg");
+
+//Create Map struct
 
 
-var lawson_0 = new Map(0,'Lawson','img/lawson_0.jpg');
-var lawson_1 = new Map(0,'Lawson','img/lawson_1.jpg');
+function string_split(str) {
+    var split = str.split("_");
+    var Node = {
+        bldg : split[0],
+        floor : split[1],
+        num : split[2],
+	};
+	return Node;
+}
+
+//spint the string from QR code to building/floor/position
 
 
-document.getElementById('mapImg').src=lawson_0.MapImg;
+var node = string_split("LWSN_1_0");
+var img_string="img/"+node.bldg+"_"+node.floor+".jpg";
+
+
+document.getElementById('mapImg').src=img_string;
 
 
 

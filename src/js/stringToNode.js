@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<body>
-<p id="demo"></p>
 
-<script>
 function myFunction(str) {
     var split = str.split("_");
     var Node = {
@@ -14,7 +9,3 @@ function myFunction(str) {
 	return Node;
 }
 
-</script>
-
-</body>
-</html>
