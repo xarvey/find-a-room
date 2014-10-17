@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	
+	<body>
+		<p id="code">QRCode</p>
+		<script type = "text/javascript" src = "QRCode.js"></script>
+		<script>
+			function getId()
+			{
+				var q = new QRCode("TESTING");
+				document.getElementById("code").innerHTML = getQRCode(q);
+			}
+		</script>
+		<button type="button" onclick="getId()">Scanned Code</button>
+	</body>
+</html>
