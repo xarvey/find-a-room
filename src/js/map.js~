@@ -28,7 +28,7 @@ function string_split(str) {
 //spint the string from QR code to building/floor/position
 
 
-var node = string_split("LWSN_B_1");
+var node = string_split("LWSN_B_0");
 var img_string="img/"+node.bldg+"_"+node.floor+".jpg";
 
 
