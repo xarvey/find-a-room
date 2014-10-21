@@ -1,0 +1,114 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.1 (25/3/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+%\usepackage[version=3]{mhchem} % Package for chemical equation typesetting
+%\usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
+\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry} % Document margins
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{pdfpages}
+\usepackage{natbib} % Required to change bibliography style to APA
+\usepackage{amsmath} % Required for some math elements 
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{\textbf{Find A Room} \\ Sprint 1 Retrospective \\ CS 307} % Title
+
+\author{Team \textsc{13}(Snoxy)} % Author name
+
+\date{\today} % Date for the report
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+\begin{center}
+\begin{tabular}{l r}
+Members: & Nathan Chang \\ % Partner names
+& Xiaojing Ji \\
+& Zilun Mai(Owen) \\
+& \textbf{Saranyu Phusit(Team Leader)} \\
+& Yao Xiao \\
+\\
+\bigskip
+Instructor: & Professor Buster Dunsmore \\% Instructor/supervisor 
+Project Coordinator: & Miguel Villarreal-Vasquez % Instructor/supervisor
+
+\end{tabular}
+\end{center}
+
+\newpage
+
+% If you wish to include an abstract, uncomment the lines below
+% \begin{abstract}
+% Abstract text
+% \end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+
+\newpage
+\section{What went well}
+
+\textbf{User story: Open the application} \\ \\
+The UI was very good and the software is stable to open. \\
+
+\textbf{User story:  Show the current location of the user on map.} \\ \\
+Due to the QRcode Scanner issue, we made a text box for user to input and passed the location as strings for argument. We parsed the strings so that it would pass the building, floor, and room. And we successfully showed the location by drawing the location point on the map since we have the pixels database. \\
+
+\textbf{User story: load the map on screen} \\ \\
+Loading a map is actually harder than I thought. Since the map is much bigger than the phone screen and the location is too small, we can’t put the entire map on the phone screen. So I measured the distance, using some scaling method from HTML and get a perfect view of map. \\
+
+
+
+\section{What didn't went well}
+
+
+\textbf{User story: Have a QR­code Scanner} \\ \\
+Can’t finish the tasks to open the camera.  \\
+
+\textbf{Difficulties: } Use photoGap (which should have worked for both iOS and Android devices) can’t open the camera on neither kind of system. It can have the UI on the laptop testing, but fails to open mobile camera on mobile phone. Since phoneGap doesn’t work. we decided to work on the QRcode scanner for Android and iOS separately.  We have decided to split the two devices into two and have them worked on separately. This will let us have a focus on a system and make sure to get a working system instead of juggling two devices. The QRcode class though is a functional class that takes in a string and stores it for use later, but thats not the whole QRcode scanner.
+
+\section{Improvements}
+\begin{itemize}
+\item Estimated hours of working. \\
+After our first sprint, we figured we need more time than we estimated due to the QRcode scanner issue. The fail in sprint 1 helps us getting more accurate in estimating the workload we have for the next sprint, and we shall finish all the tasks in a timely manner.
+
+\item Team communication. \\
+We need to commute more during the sprint. During sprint one, we have some misunderstanding with the platform problem. At first, we thought the qr code scanner works
+on iOS, so we thought the QR code scanner can work on all the platform. However, It doesn't which cause us lots of time to figure out.
+
+\item Planning. \\
+We were not super coordinated for plans. When we did meet up and worked we had to spend time regrouping and figuring out more about what each person needs to do. This slowed down production and caused some bumps during our meetings. We should know what we are doing well before meetings and be prepared to talk about how our part links with other people’s parts.
+\end{itemize}
+
+\end{document}
