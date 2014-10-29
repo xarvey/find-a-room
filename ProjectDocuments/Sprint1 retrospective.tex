@@ -80,19 +80,11 @@ Project Coordinator: & Miguel Villarreal-Vasquez % Instructor/supervisor
 \section{What went well}
 
 \textbf{User story: Open the application} \\ \\
-The UI was very good and the software is stable to open. \\
+The UI was very good and the software is stable to open. The UI is not a strain to the eyes and everything is very easy to navigate. The application is simple and easy to use. It doesn't suffer from slowdown and doesn't crash.\\
 
 
-\textbf{User story: have a solid database which stores all the map data} \\
-
-The database is stable and very easy to use. It went on well. \\ \\ 
-
-\textbf{User story: Use the qr-code scanner to get information to determine the location from the map data
-.} \\ \\
-Due to the QRcode Scanner issue, we made a text box for user to input and passed the location as strings for argument. We parsed the strings so that it would pass the building, floor, and room. And we successfully showed the location by drawing the location point on the map since we have the pixels database. \\
-
-Loading a map is actually harder than I thought. Since the map is much bigger than the phone screen and the location is too small, we can’t put the entire map on the phone screen. So I measured the distance, using some scaling method from HTML and get a perfect view of map. \\
-
+\textbf{User story: have a solid database which stores all the map data} \\ \\
+The database is stable and very easy to use. It went on well. We were able to grab the map information very quickly and display it. The application is able to hold many maps without lowering performance greatly.\\ 
 
 
 \section{What didn't go well}
@@ -101,7 +93,13 @@ Loading a map is actually harder than I thought. Since the map is much bigger th
 \textbf{User story: Have a QR­code Scanner} \\ \\
 Can't finish the tasks to open the camera.  \\
 
-\textbf{Difficulties: } Use photoGap (which should have worked for both iOS and Android devices) can’t open the camera on neither kind of system. It can have the UI on the laptop testing, but fails to open mobile camera on mobile phone. Since phoneGap doesn’t work. we decided to work on the QRcode scanner for Android and iOS separately.  We have decided to split the two devices into two and have them worked on separately. This will let us have a focus on a system and make sure to get a working system instead of juggling two devices. The QRcode class though is a functional class that takes in a string and stores it for use later, but thats not the whole QRcode scanner.
+\textbf{Difficulties: } Use photoGap (which should have worked for both iOS and Android devices) can’t open the camera on neither kind of system. It can have the UI on the laptop testing, but fails to open mobile camera on mobile phone. Since phoneGap doesn’t work. we decided to work on the QRcode scanner for Android and iOS separately.  We have decided to split the two devices into two and have them worked on separately. This will let us have a focus on a system and make sure to get a working system instead of juggling two devices. The QRcode class though is a functional class that takes in a string and stores it for use later, but thats not the whole QRcode scanner.\\
+
+\textbf{User story: Use the qr-code scanner to get information to determine the location from the map data
+.} \\ \\
+\textbf{Difficulties: }Due to the QRcode Scanner issue, we made a text box for user to input and passed the location as strings for argument. We parsed the strings so that it would pass the building, floor, and room. And we successfully showed the location by drawing the location point on the map since we have the pixels database. \\
+
+Loading a map is actually harder than I thought. Since the map is much bigger than the phone screen and the location is too small, we can’t put the entire map on the phone screen. So I measured the distance, using some scaling method from HTML and get a perfect view of map. \\
 
 \section{Improvements}
 \begin{itemize}
