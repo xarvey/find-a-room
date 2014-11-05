@@ -1,3 +1,5 @@
+var IMAGE_KEY = "qrcode-img";
+
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
