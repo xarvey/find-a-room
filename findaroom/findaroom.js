@@ -37,6 +37,15 @@ if (Meteor.isClient) {
     load();
   });
 
+  Template.home.helpers({
+    current_map: "LWSN_1.jpg",
+    current_building: "Lawson B",
+    scanned: function(){
+      return Session.get("scan");
+    },
+  });
+                
+  
   Template.home.events({
     'click .scan-qr': function() {
 
@@ -46,11 +55,18 @@ if (Meteor.isClient) {
         else{
           qrcode.callback = function(result){
               alert(result);
+              if(result.search("error")==-1)
+                Session.set("scan", 1);
           };
           gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
           qrcode.decode(data);
         }
       });
+    },
+    'submit .new-task': function(event) {
+      Session.set("scan",1);
+      alert(event.target.text.value);
+      return false;
     },
   });
 

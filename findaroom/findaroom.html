@@ -5,11 +5,13 @@
 
 <body>
   <div class="container">
-      {{> home}}
+      {{> home}} 
+    
   </div>
 </body>
 
 <template name="home">
+  {{#unless scanned}} 
   <div class="mid-wrapper">
     <div style="width:100px; text-align:center; padding-top:50%; ">
       <div class="logo" style="display: inline-block">
@@ -26,14 +28,13 @@
     <input type="text" name="text" style="text-align:center" placeholder="Or type your current location here" />
   </form>
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
-</template>
-
-<template name="main">
+  
+  {{else}} 
   <div class="topbar">
-    <div class="title">Lawson B186</div>
+    <div class="title">{{current_building}}</div>
     <input type="text" class="search-main" name="destination-search" placeholder="where do you want to go?"/>
   </div>
-  <img src = "LWSN_1.jpg" width="100%"/>
-
+  <img src = {{current_map}} width="100%"/>
+  {{/unless}}
 
 </template>
