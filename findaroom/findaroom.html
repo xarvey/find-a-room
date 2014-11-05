@@ -1,0 +1,34 @@
+<!-- simple-todos.html -->
+<head>
+  <title>Todo List</title>
+</head>
+
+<body>
+  <div class="container">
+      {{> home}}
+  </div>
+</body>
+
+<template name="home">
+  <div class="mid-wrapper">
+    <div style="width:100px; text-align:center; padding-top:50%; ">
+      <div class="logo" style="display: inline-block">
+        <i class="fa fa-qrcode fa-4x" style="color: white"></i>
+      </div>
+    </div>
+    <h1 style="display: block;width:320px; text-align:center; padding-top:15px">Find-a-room</h1>
+    <span style="display: block; width:320px; text-align:center; padding-top: 10px; color: #666666">No more adventure to any room!</span>
+  </div>
+  <div style="display:block; text-align:center; position: absolute; bottom:100px; width:100%">
+    <button class="scan-qr" style="padding: 15px 30px; border-radius: 40px; border: 0px; background-color: rgb(58, 70, 79); font-size:14px; font-weight: 700; color: white">Scan the QR code</button>
+  </div>
+  <form class="new-task" style="display:block; text-align:center; position: absolute; width:100%; bottom:50px">
+    <input type="text" name="text" style="text-align:center" placeholder="Or type your current location here" />
+  </form>
+</template>
+
+<template name="main">
+  <div class="topbar">
+    
+  </div>
+</template>
