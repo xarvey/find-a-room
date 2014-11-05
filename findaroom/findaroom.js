@@ -11,14 +11,18 @@ if (Meteor.isClient) {
     ]
   });
 
-
   Template.home.events({
     'click .scan-qr': function() {
+      qrcode.callback = function(result){
+          alert(result);
+      };
       MeteorCamera.getPicture({width: 320}, function(error, data) {
         if (error)
           alert(error.reason);
-        else
+        else{
           Session.set(IMAGE_KEY, data);
+          qrcode.decode(data);
+        }
       });
     },
   });
