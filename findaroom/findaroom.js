@@ -3,8 +3,8 @@ var IMAGE_KEY = "qrcode-img";
 var gCtx = null;
 var gCanvas = null;
 
-Rooms = new Meteor.Collection("rooms");
-Facilities = new Meteor.Collection("facilities");
+var Rooms = new Meteor.Collection("rooms");
+var Facilities = new Meteor.Collection("facilities");
 
 if (Meteor.isServer) {
   Meteor.startup(function (){
@@ -67,7 +67,7 @@ if (Meteor.isClient) {
   });
 
   Template.home.helpers({
-    current_map: "LWSN_1.jpg",
+    current_map: "LWSN_B.jpg",
     current_building: "Lawson B",
     scanned: function(){
       return Session.get("scan");
@@ -83,11 +83,12 @@ if (Meteor.isClient) {
           alert(error.reason);
         else{
           qrcode.callback = function(result){
-//              var split = result.split("_"); 
- //             Rooms.find( { bldg: { split[0] }, floor: { split[1] }, room: { split[2] } }); // this is just finding the room
- //               Rooms.find( { bldg: })
-//              Facilities.find( { bldg: { split[0] }, floor: { split[1] } }); // finding the facilities.
-
+              console.log(result)
+                var split = result.split("_"); 
+                var cursor= Rooms.find( { bldg:  split[0] , floor:  split[1] , room:  split[2]  }); // this is just finding the room
+  //Rooms.find( { bldg: })
+  //              Facilities.find( { bldg: { split[0] }, floor: { split[1] } }); // finding the facilities.
+              alert(cursor);
 
 
               alert(result);
