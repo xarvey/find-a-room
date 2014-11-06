@@ -3,6 +3,51 @@ var IMAGE_KEY = "qrcode-img";
 var gCtx = null;
 var gCanvas = null;
 
+var Rooms = new Meteor.Collection("rooms");
+var Facilities = new Meteor.Collection("facilities");
+
+if (Meteor.isServer) {
+  Meteor.startup(function (){
+    if(Rooms.find().count() == 0) {
+      Rooms.insert(
+        [
+          { bldg: "LWSN", floor: "B", room: "160", xpix: 399, ypix: 289, popular: true},
+          { bldg: "LWSN", floor: "B", room: "158", xpix: 396, ypix: 349, popular: true},
+          { bldg: "LWSN", floor: "B", room: "155", xpix: 308, ypix: 361, popular: false},
+          { bldg: "LWSN", floor: "B", room: "153", xpix: 306, ypix: 490, popular: false},
+          { bldg: "LWSN", floor: "B", room: "151", xpix: 312, ypix: 635, popular: true},
+          { bldg: "LWSN", floor: "B", room: "148", xpix: 401, ypix: 666, popular: true},
+          { bldg: "LWSN", floor: "B", room: "146", xpix: 401, ypix: 705, popular: true },
+          { bldg: "LWSN", floor: "B", room: "138", xpix: 392, ypix: 924, popular: false},
+          { bldg: "LWSN", floor: "B", room: "136", xpix: 398, ypix: 1000, popular: false},
+          { bldg: "LWSN", floor: "B", room: "134", xpix: 428, ypix: 1030, popular: true},
+          { bldg: "LWSN", floor: "B", room: "132", xpix: 434, ypix: 1080, popular: false},
+          { bldg: "LWSN", floor: "B", room: "131", xpix: 304, ypix: 1153, popular: false},
+          { bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1110, popular: false},
+          { bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1235, popular: false},
+          { bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1200, popular: false},
+          { bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1520, popular: true},
+          { bldg: "LWSN", floor: "B", room: "105", xpix: 219, ypix: 1457, popular: false},
+          { bldg: "LWSN", floor: "B", room: "107", xpix: 250, ypix: 1458, popular: false}
+        ])
+    }
+    if(Facilities.find().count() == 0) {
+      Facilities.insert(
+        [
+          { bldg: "LWSN", floor: "B", xpix: 288, ypix: 70},   // restroom
+          { bldg: "LWSN", floor: "B", xpix: 446, ypix: 1318},    // restroom
+          { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1452},   //exit
+          { bldg: "LWSN", floor: "B", xpix: 492, ypix: 33}, //exit
+          { bldg: "LWSN", floor: "B", xpix: 317, ypix: 800}    //elevator
+        ])
+    }
+  })
+}
+
+
+
+
+
 function initCanvas(w,h)
 {
     gCanvas = document.getElementById("qr-canvas");
@@ -47,7 +92,7 @@ if (Meteor.isClient) {
   });
 
   Template.home.helpers({
-    current_map: "LWSN_1.jpg",
+    current_map: "LWSN_B.jpg",
     current_building: "Lawson B",
     scanned: function(){
       return Session.get("scan");
@@ -63,6 +108,11 @@ if (Meteor.isClient) {
           alert(error.reason);
         else{
           qrcode.callback = function(result){
+
+              console.log(result)
+                var split = result.split("_"); 
+                var cursor= Rooms.find( { bldg:  split[0] , floor:  split[1] , room:  split[2]  }); // this is just finding the room
+           alert(cursor);
               alert(result);
               if(result.search("error")==-1)
                 Session.set("scan", 1);
