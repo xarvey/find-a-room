@@ -3,6 +3,35 @@ var IMAGE_KEY = "qrcode-img";
 var gCtx = null;
 var gCanvas = null;
 
+Rooms = new Meteor.Collection("rooms");
+Facilities = new Meteor.Collection("facilities");
+
+if (Meteor.isServer) {
+  Meteor.startup(function (){
+    if(Rooms.find().count() == 0) {
+      Rooms.insert(
+        [
+          { bldg: "LWSN", floor: "1", room: "1106", xpix: 11, ypix: 85, popular: true},
+          { bldg: "LWSN", floor: "1", room: "1114", xpix: 11, ypix: 85, popular: false},
+          { bldg: "LWSN", floor: "1", room: "1123", xpix: 11, ypix: 85, popular: false}
+        ])
+    }
+    if(Facilities.find().count() == 0) {
+      Facilities.insert(
+        [
+          { bldg: "LWSN", floor: "1", xpix: 11, ypix: 85},
+          { bldg: "LWSN", floor: "1", xpix: 11, ypix: 85},
+          { bldg: "LWSN", floor: "1", xpix: 11, ypix: 85},
+          { bldg: "LWSN", floor: "1", xpix: 11, ypix: 85}
+        ])
+    }
+  })
+}
+
+
+
+
+
 function initCanvas(w,h)
 {
     gCanvas = document.getElementById("qr-canvas");
@@ -54,6 +83,13 @@ if (Meteor.isClient) {
           alert(error.reason);
         else{
           qrcode.callback = function(result){
+//              var split = result.split("_"); 
+ //             Rooms.find( { bldg: { split[0] }, floor: { split[1] }, room: { split[2] } }); // this is just finding the room
+ //               Rooms.find( { bldg: })
+//              Facilities.find( { bldg: { split[0] }, floor: { split[1] } }); // finding the facilities.
+
+
+
               alert(result);
               if(result.search("error")==-1)
                 Session.set("scan", 1);
