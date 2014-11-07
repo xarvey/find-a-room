@@ -97,6 +97,17 @@ if (Meteor.isClient) {
   Meteor.startup(function () {
     load();
   });
+  Meteor.setInterval(function() {
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+        Session.set('lat', position.coords.latitude);
+        Session.set('lon', position.coords.longitude);
+    });
+  }, 800);
+/**  Template.location.helpers({
+    lat: function() { return Session.get('lat'); },
+    lon: function() { return Session.get('lon'); }
+  }); **/
 
   Template.home.helpers({
     current_map: function(){
@@ -151,11 +162,13 @@ if (Meteor.isClient) {
       });
     },
     'click .gps': function(){
-      alert("here");
+      //alert("here");
         // return 0, 0 if the location isn't ready
-      Geolocation.latLng() || { lat: 0, lng: 0 };
+
+      //Geolocation.latLng() || { lat: 0, lng: 0 };
       error: Geolocation.error
-      alert(  Geolocation.latLng() || { lat: 0, lng: 0 });
+      alert( Session.get('lat'));
+      alert( Session.get('lon'));
     },
     'submit .new-task': function(event) {
       Session.set("scan",1);
