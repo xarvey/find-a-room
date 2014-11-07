@@ -85,6 +85,11 @@ function load()
 if (Meteor.isClient) {
   // This code only runs on the client
 
+  Template.home.created = function(){
+    if(Session.get("scan")==1)
+      drawStuff();
+    
+  };
 
   Template.body.helpers({
     tasks: [
@@ -138,14 +143,7 @@ if (Meteor.isClient) {
                 alert(result);
                 
               if(result.search("error")==-1){
-                var split = result.split("_");
-                var posx= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1});
-                var posy= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1});
-
-               //find the posx and posy from result
-                alert(posx,posy);
-
-              if(result.search("error")==-1)
+                
                 Session.set("scan", 1);
                 
                 var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix; 
