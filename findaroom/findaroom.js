@@ -45,8 +45,8 @@ if (Meteor.isServer) {
     }
     if(Facilities.find().count() == 0) {
 
-         Facilities.insert( { bldg: "LWSN", floor: "B", xpix: 288, ypix: 70 }); // restroom
-         Facilities.insert( { bldg: "LWSN", floor: "B", xpix: 446, ypix: 1318} );    // restroom
+         Facilities.insert( { bldg: "LWSN", floor: "B",type:"Restroom" ,xpix: 288, ypix: 70 }); // restroom
+         Facilities.insert( { bldg: "LWSN", floor: "B",type:"Restroom", xpix: 446, ypix: 1318} );    // restroom
          Facilities.insert( { bldg: "LWSN", floor: "B",room:"2", xpix: 88, ypix: 1452 });   //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",room:"0", xpix: 492, ypix: 33 }); //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",room:"1", xpix: 317, ypix: 800 });    //elevator
@@ -57,9 +57,9 @@ if (Meteor.isServer) {
 
 
 
-function get_x_y(result)
+function restroom()
 {
-
+    return Facilities.find({bldg:current_bldg,type:"Restroom"},{_id:0,xpix:1,ypix:1}).toArray();
 }
 
 function initCanvas(w,h)
@@ -108,7 +108,7 @@ if (Meteor.isClient) {
         Session.set('lat', position.coords.latitude);
         Session.set('lon', position.coords.longitude);
     });
-  }, 800);
+  }, 300);
 /**  Template.location.helpers({
     lat: function() { return Session.get('lat'); },
     lon: function() { return Session.get('lon'); }
@@ -202,10 +202,10 @@ function drawStuff() {
     alert("CALLED");
     // do your drawing stuff here
     mapcanvas = document.getElementById('map_canvas');
-    mapcontext = mapcanvas.getContext('2d');
-  
+    
     mapcanvas.width = window.innerWidth;
     mapcanvas.height = window.innerHeight;
+    mapcontext = mapcanvas.getContext('2d');
 
     imageObj = new Image();
     imageObj.onload = function() {
