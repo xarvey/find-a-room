@@ -30,22 +30,23 @@ if (Meteor.isServer) {
 
     }
     if(Facilities.find().count() == 0) {
-      Facilities.insert(
-        [
-          { bldg: "LWSN", floor: "B", xpix: 288, ypix: 70 },   // restroom
-          { bldg: "LWSN", floor: "B", xpix: 446, ypix: 1318 },    // restroom
-          { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1452 },   //exit
-          { bldg: "LWSN", floor: "B", xpix: 492, ypix: 33 }, //exit
-          { bldg: "LWSN", floor: "B", xpix: 317, ypix: 800 }    //elevator
-        ]
-      )
+      
+         Facilities.insert( { bldg: "LWSN", floor: "B", xpix: 288, ypix: 70 }); // restroom
+         Facilities.insert( { bldg: "LWSN", floor: "B", xpix: 446, ypix: 1318} );    // restroom
+         Facilities.insert( { bldg: "LWSN", floor: "B",room:"2", xpix: 88, ypix: 1452 });   //exit
+         Facilities.insert({ bldg: "LWSN", floor: "B",room:"0", xpix: 492, ypix: 33 }); //exit
+         Facilities.insert({ bldg: "LWSN", floor: "B",room:"1", xpix: 317, ypix: 800 });    //elevator        
+      
     }
   })
 }
 
 
 
-
+function get_x_y(result)
+{
+    
+}
 
 function initCanvas(w,h)
 {
@@ -61,7 +62,7 @@ function initCanvas(w,h)
 
 function load()
 {
-  console.log("YEAH:)");
+  console.log("YEAH:)"); 
   initCanvas(800,600);
 }
 
@@ -108,11 +109,13 @@ if (Meteor.isClient) {
         else{
           qrcode.callback = function(result){
 
-              console.log(result)
                 var split = result.split("_"); 
-                var cursor= Rooms.find( { bldg:  split[0] , floor:  split[1] , room:  split[2]  }); // this is just finding the room
-           alert(cursor);
-              alert(result);
+                var posx= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1}); 
+                var posy= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1}); 
+                
+               //find the posx and posy from result
+                alert(posx,posy);
+                
               if(result.search("error")==-1)
                 Session.set("scan", 1);
           };
@@ -124,6 +127,14 @@ if (Meteor.isClient) {
     'submit .new-task': function(event) {
       Session.set("scan",1);
       alert(event.target.text.value);
+        result=event.target.text.value;
+        var split = result.split("_"); 
+        var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1}).xpix; 
+        var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1}).ypix; 
+                
+               
+        alert(posx,posy);
+              
       return false;
     },
   });
