@@ -16,16 +16,12 @@ var mapcanvas = null;
 
 if (Meteor.isServer) {
   Meteor.startup(function (){
-<<<<<<< HEAD
-    
-=======
     if(Buildings.find().count == 0) {
       Buildings.insert( { bldg: "LWSN", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
       // 40.428189      40.427397           -86.916739,    -86.917201
       //say your GPS passes lat, log. The following should return the string. "LWSN"
 //      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     }
->>>>>>> FETCH_HEAD
     if(Rooms.find().count() == 0) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "160", xpix: 399, ypix: 289, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "158", xpix: 396, ypix: 349, popular: true } );
@@ -124,15 +120,13 @@ if (Meteor.isClient) {
         else{
           qrcode.callback = function(result){
 
-<<<<<<< HEAD
+
                 var split = result.split("_"); 
             
                //find the posx and posy from result
                 alert(result);
                 
               if(result.search("error")==-1){
-                
-=======
                 var split = result.split("_");
                 var posx= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1});
                 var posy= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1});
@@ -141,7 +135,6 @@ if (Meteor.isClient) {
                 alert(posx,posy);
 
               if(result.search("error")==-1)
->>>>>>> FETCH_HEAD
                 Session.set("scan", 1);
                 
                 var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix; 
@@ -168,7 +161,6 @@ if (Meteor.isClient) {
       Session.set("scan",1);
       alert(event.target.text.value);
         result=event.target.text.value;
-<<<<<<< HEAD
         var f = result.charAt(0);
         var r = result.substring(1);
         //var split = result.split("_"); 
@@ -176,14 +168,12 @@ if (Meteor.isClient) {
         var posy= Rooms.findOne( { room: r, floor: f},{_id:0,ypix:1}).ypix; // only know the room and floor
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
-               
-=======
+             
         var split = result.split("_");
         var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1}).xpix;
         var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1}).ypix;
 
 
->>>>>>> FETCH_HEAD
         alert(posx,posy);
 
       return false;
