@@ -5,9 +5,16 @@ var gCanvas = null;
 
 var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
+var Buildings = new Meteor.Collection("buildings");
 
 if (Meteor.isServer) {
   Meteor.startup(function (){
+    if(Buildings.find().count == 0) {
+      Buildings.insert( { bldg: "LWSN", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
+      // 40.428189      40.427397           -86.916739,    -86.917201
+      //say your GPS passes lat, log. The following should return the string. "LWSN"
+//      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
+    }
     if(Rooms.find().count() == 0) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "160", xpix: 399, ypix: 289, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "158", xpix: 396, ypix: 349, popular: true } );
