@@ -5,6 +5,7 @@ var gCanvas = null;
 
 var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
+var Buildings = new Meteor.Collection("buildings");
 
 var current_bldg;
 var current_bldg_img;
@@ -15,7 +16,16 @@ var mapcanvas = null;
 
 if (Meteor.isServer) {
   Meteor.startup(function (){
+<<<<<<< HEAD
     
+=======
+    if(Buildings.find().count == 0) {
+      Buildings.insert( { bldg: "LWSN", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
+      // 40.428189      40.427397           -86.916739,    -86.917201
+      //say your GPS passes lat, log. The following should return the string. "LWSN"
+//      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
+    }
+>>>>>>> FETCH_HEAD
     if(Rooms.find().count() == 0) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "160", xpix: 399, ypix: 289, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "158", xpix: 396, ypix: 349, popular: true } );
@@ -38,13 +48,13 @@ if (Meteor.isServer) {
 
     }
     if(Facilities.find().count() == 0) {
-      
+
          Facilities.insert( { bldg: "LWSN", floor: "B", xpix: 288, ypix: 70 }); // restroom
          Facilities.insert( { bldg: "LWSN", floor: "B", xpix: 446, ypix: 1318} );    // restroom
          Facilities.insert( { bldg: "LWSN", floor: "B",room:"2", xpix: 88, ypix: 1452 });   //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",room:"0", xpix: 492, ypix: 33 }); //exit
-         Facilities.insert({ bldg: "LWSN", floor: "B",room:"1", xpix: 317, ypix: 800 });    //elevator        
-      
+         Facilities.insert({ bldg: "LWSN", floor: "B",room:"1", xpix: 317, ypix: 800 });    //elevator
+
     }
   })
 }
@@ -53,7 +63,7 @@ if (Meteor.isServer) {
 
 function get_x_y(result)
 {
-    
+
 }
 
 function initCanvas(w,h)
@@ -70,7 +80,7 @@ function initCanvas(w,h)
 
 function load()
 {
-  console.log("YEAH:)"); 
+  console.log("YEAH:)");
   initCanvas(800,600);
 }
 
@@ -78,12 +88,6 @@ function load()
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-  console.log("Client");
-
-    /** Since my laptop can't get the current location,
-    latLng() returns null)**/
-    alert(Geolocation.latLng());
-    console.log("GPS");
 
 
   Template.body.helpers({
@@ -92,7 +96,6 @@ if (Meteor.isClient) {
       { text: "This is task 2" },
       { text: "This is task 3" }
     ],
-
   });
 
   Meteor.startup(function () {
@@ -121,6 +124,7 @@ if (Meteor.isClient) {
         else{
           qrcode.callback = function(result){
 
+<<<<<<< HEAD
                 var split = result.split("_"); 
             
                //find the posx and posy from result
@@ -128,6 +132,16 @@ if (Meteor.isClient) {
                 
               if(result.search("error")==-1){
                 
+=======
+                var split = result.split("_");
+                var posx= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1});
+                var posy= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1});
+
+               //find the posx and posy from result
+                alert(posx,posy);
+
+              if(result.search("error")==-1)
+>>>>>>> FETCH_HEAD
                 Session.set("scan", 1);
                 
                 var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix; 
@@ -143,10 +157,18 @@ if (Meteor.isClient) {
         }
       });
     },
+    'click .gps': function(){
+      alert("here");
+        // return 0, 0 if the location isn't ready
+      Geolocation.latLng() || { lat: 0, lng: 0 };
+      error: Geolocation.error
+      alert(  Geolocation.latLng() || { lat: 0, lng: 0 });
+    },
     'submit .new-task': function(event) {
       Session.set("scan",1);
       alert(event.target.text.value);
         result=event.target.text.value;
+<<<<<<< HEAD
         var f = result.charAt(0);
         var r = result.substring(1);
         //var split = result.split("_"); 
@@ -155,8 +177,15 @@ if (Meteor.isClient) {
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
                
+=======
+        var split = result.split("_");
+        var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1}).xpix;
+        var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1}).ypix;
+
+
+>>>>>>> FETCH_HEAD
         alert(posx,posy);
-              
+
       return false;
     },
   });

@@ -5,13 +5,13 @@
 
 <body>
   <div class="container">
-      {{> home}} 
-    
+      {{> home}}
+
   </div>
 </body>
 
 <template name="home">
-  {{#unless scanned}} 
+  {{#unless scanned}}
   <div class="mid-wrapper">
     <div style="width:100px; text-align:center; padding-top:50%; ">
       <div class="logo" style="display: inline-block">
@@ -21,23 +21,32 @@
     <h1 style="display: block;width:320px; text-align:center; padding-top:15px">Find-a-room</h1>
     <span style="display: block; width:320px; text-align:center; padding-top: 10px; color: #666666">No more adventure to any room!</span>
   </div>
-  <div style="display:block; text-align:center; position: absolute; bottom:100px; width:100%">
+  <div style="display:block; text-align:center; position: absolute; bottom:140px; width:100%">
     <button class="scan-qr" style="padding: 15px 30px; border-radius: 40px; border: 0px; background-color: rgb(58, 70, 79); font-size:14px; font-weight: 700; color: white">Scan the QR code</button>
+  </div>
+  <div style="display:block; text-align:center; position: absolute; bottom:80px; width:100%">
+    <button class="gps" style="padding: 15px 30px; border-radius: 40px; border: 0px; background-color: rgb(58, 70, 79); font-size:14px; font-weight: 700; color: white">Locate yourself by GPS</button>
   </div>
   <form class="new-task" style="display:block; text-align:center; position: absolute; width:100%; bottom:50px">
     <input type="text" name="text" style="text-align:center" placeholder="Or type your current location here" />
   </form>
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
-  
-  {{else}} 
+
+  {{else}}
   <div class="topbar">
     <div class="title">{{current_building}}</div>
     <input type="text" class="search-main" name="destination-search" placeholder="where do you want to go?"/>
   </div>
+<<<<<<< HEAD
   <!-- <canvas id="mymap" width="320px" height="400px" ></canvas> -->
   <!-- <img src = {{current_map}} width="100%"/> -->
     <canvas id="map_canvas" width="800" height="1809"></canvas> 
     
+=======
+  <img src = {{current_map}} width="100%"/>
+    <!-- canvas id="map_canvas" width="800" height="1809" style="display:none"></canvas> -->
+
+>>>>>>> FETCH_HEAD
     <!-- hard coded -->
   {{/unless}}
 
