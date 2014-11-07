@@ -36,8 +36,8 @@ if (Meteor.isServer) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "136", xpix: 398, ypix: 1000, popular: false } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "134", xpix: 428, ypix: 1030, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "132", xpix: 434, ypix: 1080, popular: false } );
-      Rooms.insert( { bldg: "LWSN", floor: "B", room: "131", xpix: 304, ypix: 1153, popular: false } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1110, popular: false } );
+      Rooms.insert( { bldg: "LWSN", floor: "B", room: "131", xpix: 304, ypix: 1183, popular: false } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1130, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1275, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1235, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1520, popular: true } );
