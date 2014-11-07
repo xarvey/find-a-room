@@ -142,21 +142,21 @@ if (Meteor.isClient) {
           qrcode.callback = function(result){
 
 
-                var split = result.split("_"); 
-            
+                var split = result.split("_");
+
                //find the posx and posy from result
                 alert(result);
-                
+
               if(result.search("error")==-1){
                 
                 Session.set("scan", 1);
-                
-                var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix; 
-                var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,ypix:1}).ypix; 
-                
+
+                var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix;
+                var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,ypix:1}).ypix;
+
                 current_bldg = split[0];
                 current_bldg_img=split[0]+"_"+split[1]+".jpg";
-                
+
               }
           };
           gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
@@ -165,13 +165,18 @@ if (Meteor.isClient) {
       });
     },
     'click .gps': function(){
-      //alert("here");
         // return 0, 0 if the location isn't ready
 
       //Geolocation.latLng() || { lat: 0, lng: 0 };
       error: Geolocation.error
-      alert( Session.get('lat'));
-      alert( Session.get('lon'));
+      var latitude = Session.get('lat');
+      var longitude = Session.get('lon');
+      alert( latitude);
+      alert( longitude);
+      /**Okey, hard coding starts ...**/
+      if(highLatitude <= latitude && latitude <= lowLatitude && lowLongitude <= longitude && longitude <= highLongtitude){
+        alert("LWSN");
+      }
     },
     'submit .new-task': function(event) {
       Session.set("scan",1);
@@ -179,12 +184,12 @@ if (Meteor.isClient) {
         result=event.target.text.value;
         var f = result.charAt(0);
         var r = result.substring(1);
-        //var split = result.split("_"); 
-        var posx= Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1}).xpix; 
+        //var split = result.split("_");
+        var posx= Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1}).xpix;
         var posy= Rooms.findOne( { room: r, floor: f},{_id:0,ypix:1}).ypix; // only know the room and floor
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
-             
+
         var split = result.split("_");
         var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1}).xpix;
         var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1}).ypix;
@@ -202,8 +207,13 @@ function drawStuff() {
     alert("CALLED");
     // do your drawing stuff here
     mapcanvas = document.getElementById('map_canvas');
+<<<<<<< Updated upstream
     mapcontext = mapcanvas.getContext('2d');
   
+=======
+    mapcontext = canvas.getContext('2d');
+
+>>>>>>> Stashed changes
     mapcanvas.width = window.innerWidth;
     mapcanvas.height = window.innerHeight;
 
@@ -216,5 +226,5 @@ function drawStuff() {
       mapcontext.fill();
     }
     imageObj.src = current_bldg_img;
-    
+
 }
