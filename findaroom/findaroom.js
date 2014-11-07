@@ -47,8 +47,8 @@ if (Meteor.isServer) {
     }
     if(Facilities.find().count() == 0) {
 
-         Facilities.insert( { bldg: "LWSN", floor: "B", xpix: 288, ypix: 70 }); // restroom
-         Facilities.insert( { bldg: "LWSN", floor: "B", xpix: 446, ypix: 1318} );    // restroom
+         Facilities.insert( { bldg: "LWSN", floor: "B",type:"Restroom" ,xpix: 288, ypix: 70 }); // restroom
+         Facilities.insert( { bldg: "LWSN", floor: "B",type:"Restroom", xpix: 446, ypix: 1318} );    // restroom
          Facilities.insert( { bldg: "LWSN", floor: "B",room:"2", xpix: 88, ypix: 1452 });   //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",room:"0", xpix: 492, ypix: 33 }); //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",room:"1", xpix: 317, ypix: 800 });    //elevator
@@ -59,9 +59,9 @@ if (Meteor.isServer) {
 
 
 
-function get_x_y(result)
+function restroom()
 {
-
+    return Facilities.find({bldg:current_bldg,type:"Restroom"},{_id:0,xpix:1,ypix:1}).toArray();
 }
 
 function initCanvas(w,h)
@@ -110,7 +110,7 @@ if (Meteor.isClient) {
         Session.set('lat', position.coords.latitude);
         Session.set('lon', position.coords.longitude);
     });
-  }, 800);
+  }, 300);
 /**  Template.location.helpers({
     lat: function() { return Session.get('lat'); },
     lon: function() { return Session.get('lon'); }
@@ -146,11 +146,11 @@ if (Meteor.isClient) {
           qrcode.callback = function(result){
 
 
-                var split = result.split("_"); 
-            
+                var split = result.split("_");
+
                //find the posx and posy from result
                 alert(result);
-                
+
               if(result.search("error")==-1){
                 
                 Session.set("scan", 1);
@@ -160,7 +160,7 @@ if (Meteor.isClient) {
                 
                 Session.set("bldg", split[0]);
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
-                
+
               }
           };
           gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
@@ -169,16 +169,21 @@ if (Meteor.isClient) {
       });
     },
     'click .gps': function(){
-      //alert("here");
         // return 0, 0 if the location isn't ready
 
       //Geolocation.latLng() || { lat: 0, lng: 0 };
-      error: Geolocation.error
-      alert( Session.get('lat'));
-      alert( Session.get('lon'));
+//      error: Geolocation.error
+      var latitude = Session.get('lat');
+      var longitude = Session.get('lon');
+      alert( latitude);
+      alert( longitude);
+      /**Okey, hard coding starts ...**/
+      if(highLatitude <= latitude && latitude <= lowLatitude && lowLongitude <= longitude && longitude <= highLongtitude){
+        alert("LWSN");
+      }
     },
     'submit .new-task': function(event) {
-      Session.set("scan",1);
+        Session.set("scan",1);
         
         result=event.target.text.value;
         var f = result.charAt(0);
@@ -194,7 +199,7 @@ if (Meteor.isClient) {
         Session.set("bldg", response.bldg);
         Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
         
-      return false;
+        return false;
     },
     'click .backbtn': function(){
         Session.set("scan",0);
