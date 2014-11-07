@@ -6,8 +6,16 @@ var gCanvas = null;
 var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
 
+var current_bldg;
+var current_bldg_img;
+
+var mapcanvas = null;
+    mapcontext = null;
+    imageObj = null;
+
 if (Meteor.isServer) {
   Meteor.startup(function (){
+    
     if(Rooms.find().count() == 0) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "160", xpix: 399, ypix: 289, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "158", xpix: 396, ypix: 349, popular: true } );
@@ -92,8 +100,12 @@ if (Meteor.isClient) {
   });
 
   Template.home.helpers({
-    current_map: "LWSN_B.jpg",
-    current_building: "Lawson B",
+    current_map: function(){
+      return current_bldg_img;
+    },
+    current_building: function(){
+      return current_bldg;
+    },
     scanned: function(){
       return Session.get("scan");
     },
@@ -110,14 +122,21 @@ if (Meteor.isClient) {
           qrcode.callback = function(result){
 
                 var split = result.split("_"); 
-                var posx= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1}); 
-                var posy= Rooms.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1}); 
-                
+            
                //find the posx and posy from result
-                alert(posx,posy);
+                alert(result);
                 
-              if(result.search("error")==-1)
+              if(result.search("error")==-1){
+                
                 Session.set("scan", 1);
+                
+                var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix; 
+                var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,ypix:1}).ypix; 
+                
+                current_bldg = split[0];
+                current_bldg_img=split[0]+"_"+split[1]+".jpg";
+                
+              }
           };
           gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
           qrcode.decode(data);
@@ -128,10 +147,13 @@ if (Meteor.isClient) {
       Session.set("scan",1);
       alert(event.target.text.value);
         result=event.target.text.value;
-        var split = result.split("_"); 
-        var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1}).xpix; 
-        var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1}).ypix; 
-                
+        var f = result.charAt(0);
+        var r = result.substring(1);
+        //var split = result.split("_"); 
+        var posx= Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1}).xpix; 
+        var posy= Rooms.findOne( { room: r, floor: f},{_id:0,ypix:1}).ypix; // only know the room and floor
+                // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
+                // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
                
         alert(posx,posy);
               
@@ -139,4 +161,25 @@ if (Meteor.isClient) {
     },
   });
 
+}
+
+function drawStuff() {
+    alert("CALLED");
+    // do your drawing stuff here
+    mapcanvas = document.getElementById('map_canvas');
+    mapcontext = canvas.getContext('2d');
+  
+    mapcanvas.width = window.innerWidth;
+    mapcanvas.height = window.innerHeight;
+
+    imageObj = new Image();
+    imageObj.onload = function() {
+      mapcontext.drawImage(imageObj,0,0);
+      mapcontext.beginPath();
+      mapcontext.arc(posx, posy, 20, 0, 2 * Math.PI, false);
+      mapcontext.fillStyle = 'green';
+      mapcontext.fill();
+    }
+    imageObj.src = current_bldg_img;
+    
 }
