@@ -14,6 +14,8 @@ var mapcanvas = null;
     mapcontext = null;
     imageObj = null;
 
+var posx,posy;
+
 if (Meteor.isServer) {
   Meteor.startup(function (){
     if(Buildings.find().count == 0) {
@@ -116,19 +118,21 @@ if (Meteor.isClient) {
 
   Template.home.helpers({
     current_map: function(){
-      return current_bldg_img;
+      return Session.get("mapimg");
     },
     current_building: function(){
-      return current_bldg;
+      return Session.get("bldg");
     },
     scanned: function(){
       return Session.get("scan");
     },
-    
-    draw_img: function(){
-      if(Session.get("scan")==1)
-        drawStuff(); 
+    getPosX: function(){
+      return posx*320/800+'px'; 
+    },
+    getPosY: function(){
+      return posy*320/800+'px';
     }
+  
   });
 
 
@@ -151,11 +155,11 @@ if (Meteor.isClient) {
                 
                 Session.set("scan", 1);
                 
-                var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix; 
-                var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,ypix:1}).ypix; 
+                posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix; 
+                posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,ypix:1}).ypix; 
                 
-                current_bldg = split[0];
-                current_bldg_img=split[0]+"_"+split[1]+".jpg";
+                Session.set("bldg", split[0]);
+                Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
                 
               }
           };
@@ -175,46 +179,28 @@ if (Meteor.isClient) {
     },
     'submit .new-task': function(event) {
       Session.set("scan",1);
-      alert(event.target.text.value);
+        
         result=event.target.text.value;
         var f = result.charAt(0);
         var r = result.substring(1);
-        //var split = result.split("_"); 
-        var posx= Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1}).xpix; 
-        var posy= Rooms.findOne( { room: r, floor: f},{_id:0,ypix:1}).ypix; // only know the room and floor
+        
+        var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+      
+        posx= response.xpix; 
+        posy= response.ypix; // only know the room and floor
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
-             
-        var split = result.split("_");
-        var posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,xpix:1}).xpix;
-        var posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1] , room:  split[2]},{_id:0,ypix:1}).ypix;
-
-
-        alert(posx,posy);
-
+          
+        Session.set("bldg", response.bldg);
+        Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
+        
       return false;
+    },
+    'click .backbtn': function(){
+        Session.set("scan",0);
     },
   });
 
 }
 
-function drawStuff() {
-    alert("CALLED");
-    // do your drawing stuff here
-    mapcanvas = document.getElementById('map_canvas');
-    mapcontext = mapcanvas.getContext('2d');
-  
-    mapcanvas.width = window.innerWidth;
-    mapcanvas.height = window.innerHeight;
 
-    imageObj = new Image();
-    imageObj.onload = function() {
-      mapcontext.drawImage(imageObj,0,0);
-      mapcontext.beginPath();
-      mapcontext.arc(posx, posy, 20, 0, 2 * Math.PI, false);
-      mapcontext.fillStyle = 'green';
-      mapcontext.fill();
-    }
-    imageObj.src = current_bldg_img;
-    
-}
