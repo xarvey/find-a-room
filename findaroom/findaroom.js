@@ -3,8 +3,8 @@ var IMAGE_KEY = "qrcode-img";
 var gCtx = null;
 var gCanvas = null;
 
-Rooms = new Meteor.Collection("rooms");
-Facilities = new Meteor.Collection("facilities");
+var Rooms = new Meteor.Collection("rooms");
+var Facilities = new Meteor.Collection("facilities");
 
 if (Meteor.isServer) {
   Meteor.startup(function (){
@@ -61,7 +61,7 @@ function initCanvas(w,h)
 
 function load()
 {
-  console.log("YEAH");
+  console.log("YEAH:)");
   initCanvas(800,600);
 }
 
@@ -69,12 +69,21 @@ function load()
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
+  console.log("Client");
+
+    /** Since my laptop can't get the current location,
+    latLng() returns null)**/
+    alert(Geolocation.latLng());
+    console.log("GPS");
+
+
   Template.body.helpers({
     tasks: [
       { text: "This is task 1" },
       { text: "This is task 2" },
       { text: "This is task 3" }
-    ]
+    ],
+
   });
 
   Meteor.startup(function () {
@@ -82,14 +91,14 @@ if (Meteor.isClient) {
   });
 
   Template.home.helpers({
-    current_map: "LWSN_1.jpg",
+    current_map: "LWSN_B.jpg",
     current_building: "Lawson B",
     scanned: function(){
       return Session.get("scan");
     },
   });
-                
-  
+
+
   Template.home.events({
     'click .scan-qr': function() {
 
@@ -98,13 +107,11 @@ if (Meteor.isClient) {
           alert(error.reason);
         else{
           qrcode.callback = function(result){
-//              var split = result.split("_"); 
- //             Rooms.find( { bldg: { split[0] }, floor: { split[1] }, room: { split[2] } }); // this is just finding the room
- //               Rooms.find( { popular: true })    popular destination.
-//              Facilities.find( { bldg: { split[0] }, floor: { split[1] } }); // finding the facilities.
 
-
-
+              console.log(result)
+                var split = result.split("_"); 
+                var cursor= Rooms.find( { bldg:  split[0] , floor:  split[1] , room:  split[2]  }); // this is just finding the room
+           alert(cursor);
               alert(result);
               if(result.search("error")==-1)
                 Session.set("scan", 1);
