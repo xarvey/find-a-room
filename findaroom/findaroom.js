@@ -124,6 +124,11 @@ if (Meteor.isClient) {
     scanned: function(){
       return Session.get("scan");
     },
+    
+    draw_img: function(){
+      if(Session.get("scan")==1)
+        drawStuff(); 
+    }
   });
 
 
@@ -197,7 +202,7 @@ function drawStuff() {
     alert("CALLED");
     // do your drawing stuff here
     mapcanvas = document.getElementById('map_canvas');
-    mapcontext = canvas.getContext('2d');
+    mapcontext = mapcanvas.getContext('2d');
   
     mapcanvas.width = window.innerWidth;
     mapcanvas.height = window.innerHeight;
