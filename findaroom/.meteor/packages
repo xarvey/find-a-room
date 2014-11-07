@@ -8,8 +8,4 @@ autopublish
 insecure
 mdg:camera
 font-awesome
-<<<<<<< HEAD
 mdg:geolocation
-=======
->>>>>>> FETCH_HEAD
-
