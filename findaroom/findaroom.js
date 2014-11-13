@@ -97,7 +97,7 @@ if (Meteor.isClient) {
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
-    
+
   };
 
   Template.body.helpers({
@@ -133,13 +133,14 @@ if (Meteor.isClient) {
     scanned: function(){
       return Session.get("scan");
     },
+
     getPosX: function(){
-      return posx*320/800+'px'; 
+      return posx*320/800+'px';
     },
     getPosY: function(){
       return posy*320/800+'px';
     }
-  
+
   });
 
 
@@ -159,12 +160,12 @@ if (Meteor.isClient) {
                 alert(result);
 
               if(result.search("error")==-1){
-                
+
                 Session.set("scan", 1);
-                
-                posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix; 
-                posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,ypix:1}).ypix; 
-                
+
+                posx= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,xpix:1}).xpix;
+                posy= Facilities.findOne( { bldg:  split[0] , floor:  split[1], room: split[2] },{_id:0,ypix:1}).ypix;
+
                 Session.set("bldg", split[0]);
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
 
@@ -189,23 +190,26 @@ if (Meteor.isClient) {
     },
     'submit .new-task': function(event) {
         Session.set("scan",1);
-        
+
         result=event.target.text.value;
         var f = result.charAt(0);
         var r = result.substring(1);
-        
+<<<<<<< HEAD
+=======
 
+
+>>>>>>> FETCH_HEAD
 
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
-      
-        posx= response.xpix; 
+
+        posx= response.xpix;
         posy= response.ypix; // only know the room and floor
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
-          
+
         Session.set("bldg", response.bldg);
         Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
-        
+
         return false;
     },
     'click .backbtn': function(){
@@ -214,5 +218,3 @@ if (Meteor.isClient) {
   });
 
 }
-
-
