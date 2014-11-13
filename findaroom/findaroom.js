@@ -179,9 +179,7 @@ if (Meteor.isClient) {
       alert( latitude);
       alert( longitude);
       /**Okey, hard coding starts ...**/
-      if(highLatitude <= latitude && latitude <= lowLatitude && lowLongitude <= longitude && longitude <= highLongtitude){
-        alert("LWSN");
-      }
+      current_bldg = Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     },
     'submit .new-task': function(event) {
         Session.set("scan",1);
@@ -189,6 +187,11 @@ if (Meteor.isClient) {
         result=event.target.text.value;
         var f = result.charAt(0);
         var r = result.substring(1);
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> FETCH_HEAD
 
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
 
