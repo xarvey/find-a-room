@@ -7,8 +7,15 @@ var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
 var Buildings = new Meteor.Collection("buildings");
 
-var current_bldg;
+var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
+
+//auto fill
+//   let's say the string is called "result"
+//   so it's if(result.length == 1)
+//   Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
+//   else
+//   Rooms.find( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {_id: 0, floor: 1, room: 1}) 
 
 var mapcanvas = null;
     mapcontext = null;
@@ -36,7 +43,7 @@ if (Meteor.isServer) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "136", xpix: 398, ypix: 1000, popular: false } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "134", xpix: 428, ypix: 1030, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "132", xpix: 434, ypix: 1080, popular: false } );
-      Rooms.insert( { bldg: "LWSN", floor: "B", room: "131", xpix: 304, ypix: 1183, popular: false } );
+      Rooms.insert( { bldg: "LWSN", floor : "B", room: "131", xpix: 304, ypix: 1183, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1130, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1275, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1235, popular: false } );
