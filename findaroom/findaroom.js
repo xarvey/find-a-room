@@ -14,8 +14,13 @@ var current_bldg_img;
 //   let's say the string is called "result"
 //   so it's if(result.length == 1)
 //   Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
+//   var rs = Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
+//   string auto[];
+//   for (int i = 0; i < rs.length(); i++) {
+//      auto[i] = rs[i].floor + rs[i].room;
+//   }
 //   else
-//   Rooms.find( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {_id: 0, floor: 1, room: 1}) 
+//   Rooms.find( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {_id: 0, floor: 1, room: 1})
 
 var mapcanvas = null;
     mapcontext = null;
@@ -194,6 +199,12 @@ if (Meteor.isClient) {
         result=event.target.text.value;
         var f = result.charAt(0);
         var r = result.substring(1);
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> FETCH_HEAD
+
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
 
         posx= response.xpix;

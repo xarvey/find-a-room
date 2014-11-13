@@ -12,8 +12,8 @@
 
 <template name="home">
   {{#unless scanned}}
-  
-  
+
+
   <div class="mid-wrapper">
     <div style="width:100px; text-align:center; padding-top:50%; ">
       <div class="logo" style="display: inline-block">
@@ -34,15 +34,15 @@
     <input type="text" name="text" style="text-align:center" placeholder="Or type your current location here" />
   </form>
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
-  
+
   {{else}}
-  
+
   <div class="topbar">
     <div class="title">{{current_building}}</div>
     <button class = "backbtn" style="left:5%; position: absolute; z-index: 20; background-color: transparent; border:0px; padding: 30px 30px 30px 0px;">
       <span class="fa fa-angle-left fa-lg"></span>
     </button>
-    <input type="text" class="search-main" name="destination-search" placeholder="where do you want to go?"/>
+    <input type="text" class="search-main" name="destination-search" placeholder="where do you want to gol?"/>
   </div>
   <!-- <canvas id="mymap" width="320px" height="400px" ></canvas> -->
   <!-- <img src = {{current_map}} width="100%"/> -->
@@ -56,7 +56,7 @@
 
     <!-- hard coded -->
 
-  
+
   {{/unless}}
-  
+
 </template>
