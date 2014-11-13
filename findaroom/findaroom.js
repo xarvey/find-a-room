@@ -199,11 +199,6 @@ if (Meteor.isClient) {
         result=event.target.text.value;
         var f = result.charAt(0);
         var r = result.substring(1);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> FETCH_HEAD
 
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
 
