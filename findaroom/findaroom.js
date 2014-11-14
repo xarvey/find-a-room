@@ -132,6 +132,8 @@ if (Meteor.isClient) {
   };
 
   Meteor.startup(function () {
+    Session.set("posX", -100);
+    Session.set("posY", -100);
     load();
   });
   Meteor.setInterval(function() {
@@ -165,10 +167,15 @@ if (Meteor.isClient) {
     },
     
     getRestRoom: function(){
-      var x = restroom();
-      alert(x);
       return restroom(); 
-    }
+    },
+    
+    getDesX: function(){
+      return Session.get("posX")*320/800+'px';
+    },
+    getDesY: function(){
+      return Session.get("posY")*320/800+'px';
+    },
 
   });
 
@@ -236,9 +243,27 @@ if (Meteor.isClient) {
 
         return false;
     },
+    
     'click .backbtn': function(){
         Session.set("scan",0);
     },
+    
+    'submit .search-dest': function(event) {
+        Session.set("scan",1);
+        var re = event.target.text.value;
+        var f = re.charAt(0);
+        var r = re.substring(1);
+      
+        var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+
+        posx= response.xpix;
+        posy= response.ypix;
+      
+        Session.set("posX", posx);
+        Session.set("posY", posy);
+        return false;
+    }
+    
   });
 
 }
