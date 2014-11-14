@@ -250,6 +250,8 @@ if (Meteor.isClient) {
     
     'click .backbtn': function(){
         Session.set("scan",0);
+        Session.set("posX", -100);
+        Session.set("posY", -100);
     },
     
     'submit .search-dest': function(event) {
@@ -270,7 +272,8 @@ if (Meteor.isClient) {
       
     'keyup .search-dest': function(event) {
         
-       // yao shit down there
+       // console.log( document.getElementById('search-main').value );
+        
         autofill_room(document.getElementById('search-main').value);
     }
     
