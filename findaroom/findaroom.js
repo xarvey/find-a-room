@@ -68,6 +68,7 @@ if (Meteor.isServer) {
 
 function restroom()
 {
+    alert(Facilities.findOne({bldg:current_bldg,type:"Restroom"},{_id:0,xpix:1,ypix:1}));
     return Facilities.find({bldg:current_bldg,type:"Restroom"},{_id:0,xpix:1,ypix:1}).toArray();
 }
 
@@ -148,6 +149,8 @@ if (Meteor.isClient) {
     },
     
     getRestRoom: function(){
+      var x = restroom();
+      alert(x);
       return restroom(); 
     }
 

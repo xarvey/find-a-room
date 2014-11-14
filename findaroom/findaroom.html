@@ -54,7 +54,7 @@
   <div class="mapbg" style="position: relative">
     <img src = {{current_map}} width="100%" />
     <div class="current_point" style="top: {{getPosY}}; left: {{getPosX}}"></div>
-    {{#each restroom}}
+    {{#each getRestRoom}}
        <div class ="current_point" style="top: {{ypix}};left: {{xpix}}"></div>
     {{/each}}
   </div>
