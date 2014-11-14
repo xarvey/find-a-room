@@ -158,6 +158,8 @@ if (Meteor.isClient) {
     },
     
     getRestRoom: function(){
+      var x = restroom();
+      alert(x);
       return restroom(); 
     }
 
