@@ -12,15 +12,8 @@ var current_bldg_img;
 
 //auto fill
 //   let's say the string is called "result"
-//   so it's if(result.length == 1)
-//   Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
-//   var rs = Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
-//   string auto[];
-//   for (int i = 0; i < rs.length(); i++) {
-//      auto[i] = rs[i].floor + rs[i].room;
-//   }
-//   else
-//   Rooms.find( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {_id: 0, floor: 1, room: 1})
+//   so it's
+
 
 var mapcanvas = null;
     mapcontext = null;
@@ -32,6 +25,8 @@ if (Meteor.isServer) {
   Meteor.startup(function (){
     if(Buildings.find().count == 0) {
       Buildings.insert( { bldg: "LWSN", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
+      Buildings.insert( { bldg: "HICKS", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
+      
       // 40.428189      40.427397           -86.916739,    -86.917201
       //say your GPS passes lat, log. The following should return the string. "LWSN"
 //      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
@@ -61,9 +56,9 @@ if (Meteor.isServer) {
 
          Facilities.insert( { bldg: "LWSN", floor: "B",type:"Restroom" ,xpix: 288, ypix: 70 }); // restroom
          Facilities.insert( { bldg: "LWSN", floor: "B",type:"Restroom", xpix: 446, ypix: 1318} );    // restroom
-         Facilities.insert( { bldg: "LWSN", floor: "B",room:"2", xpix: 88, ypix: 1452 });   //exit
-         Facilities.insert({ bldg: "LWSN", floor: "B",room:"0", xpix: 492, ypix: 33 }); //exit
-         Facilities.insert({ bldg: "LWSN", floor: "B",room:"1", xpix: 317, ypix: 800 });    //elevator
+         Facilities.insert( { bldg: "LWSN", floor: "B",type:"Exit",room:"2", xpix: 88, ypix: 1452 });   //exit
+         Facilities.insert({ bldg: "LWSN", floor: "B",type:"Exit",room:"0", xpix: 492, ypix: 33 }); //exit
+         Facilities.insert({ bldg: "LWSN", floor: "B",type:"Elevator",room:"1", xpix: 317, ypix: 800 });    //elevator
 
     }
   })
@@ -74,6 +69,20 @@ if (Meteor.isServer) {
 function restroom()
 {
     return Facilities.find({bldg:current_bldg,type:"Restroom"},{_id:0,xpix:1,ypix:1}).toArray();
+}
+
+function autofill_room(result)
+{
+if(result.length == 1)
+   Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
+   var rs = Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
+   var auto=[];
+   for (int i = 0; i < rs.length(); i++) {
+      auto[i] = rs[i].floor + rs[i].room;
+   }
+   else
+   Rooms.find( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {_id: 0, floor: 1, room: 1})
+   return auto;
 }
 
 function initCanvas(w,h)
@@ -90,7 +99,6 @@ function initCanvas(w,h)
 
 function load()
 {
-  console.log("YEAH:)");
   initCanvas(800,600);
 }
 
@@ -104,14 +112,6 @@ if (Meteor.isClient) {
       drawStuff();
 
   };
-
-  Template.body.helpers({
-    tasks: [
-      { text: "This is task 1" },
-      { text: "This is task 2" },
-      { text: "This is task 3" }
-    ],
-  });
 
   Meteor.startup(function () {
     load();
@@ -188,8 +188,8 @@ if (Meteor.isClient) {
 //      error: Geolocation.error
       var latitude = Session.get('lat');
       var longitude = Session.get('lon');
-      alert( latitude);
-      alert( longitude);
+      //alert( latitude);
+      //alert( longitude);
       /**Okey, hard coding starts ...**/
       current_bldg = Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     },
