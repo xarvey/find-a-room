@@ -84,7 +84,7 @@ function restroom()
          "ypix":current.ypix*320/800+"px"
         })
     }
-    alert(locations_coordinate[0].xpix);
+   // alert(locations_coordinate[0].xpix);
     return locations_coordinate;
 }
 
@@ -92,13 +92,16 @@ function autofill_room(result)
 {
   var rs;
   var auto = [];
-  if(result.length == 1) 
-   rs = Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
+alert(result);
+ for (counter=0;;counter++)
+    {
+  if(result.length() == 1) 
+   rs = Rooms.findOne( { bldg: current_bldg, floor: result, popular: true }, {skip:counter, _id: 0, floor: 1, room: 1});
   else 
-   rs = Rooms.find( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {_id: 0, floor: 1, room: 1});
-
-   for (i = 0; i < rs.xlength(); i++) {
-      auto[i] = rs[i].floor + rs[i].room;
+   rs = Rooms.findOne( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {skip:counter, _id: 0, floor: 1, room: 1});
+        if (rs==null) break;
+         var string=rs.room+rs.floor;
+        alert(string);
     }
     return auto;
 }
@@ -262,6 +265,15 @@ if (Meteor.isClient) {
         Session.set("posX", posx);
         Session.set("posY", posy);
         return false;
+    },
+      
+    'keyup .search-dest': function(event) {
+        if (event.target.text!=null)
+        {
+            var re = event.target.text.value;
+            autofill_room(re);
+        }
+        else alert("Empty String");
     }
     
   });
