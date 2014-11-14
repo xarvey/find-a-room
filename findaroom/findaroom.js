@@ -83,6 +83,7 @@ function autofill_room(result)
    for (i = 0; i < rs.xlength(); i++) {
       auto[i] = rs[i].floor + rs[i].room;
     }
+    return auto;
 }
 
 function initCanvas(w,h)
