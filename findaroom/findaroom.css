@@ -167,7 +167,7 @@ header .hide-completed {
   opacity: 0.6;
   position: absolute;
   left: 5%;
-  top: 60px;
+  top: 50px;
   height: 30px;
   z-index: 3;
 }
@@ -192,6 +192,15 @@ header .hide-completed {
   border-radius: 50%;
   top: 606px;
   left: 372px;
+  z-index: 9;
+}
+
+.dest_point{
+  position:absolute;
+  background-color: #0c89b7;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   z-index: 9;
 }
 
