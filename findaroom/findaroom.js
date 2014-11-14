@@ -270,8 +270,7 @@ if (Meteor.isClient) {
       
     'keyup .search-dest': function(event) {
         
-       // console.log( document.getElementById('search-main').value );
-        
+       // yao shit down there
         autofill_room(document.getElementById('search-main').value);
     }
     
