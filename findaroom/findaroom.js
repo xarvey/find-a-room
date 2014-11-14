@@ -68,8 +68,7 @@ if (Meteor.isServer) {
 
 function restroom()
 {
-    //alert( Facilities.find().toJson());
-    return Facilities.find({bldg:current_bldg,type:"Restroom"},{_id:0,xpix:1,ypix:1}).toArray();
+  
 }
 
 function autofill_room(result)
