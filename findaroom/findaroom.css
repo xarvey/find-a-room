@@ -167,7 +167,7 @@ header .hide-completed {
   color: rgb(255,255,255);
   opacity: 0.6;
   position: absolute;
-  left: 3%;
+  left: 5%;
   top: 50px;
   height: 30px;
   z-index: 3;
@@ -187,28 +187,31 @@ header .hide-completed {
 
 .current_point{
   position:absolute;
-  background-color: #0c89b7/*#39b54a*/;
-  width: 15px;
-  height: 15px;
+  background-color: #39b54a;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
+  top: 606px;
+  left: 372px;
   z-index: 9;
 }
 
 .pee_point{
   position:absolute;
-  background-color: #FCEA31;
-  width: 15px;
-  height: 15px;
-  border: 4px solid #FFF8AD ;
+  background-color: #d93112;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  top: 606px;
+  left: 372px;
   z-index: 9;
 }
 
 .dest_point{
   position:absolute;
   background-color: #0c89b7;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   z-index: 9;
 }
@@ -216,16 +219,4 @@ header .hide-completed {
 .mapbg{
   margin-top: 104px;
   z-index: 0;
-}
-
-.desc{
-  top: -4px; left: -5px; 
-  padding: 4px 8px 4px 25px; background-color: #2fa0d3; position: absolute; 
-  -webkit-border-top-left-radius: 40px;
-  -webkit-border-bottom-left-radius: 40px;
-  -moz-border-radius-topleft: 40px;
-  -moz-border-radius-bottomleft: 40px;  
-  border-top-left-radius: 40px;
-  border-bottom-left-radius: 40px;
-  opacity: 0.9;
 }

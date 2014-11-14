@@ -180,13 +180,6 @@ if (Meteor.isClient) {
     getDesY: function(){
       return Session.get("posY")*320/800+'px';
     },
-    
-    nameCur: function(){
-      return Session.get("location");
-    },
-    nameDes: function(){
-      return Session.get("destination");
-    },
 
   });
 
@@ -215,7 +208,6 @@ if (Meteor.isClient) {
 
                 Session.set("bldg", split[0]);
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
-                Session.set("location", split[2] );
 
               }
           };
@@ -252,7 +244,6 @@ if (Meteor.isClient) {
 
         Session.set("bldg", response.bldg);
         Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
-        Session.set("location", result );
 
         return false;
     },
@@ -276,7 +267,6 @@ if (Meteor.isClient) {
       
         Session.set("posX", posx);
         Session.set("posY", posy);
-        Session.set("destination", re );
         return false;
     },
       
