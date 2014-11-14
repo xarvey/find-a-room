@@ -92,17 +92,18 @@ function autofill_room(result)
 {
   var rs;
   var auto = [];
-alert(result);
+    current_bldg=Session.get("bldg");
  for (counter=0;;counter++)
     {
-  if(result.length() == 1) 
+  if(result.length == 1) 
    rs = Rooms.findOne( { bldg: current_bldg, floor: result, popular: true }, {skip:counter, _id: 0, floor: 1, room: 1});
   else 
-   rs = Rooms.findOne( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {skip:counter, _id: 0, floor: 1, room: 1});
+   rs = Rooms.findOne( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" +result.substring(1) + ".*" }},       {skip:counter, _id: 0, floor: 1, room: 1});
         if (rs==null) break;
-         var string=rs.room+rs.floor;
-        alert(string);
+         var string=rs.floor+rs.room;
+        auto.push(string);
     }
+    console.log(auto);
     return auto;
 }
 
@@ -269,8 +270,9 @@ if (Meteor.isClient) {
       
     'keyup .search-dest': function(event) {
         
-        console.log( document.getElementById('search-main').value );
-        //autofill_room(re);
+       // console.log( document.getElementById('search-main').value );
+        
+        autofill_room(document.getElementById('search-main').value);
     }
     
   });
