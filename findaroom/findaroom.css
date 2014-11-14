@@ -195,6 +195,17 @@ header .hide-completed {
   z-index: 9;
 }
 
+.pee_point{
+  position:absolute;
+  background-color: #d93112;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  top: 606px;
+  left: 372px;
+  z-index: 9;
+}
+
 .dest_point{
   position:absolute;
   background-color: #0c89b7;
