@@ -191,8 +191,6 @@ header .hide-completed {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  top: 606px;
-  left: 372px;
   z-index: 9;
 }
 
@@ -203,8 +201,6 @@ header .hide-completed {
   height: 15px;
   border: 4px solid #FFF8AD ;
   border-radius: 50%;
-  top: 606px;
-  left: 372px;
   z-index: 9;
 }
 
@@ -224,5 +220,12 @@ header .hide-completed {
 
 .desc{
   top: -4px; left: -5px; 
-  padding: 4px 8px 4px 25px; background-color: #2fa0d3; position: absolute; border-top-left-radius: 40px; border-bottom-left-radius: 40px;opacity: 0.9 
+  padding: 4px 8px 4px 25px; background-color: #2fa0d3; position: absolute; 
+  -webkit-border-top-left-radius: 40px;
+  -webkit-border-bottom-left-radius: 40px;
+  -moz-border-radius-topleft: 40px;
+  -moz-border-radius-bottomleft: 40px;  
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  opacity: 0.9;
 }
