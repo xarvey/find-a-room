@@ -68,17 +68,24 @@ if (Meteor.isServer) {
 
 function restroom()
 {
-    var cursor=Facilities.find({bldg:current_bldg,type:"Restroom"},{_id:0,xpix:1,ypix:1}).toArray();
-    var xpix=[];
-    var ypix=[];
-    for (i =0; i<cursor.length(); i++)
-    {
-        xpix.add(cursor[i].xpix);
-        ypix.add(cursor[i].ypix);
-    }
     
-    alert(xpix);
-    return xpix;
+    var locations_coordinate=[];
+    for (counter=0;;counter++)
+    {
+    
+    var current=Facilities.findOne({bldg:"LWSN",type:"Restroom"},{skip:counter});
+    
+    if (current==null) break;
+  //  alert(current.xpix);
+//    alert(current.ypix);
+    
+    locations_coordinate.push(
+        {"xpix":current.xpix,
+         "ypix":current.ypix
+        })
+    }
+    alert(locations_coordinate[0].xpix);
+    return locations_coordinate;
 }
 
 function autofill_room(result)
