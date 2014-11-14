@@ -180,6 +180,13 @@ if (Meteor.isClient) {
     getDesY: function(){
       return Session.get("posY")*320/800+'px';
     },
+    
+    nameCur: function(){
+      return Session.get("location");
+    },
+    nameDes: function(){
+      return Session.get("destination");
+    },
 
   });
 

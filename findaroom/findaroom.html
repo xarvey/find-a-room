@@ -53,11 +53,22 @@
   <!-- <canvas id="map_canvas" width="800" height="1809"></canvas> -->
   <div class="mapbg" style="position: absolute">
     <img src = {{current_map}} width="100%" />
-    <div class="current_point" style="top: {{getPosY}}; left: {{getPosX}}"></div>
+    <div class="point_container" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute">
+      <div class="current_point" style="top:0px; left:0px"></div>
+      <div class="cur_desc desc" >
+        <a style="color:white; font-size: 13px">{{nameCur}}</a> 
+      </div> 
+    </div>
     {{#each getRestRoom}}
        <div class ="pee_point" style="top: {{ypix}};left: {{xpix}}"></div>
     {{/each}}
-    <div class="dest_point" style="top: {{getDesY}}; left: {{getDesX}}"></div>
+    
+    <div class="point_container" style="top: {{getDesY}}; left: {{getDesX}}; position: absolute">
+      <div class="dest_point" style="top:0px; left:0px"></div>
+      <div class="dest_desc desc" >
+        <a style="color:white; font-size: 13px">{{nameDes}}</a> 
+      </div> 
+    </div>
   </div>
     <!-- canvas id="map_canvas" width="800" height="1809" style="display:none"></canvas> -->
 
