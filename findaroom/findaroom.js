@@ -145,6 +145,10 @@ if (Meteor.isClient) {
     },
     getPosY: function(){
       return posy*320/800+'px';
+    },
+    
+    getRestRoom: function(){
+      return restroom(); 
     }
 
   });
