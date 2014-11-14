@@ -26,7 +26,7 @@ if (Meteor.isServer) {
     if(Buildings.find().count == 0) {
       Buildings.insert( { bldg: "LWSN", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
       Buildings.insert( { bldg: "HICKS", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
-      
+
       // 40.428189      40.427397           -86.916739,    -86.917201
       //say your GPS passes lat, log. The following should return the string. "LWSN"
 //      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
@@ -68,17 +68,17 @@ if (Meteor.isServer) {
 
 function restroom()
 {
-    
+
     var locations_coordinate=[];
     for (counter=0;;counter++)
     {
-    
+
     var current=Facilities.findOne({bldg:"LWSN",type:"Restroom"},{skip:counter});
-    
+
     if (current==null) break;
   //  alert(current.xpix);
 //    alert(current.ypix);
-    
+
     locations_coordinate.push(
         {"xpix":current.xpix*320/800+"px",
          "ypix":current.ypix*320/800+"px"
@@ -95,9 +95,9 @@ function autofill_room(result)
     current_bldg=Session.get("bldg");
  for (counter=0;;counter++)
     {
-  if(result.length == 1) 
+  if(result.length == 1)
    rs = Rooms.findOne( { bldg: current_bldg, floor: result, popular: true }, {skip:counter, _id: 0, floor: 1, room: 1});
-  else 
+  else
    rs = Rooms.findOne( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" +result.substring(1) + ".*" }},       {skip:counter, _id: 0, floor: 1, room: 1});
         if (rs==null) break;
          var string=rs.floor+rs.room;
@@ -169,18 +169,18 @@ if (Meteor.isClient) {
     getPosY: function(){
       return posy*320/800+'px';
     },
-    
+
     getRestRoom: function(){
-      return restroom(); 
+      return restroom();
     },
-    
+
     getDesX: function(){
       return Session.get("posX")*320/800+'px';
     },
     getDesY: function(){
       return Session.get("posY")*320/800+'px';
     },
-    
+
     nameCur: function(){
       return Session.get("location");
     },
@@ -256,37 +256,37 @@ if (Meteor.isClient) {
 
         return false;
     },
-    
+
     'click .backbtn': function(){
         Session.set("scan",0);
         Session.set("posX", -100);
         Session.set("posY", -100);
     },
-    
+
     'submit .search-dest': function(event) {
         Session.set("scan",1);
         var re = event.target.text.value;
         var f = re.charAt(0);
         var r = re.substring(1);
-      
+
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
 
         posx= response.xpix;
         posy= response.ypix;
-      
+
         Session.set("posX", posx);
         Session.set("posY", posy);
         Session.set("destination", re );
         return false;
     },
-      
+
     'keyup .search-dest': function(event) {
-        
+
        // console.log( document.getElementById('search-main').value );
-        
+
         autofill_room(document.getElementById('search-main').value);
     }
-    
+
   });
 
 }
