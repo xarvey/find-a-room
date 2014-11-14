@@ -73,16 +73,16 @@ function restroom()
 
 function autofill_room(result)
 {
-if(result.length == 1)
-   Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
-   var rs = Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
-   var auto=[];
-   for (int i = 0; i < rs.length(); i++) {
+  var rs;
+  var auto = [];
+  if(result.length == 1) 
+   rs = Rooms.find( { bldg: current_bldg, floor: result, popular: true }, {_id: 0, floor: 1, room: 1});
+  else 
+   rs = Rooms.find( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {_id: 0, floor: 1, room: 1});
+
+   for (i = 0; i < rs.xlength(); i++) {
       auto[i] = rs[i].floor + rs[i].room;
-   }
-   else
-   Rooms.find( {bldg: current_bldg, floor: result.substring(0,1), room: { $regex : ".*" + substring(1) + ".*" }}, {_id: 0, floor: 1, room: 1})
-   return auto;
+    }
 }
 
 function initCanvas(w,h)
