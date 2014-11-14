@@ -80,8 +80,8 @@ function restroom()
 //    alert(current.ypix);
     
     locations_coordinate.push(
-        {"xpix":current.xpix,
-         "ypix":current.ypix
+        {"xpix":current.xpix*320/800+"px",
+         "ypix":current.ypix*320/800+"px"
         })
     }
     alert(locations_coordinate[0].xpix);
