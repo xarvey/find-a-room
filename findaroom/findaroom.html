@@ -40,7 +40,7 @@
   <div class="topbar">
     <div class="title">{{current_building}}</div>
     <button class = "backbtn" style="left:5%; position: absolute; z-index: 20; background-color: transparent; border:0px; padding: 30px 30px 30px 0px;">
-      <span class="fa fa-angle-left fa-lg"></span>
+      <span class="fa fa-angle-left fa-lg" style="color: white"></span>
     </button>
     <!-- NOTE:: Gott, I add '<form class="new-task"> ' and '</form>' for showing the user possible destinations based on popularity-->
     <!-- you can uncommend those two lines to check how it looks like -->
@@ -51,7 +51,7 @@
   <!-- <canvas id="mymap" width="320px" height="400px" ></canvas> -->
   <!-- <img src = {{current_map}} width="100%"/> -->
   <!-- <canvas id="map_canvas" width="800" height="1809"></canvas> -->
-  <div class="mapbg" style="position: relative">
+  <div class="mapbg" style="position: absolute">
     <img src = {{current_map}} width="100%" />
     <div class="current_point" style="top: {{getPosY}}; left: {{getPosX}}"></div>
     {{#each getRestRoom}}
