@@ -268,12 +268,9 @@ if (Meteor.isClient) {
     },
       
     'keyup .search-dest': function(event) {
-        if (event.target.text!=null)
-        {
-            var re = event.target.text.value;
-            autofill_room(re);
-        }
-        else alert("Empty String");
+        
+        console.log( document.getElementById('search-main').value );
+        //autofill_room(re);
     }
     
   });
