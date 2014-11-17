@@ -1,10 +1,10 @@
 find-a-room
 ===========
-All User Stories:
+Sprint 3 document:
+https://docs.google.com/document/d/14vv4lS_JoMLU1I7_UVkEJQWESEE9OgdiqbL_SJwH3Jc/edit
+
+Sprint 2 Retro:
+https://docs.google.com/document/d/1fiK3m8KdwBdlgiUGpgniJC0O9D7e5aoC8W3aLFv43Ws/edit
+
+All user stories:
 https://docs.google.com/document/d/1gz30hKKFrRJL_Z3hjr4SGo9ZrCTCxTg8LSpEnO8NTQs/edit
-
-User Stories beyond Sprint 2 
-https://docs.google.com/document/d/1XJmQhlVl5ogFh4ID09L49fKYZzumjAiBTNSafMXiQr8/edit
-
-Sprint detail for Sprint 2
-task_details$%#$%.docx
