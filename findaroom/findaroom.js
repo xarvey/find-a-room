@@ -236,13 +236,19 @@ if (Meteor.isClient) {
       current_bldg = Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     },
     'submit .new-task': function(event) {
-        Session.set("scan",1);
-
-        result=event.target.text.value;
+        
+        result=event.target.text.value.replace(/\s+/g, '');
         var f = result.charAt(0);
         var r = result.substring(1);
 
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+      
+        if(response==undefined){
+          alert("Room not found");
+          return false;
+        }
+      
+        Session.set("scan",1);
 
         posx= response.xpix;
         posy= response.ypix; // only know the room and floor
@@ -264,12 +270,18 @@ if (Meteor.isClient) {
 
     'submit .search-dest': function(event, template) {
         Session.set("scan",1);
-        var re = event.target.text.value;
+        var re = event.target.text.value.replace(/\s+/g, '');
+      
         var f = re.charAt(0);
         var r = re.substring(1);
 
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
 
+         if(response==undefined){
+          alert("Room not found");
+          return false;
+         }
+      
         posx= response.xpix;
         posy= response.ypix;
 

@@ -175,7 +175,7 @@ header .hide-completed {
   color: rgb(255,255,255);
   opacity: 0.6;
   position: absolute;
-  left: 5%;
+  left: 3%;
   top: 50px;
   height: 30px;
   z-index: 3;
