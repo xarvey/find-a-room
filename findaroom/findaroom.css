@@ -1,4 +1,12 @@
 /* CSS declarations go here */
+@import url("http://fonts.googleapis.com/css?family=Lato:400,700,900,400italic");
+
+html {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
 body {
   font-family: sans-serif;
   background-color: #333333;
@@ -149,7 +157,7 @@ header .hide-completed {
 
 .topbar {
   background-color: rgb(37, 37, 37);
-  opacity: 0.97;
+  opacity: 0.94;
   position: fixed;
   left: 0px;
   top: -1px;
@@ -167,7 +175,7 @@ header .hide-completed {
   color: rgb(255,255,255);
   opacity: 0.6;
   position: absolute;
-  left: 3%;
+  left: 5%;
   top: 50px;
   height: 30px;
   z-index: 3;
@@ -178,10 +186,10 @@ header .hide-completed {
   position: absolute;
   display:block;
   text-align:center;
-  position: absolute;
-  width:100%; margin-top: 30px;
+  width:100%; margin-top: 32px;
   font-size: 15px;
   font-weight: 600;
+  font-family: Lato;
   z-index: 4;
 }
 
@@ -197,16 +205,19 @@ header .hide-completed {
 .pee_point{
   position:absolute;
   background-color: #FCEA31;
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   border: 4px solid #FFF8AD ;
   border-radius: 50%;
   z-index: 9;
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
 }
 
 .dest_point{
   position:absolute;
-  background-color: #0c89b7;
+  background-color: #B70C39;
   width: 15px;
   height: 15px;
   border-radius: 50%;
@@ -220,7 +231,7 @@ header .hide-completed {
 
 .desc{
   top: -4px; left: -5px; 
-  padding: 4px 8px 4px 25px; background-color: #2fa0d3; position: absolute; 
+  padding: 4px 8px 4px 25px;  position: absolute; 
   -webkit-border-top-left-radius: 40px;
   -webkit-border-bottom-left-radius: 40px;
   -moz-border-radius-topleft: 40px;
@@ -228,4 +239,12 @@ header .hide-completed {
   border-top-left-radius: 40px;
   border-bottom-left-radius: 40px;
   opacity: 0.9;
+}
+
+.cur_desc{
+  background-color: #2fa0d3;
+}
+
+.dest_desc{
+  background-color: #DF4461; 
 }
