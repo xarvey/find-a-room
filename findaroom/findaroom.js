@@ -124,7 +124,6 @@ function load()
   initCanvas(800,600);
 }
 
-
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
@@ -263,7 +262,7 @@ if (Meteor.isClient) {
         Session.set("posY", -100);
     },
 
-    'submit .search-dest': function(event) {
+    'submit .search-dest': function(event, template) {
         Session.set("scan",1);
         var re = event.target.text.value;
         var f = re.charAt(0);
@@ -277,7 +276,7 @@ if (Meteor.isClient) {
         Session.set("posX", posx);
         Session.set("posY", posy);
         Session.set("destination", re );
-        event.target.blur();
+        template.find(".search-main").blur();
         return false;
     },
 
@@ -286,8 +285,8 @@ if (Meteor.isClient) {
        // console.log( document.getElementById('search-main').value );
 
         autofill_room(document.getElementById('search-main').value);
-    }
+    },
 
   });
-
+  
 }
