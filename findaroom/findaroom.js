@@ -268,7 +268,26 @@ if (Meteor.isClient) {
         Session.set("posX", -100);
         Session.set("posY", -100);
     },
-
+    'blur .search-dest': function(){
+        $(".fa-search")
+          .css("color","rgb(231, 231, 231)");
+    }
+    ,
+    'focus .search-dest': function(){
+        $("#search-main")
+          .css("background-color","rgba(255,255,255,0.94)")
+          .css("color","rgb(16,16,16)")
+          .css("font-weight","normal")
+          .css("font-size","13px");
+        $(".fa-search")
+          .css("color","rgb(208, 232, 149)")
+          .removeClass("fa-check")
+          .removeClass("fa-times"); 
+    },
+    'click .fa-times': function(){
+        $("#search-main").val("").focus(); 
+    }
+    ,
     'submit .search-dest': function(event, template) {
         Session.set("scan",1);
         var re = event.target.text.value.replace(/\s+/g, '');
@@ -279,8 +298,18 @@ if (Meteor.isClient) {
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
 
          if(response==undefined){
-          alert("Room not found");
-          return false;
+        
+            template.find(".search-main").blur();
+           
+            $("#search-main")
+              .css("background-color","rgb(232, 149, 149)")
+              .css("color","rgb(136, 15, 15)")
+              .css("font-weight","bold")
+              .css("font-size","14px");
+            $(".fa-search").css("color","rgb(174, 40, 40)")
+              .addClass("fa-times");
+            
+            return false;
          }
       
         posx= response.xpix;
@@ -290,6 +319,13 @@ if (Meteor.isClient) {
         Session.set("posY", posy);
         Session.set("destination", re );
         template.find(".search-main").blur();
+        $("#search-main")
+          .css("background-color","rgb(208, 232, 149)")
+          .css("color","rgb(100, 136, 15)")
+          .css("font-weight","bold")
+          .css("font-size","14px");
+        $(".fa-search").css("color","rgb(134, 174, 40)").addClass("fa-check");;
+        
         return false;
     },
 

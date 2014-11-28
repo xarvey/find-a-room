@@ -171,22 +171,25 @@ header .hide-completed {
 
 .search-main {
   display: block;
-  width: 100%;
+  width: 110%;
   text-align: center;
   border: 0px;
   background-color: rgb(255, 255, 255);
   color: rgb(16, 16, 16);
   position: fixed;
-  left: 0;
+  left: -5%;
   top: 61px;
   height: 40px;
   opacity: 0.95;
   z-index: 3;
   font-size: 13px;
+  font-family: Lato;
+  padding: 2px 0 2px 0;
   box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.08);
   -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.08);
   -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.08);
   -webkit-appearance: none;
+  -webkit-transition: .2s
 }
 
 .title{
@@ -230,11 +233,11 @@ header .hide-completed {
 
 .dest_point{
   position:absolute;
-  background-color: #B70C39;
+  background-color: rgb(169, 201, 91);
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  z-index: 9;
+  z-index: 5;
 }
 
 .ripple{
@@ -281,5 +284,5 @@ header .hide-completed {
 }
 
 .dest_desc{
-  background-color: #DF4461; 
+  background-color: rgb(208, 232, 149); 
 }
