@@ -8,7 +8,7 @@ html {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: Lato;
   background-color: #333333;
   background-attachment: fixed;
 
@@ -285,4 +285,25 @@ header .hide-completed {
 
 .dest_desc{
   background-color: rgb(208, 232, 149); 
+}
+
+.startbtn{
+  color: rgba(0, 0, 0, 0.9);
+  margin: 0px 10px 0px 0px;
+  top: 466px;
+  left: 120px;
+  z-index: 100;
+}
+
+.mapoverlay{
+  position: fixed;
+  top: 0px;
+  width: 320px;
+  height: 568px;
+  background-color: rgba(157, 153, 148, 0.2);
+  
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }

@@ -122,7 +122,7 @@ function initCanvas(w,h)
 function load()
 {
   initCanvas(800,600);
-  StatusBar.backgroundColorByName('red');
+  Session.set("navReady",0);
 }
 
 // simple-todos.js
@@ -136,7 +136,7 @@ if (Meteor.isClient) {
   };
 
   Meteor.startup(function () {
-    Session.set("posX", -100);
+    Session.set("posX", 160);
     Session.set("posY", -100);
     load();
   });
@@ -187,7 +187,9 @@ if (Meteor.isClient) {
     nameDes: function(){
       return Session.get("destination");
     },
-
+    navReady: function(){
+      return Session.get("navReady"); 
+    }
   });
 
 
@@ -265,8 +267,9 @@ if (Meteor.isClient) {
 
     'click .backbtn': function(){
         Session.set("scan",0);
-        Session.set("posX", -100);
+        Session.set("posX", 160);
         Session.set("posY", -100);
+        Session.set("navReady",0);
     },
     'blur .search-dest': function(){
         $(".fa-search")
@@ -282,12 +285,18 @@ if (Meteor.isClient) {
         $(".fa-search")
           .css("color","rgb(208, 232, 149)")
           .removeClass("fa-check")
-          .removeClass("fa-times"); 
+          .removeClass("fa-times");
+        Session.set("navReady",0);
     },
     'click .fa-times': function(){
         $("#search-main").val("").focus(); 
-    }
-    ,
+    },
+    'click .dest_desc': function(){
+        if( Session.get("navReady")!=0)
+          Session.set("navReady",0);
+        else  
+          Session.set("navReady",1);
+    },
     'submit .search-dest': function(event, template) {
         Session.set("scan",1);
         var re = event.target.text.value.replace(/\s+/g, '');
@@ -308,7 +317,10 @@ if (Meteor.isClient) {
               .css("font-size","14px");
             $(".fa-search").css("color","rgb(174, 40, 40)")
               .addClass("fa-times");
-            
+            Session.set("navReady",0); 
+            Session.set("posX", 160);
+            Session.set("posY", -100);
+           
             return false;
          }
       
@@ -325,6 +337,7 @@ if (Meteor.isClient) {
           .css("font-weight","bold")
           .css("font-size","14px");
         $(".fa-search").css("color","rgb(134, 174, 40)").addClass("fa-check");;
+        Session.set("navReady",1);
         
         return false;
     },

@@ -53,8 +53,9 @@
   <!-- <img src = {{current_map}} width="100%"/> -->
   <!-- <canvas id="map_canvas" width="800" height="1809"></canvas> -->
   <div class="mapbg" style="position: absolute">
+    <div class="mapoverlay" style="opacity: {{navReady}};"></div>
     <img src = {{current_map}} width="100%" />
-    <div class="point_container" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute">
+    <div class="point_container" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute;">
       <img src="ic_location_history_24px.svg" width="125%" style="top:5px; width:20px; height:16px; left:4px; position:absolute; z-index:10"/>
       <div class="current_point" style="top:0px; left:0px;"></div>
       <div class="ripple"></div>
@@ -69,12 +70,28 @@
        <div class ="pee_point" style="top: {{ypix}};left: {{xpix}}"></div>
     {{/each}}
 
-    <div class="point_container" style="top: {{getDesY}}; left: {{getDesX}}; position: absolute">
+    <div class="point_container" style="top: {{getDesY}}; left: {{getDesX}}; position: absolute;
+                                        
+                                           
+    -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;     
+                                        
+                                        ">
       <div class="dest_point" style="top:0px; left:0px"></div>
       <div class="dest_desc desc" >
         <a style="color: rgb(128, 157, 62); font-size: 13px">{{nameDes}}</a>
       </div>
     </div>
+    
+    <div style="display:block; text-align:center; position: fixed; bottom:50px; width:100%;z-index: 100; opacity:{{navReady}};">
+        <button style="padding: 12px 25px; border-radius: 50px; border: 0px; background-color: rgba(255, 255, 255, 0.93); font-size:14px; font-weight: 700; color: rgb(87, 87, 87); font-family: Lato;  -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+  -webkit-appearance: none;
+  "><span class="fa fa-arrow-right fa-md startbtn"></span>Start Navigation</button>
+  </div>
   </div>
     <!-- canvas id="map_canvas" width="800" height="1809" style="display:none"></canvas> -->
 
