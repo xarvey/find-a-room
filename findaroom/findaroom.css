@@ -245,11 +245,15 @@ header .hide-completed {
 }
 
 @-webkit-keyframes ripple-animation {
-    from {
+    0% {
       -webkit-transform: scale(1);
       opacity: 0.4;
     }
-    to {
+    95% {
+      -webkit-transform: scale(1.9);
+      opacity: 0.01;
+    }
+    100%{
       -webkit-transform: scale(2);
       opacity: 0;
     }
