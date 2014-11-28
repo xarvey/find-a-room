@@ -122,6 +122,7 @@ function initCanvas(w,h)
 function load()
 {
   initCanvas(800,600);
+  StatusBar.backgroundColorByName('red');
 }
 
 // simple-todos.js
