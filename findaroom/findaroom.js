@@ -2,6 +2,7 @@ var IMAGE_KEY = "qrcode-img";
 
 var gCtx = null;
 var gCanvas = null;
+var dCanvas = null;
 
 var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
@@ -9,10 +10,6 @@ var Buildings = new Meteor.Collection("buildings");
 
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
-
-//auto fill
-//   let's say the string is called "result"
-//   so it's
 
 
 var mapcanvas = null;
@@ -125,6 +122,18 @@ function load()
   Session.set("navReady",0);
 }
 
+function drawLine(x1, y1, x2, y2)
+{
+  gCanvas = document.getElementById("qr-canvas");
+  var ctx = gCanvas.getContext("2d");
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y2);
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = '#4780A6';
+  ctx.stroke();
+}
+
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
@@ -188,7 +197,7 @@ if (Meteor.isClient) {
       return Session.get("destination");
     },
     navReady: function(){
-      return Session.get("navReady"); 
+      return Session.get("navReady");
     }
   });
 
@@ -239,18 +248,18 @@ if (Meteor.isClient) {
       current_bldg = Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     },
     'submit .new-task': function(event) {
-        
+
         result=event.target.text.value.replace(/\s+/g, '');
         var f = result.charAt(0);
         var r = result.substring(1);
 
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
-      
+
         if(response==undefined){
           alert("Room not found");
           return false;
         }
-      
+
         Session.set("scan",1);
 
         posx= response.xpix;
@@ -289,27 +298,27 @@ if (Meteor.isClient) {
         Session.set("navReady",0);
     },
     'click .fa-times': function(){
-        $("#search-main").val("").focus(); 
+        $("#search-main").val("").focus();
     },
     'click .dest_desc': function(){
         if( Session.get("navReady")!=0)
           Session.set("navReady",0);
-        else  
+        else
           Session.set("navReady",1);
     },
     'submit .search-dest': function(event, template) {
         Session.set("scan",1);
         var re = event.target.text.value.replace(/\s+/g, '');
-      
+
         var f = re.charAt(0);
         var r = re.substring(1);
 
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
 
          if(response==undefined){
-        
+
             template.find(".search-main").blur();
-           
+
             $("#search-main")
               .css("background-color","rgb(232, 149, 149)")
               .css("color","rgb(136, 15, 15)")
@@ -317,13 +326,13 @@ if (Meteor.isClient) {
               .css("font-size","14px");
             $(".fa-search").css("color","rgb(174, 40, 40)")
               .addClass("fa-times");
-            Session.set("navReady",0); 
+            Session.set("navReady",0);
             Session.set("posX", 160);
             Session.set("posY", -100);
-           
+
             return false;
          }
-      
+
         posx= response.xpix;
         posy= response.ypix;
 
@@ -338,7 +347,7 @@ if (Meteor.isClient) {
           .css("font-size","14px");
         $(".fa-search").css("color","rgb(134, 174, 40)").addClass("fa-check");;
         Session.set("navReady",1);
-        
+
         return false;
     },
 
@@ -350,5 +359,5 @@ if (Meteor.isClient) {
     },
 
   });
-  
+
 }
