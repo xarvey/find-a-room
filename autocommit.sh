@@ -10,5 +10,5 @@
 
 git pull
 git add --all
-git commit -a -m "Auto-commit from Team Snoxy"
+git commit -m"`curl -s http://whatthecommit.com/index.txt`"
 git push
