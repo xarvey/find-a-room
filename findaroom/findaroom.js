@@ -341,11 +341,9 @@ if (Meteor.isClient) {
         Session.set("destination", re );
         template.find(".search-main").blur();
         $("#search-main")
-          .css("background-color","rgb(208, 232, 149)")
-          .css("color","rgb(100, 136, 15)")
           .css("font-weight","bold")
           .css("font-size","14px");
-        $(".fa-search").css("color","rgb(134, 174, 40)").addClass("fa-check");;
+        $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");;
         Session.set("navReady",1);
 
         return false;
