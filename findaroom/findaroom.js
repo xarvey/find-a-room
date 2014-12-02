@@ -59,15 +59,41 @@ if (Meteor.isServer) {
 
     }
     if(Lines.find().count() == 0) {
-        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1486 });
-        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486});
-        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 37});
-        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 487, ypix: 37});
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1486, description: "You should see the exit" });
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see " });
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 37, description: "You should see a vending machine" });
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 487, ypix: 37, description: "You should see the exit" });
     }
   })
 }
 
-
+// function finding a point () say given a point p {int xpix, int ypix}
+function closestNode(p)
+{
+    var l;
+    var distance = new Array(4);
+    for(i = 0; i < 4; i++) {
+      l = Lines.findOne( { bldg: "LWSN", floor: "B"}, {skip:i});
+      if (l == null)  break;
+      distance[i] = Math.sqrt((l.xpix-p.xpix)*(l.xpix-p.xpix)+(l.ypix - p.ypix)*(l.ypix - p.ypix));
+    }
+    var closest = 0;
+    for(i = 1; i < 4; i++) {
+      if(distance[i] < distance[closest])
+          closest = i;
+    }
+    l = Lines.findOne( { bldg: "LWSN", floor: "B"}, {skip:closest});
+    var node = {xpix:l.xpix, ypix:l.ypix};
+    var pclose = {xpix:p.xpix, ypix:p.ypix};
+    if(Math.abs(pclose.xpix-node.xpix) < Math.abs(pclose.ypix-node.ypix))
+      pclose.xpix = node.xpix;
+    else if(Math.abs(pclose.xpix-node.xpix) == Math.abs(pclose.ypix-node.ypix))
+      pclose.xpix = -1;
+    else
+      pclose.ypix = node.ypix;
+    var closePoints= [node,pclose];
+    return closePoints; // closest node is [0], the corresponding room pixels is [1];
+}
 
 function restroom()
 {
@@ -198,8 +224,7 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-   find_destination(88,1486,487,37);
-    
+
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
@@ -220,6 +245,7 @@ if (Meteor.isClient) {
   Meteor.startup(function () {
     Session.set("posX", 160);
     Session.set("posY", -100);
+    Session.set("navTop",-200+"px");
     load();
   });
   Meteor.setInterval(function() {
@@ -271,6 +297,9 @@ if (Meteor.isClient) {
     },
     navReady: function(){
       return Session.get("navReady");
+    },
+    navTop: function(){
+      return Session.get("navTop"); 
     }
   });
 
@@ -438,6 +467,15 @@ if (Meteor.isClient) {
 
         autofill_room(document.getElementById('search-main').value);
     },
+    
+    'click .startnav': function(event){
+        Session.set("navTop",0); 
+        Session.set("navReady",0);
+    },
+    
+    'click .closebtn': function(event){
+        Session.set("navTop",-200+"px"); 
+    }
 
   });
 
