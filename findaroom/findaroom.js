@@ -82,7 +82,7 @@ function closestNode(p)
       if(distance[i] < distance[closest])
           closest = i;
     }
-    l = Lines.findOne( { bldg: "LWSN", floor: "B"}, {skip:closest});
+    l = Lines.findOne( { bldg: "LWSN", floor: "B"},{skip:closest});
     var node = {xpix:l.xpix, ypix:l.ypix};
     var pclose = {xpix:p.xpix, ypix:p.ypix};
     if(Math.abs(pclose.xpix-node.xpix) < Math.abs(pclose.ypix-node.ypix))
@@ -149,10 +149,20 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
         return true;
     return false;
 }
+
+function check_the_turn(x0,y0,x1,y1,x2,y2) //1 left -1  right
+{
+    ans=(x1-x0)*(y2-y0)-(x2-x0)*(y1-y0);   
+    if (ans>0) return 1;
+    if (ans==0) return 0;
+    if (ans<0) return -1
+}
 function find_destination(startx,starty,endx,endy)
 {
     start_point=make_point(startx,starty);
     end_point=make_point(endx,endy);
+    
+    console.log(start_point.xpix);
     
     startx=closestNode(start_point)[0].xpix;
     starty=closestNode(start_point)[0].ypix;
@@ -180,9 +190,7 @@ function find_destination(startx,starty,endx,endy)
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
         }
-        console.log("seriously");
         head+=1;
-        console.log(head);
         nowx=queue[head].xpix;
         nowy=queue[tail].ypix;
     }
@@ -232,8 +240,18 @@ function find_destination(startx,starty,endx,endy)
         point_list.push({xpix:closestNode(end_point)[1].xpix,ypix:closestNode(end_point)[1].ypix});
     }
     
-    //for (i=0; i<point_list.length; i++)
-      //  alert("x: "+point_list[i].xpix+" y: "+point_list[i].ypix);
+    point_list.unshift({xpix:start_point.xpix,ypix:start_point.ypix});
+    point_list.push({xpix:end_point.xpix,ypix:end_point.ypix});
+    
+    for (i=0; i<point_list.length; i++)
+    {
+        alert(point_list[i].xpix+" "+point_list[i].ypix);
+      if (check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix)==1)
+          string="TURN FUCKING LEFT";
+        else
+            string="TURN FUCKING RIGHT";
+      alert(Lines.findOne({xpix:point_list[i+1].xpix,ypix:point_list[i+1].ypix}).description+string);
+    }
     
     
 }
@@ -291,7 +309,6 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-  find_destination(308,361,396,349);
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
@@ -314,6 +331,7 @@ if (Meteor.isClient) {
     Session.set("posY", -100);
     Session.set("navTop",-200+"px");
     load();
+    
   });
   Meteor.setInterval(function() {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -418,6 +436,7 @@ if (Meteor.isClient) {
     },
     'submit .new-task': function(event) {
 
+        //find_destination(219,1457,399,289);
         result=event.target.text.value.replace(/\s+/g, '');
         var f = result.charAt(0);
         var r = result.substring(1);
