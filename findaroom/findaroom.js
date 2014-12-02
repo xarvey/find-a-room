@@ -155,7 +155,7 @@ function check_the_turn(x0,y0,x1,y1,x2,y2) //1 left -1  right
     ans=(x1-x0)*(y2-y0)-(x2-x0)*(y1-y0);   
     if (ans>0) return 1;
     if (ans==0) return 0;
-    if (ans<0) return -1
+    if (ans<0) return -1;
 }
 function find_destination(startx,starty,endx,endy)
 {
@@ -221,8 +221,8 @@ function find_destination(startx,starty,endx,endy)
                                                                    
     if (on_the_line(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,closestNode(start_point)[1].xpix,closestNode(start_point)[1].ypix)==true || flag==1)
     {
-        point_list[0].xpix=start_point.xpix;
-        point_list[0].ypix=start_point.ypix;
+        point_list[0].xpix=closestNode(start_point)[1].xpix;
+        point_list[0].ypix=closestNode(start_point)[1].ypix;
         
     }
     else
@@ -232,25 +232,32 @@ function find_destination(startx,starty,endx,endy)
     
     if (on_the_line(point_list[length-1].xpix,point_list[length-1].ypix,point_list[length-2].xpix,point_list[length-2].ypix,closestNode(end_point)[1].xpix,closestNode(end_point)[1].ypix)==true || flag==1)
     {
-        point_list[length-1].xpix=end_point.xpix;
-        point_list[length-1].ypix=end_point.ypix;
+        point_list[length-1].xpix=closestNode(end_point)[1].xpix;
+        point_list[length-1].ypix=closestNode(end_point)[1].ypix;
     }
     else
     {
         point_list.push({xpix:closestNode(end_point)[1].xpix,ypix:closestNode(end_point)[1].ypix});
     }
     
+    //alert("nearest node"+closestNode(start_point)[1].xpix+"y: "+closestNode(start_point)[1].ypix);
+    
     point_list.unshift({xpix:start_point.xpix,ypix:start_point.ypix});
     point_list.push({xpix:end_point.xpix,ypix:end_point.ypix});
     
-    for (i=0; i<point_list.length; i++)
+    for (i=1; i<point_list.length-1; i++)
     {
-        alert(point_list[i].xpix+" "+point_list[i].ypix);
-      if (check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix)==1)
-          string="TURN FUCKING LEFT";
+       alert(point_list[i].xpix+"  "+point_list[i].ypix); //alert(check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix));
+      if (check_the_turn(point_list[i-1].xpix,point_list[i-1].ypix,point_list[i].xpix,point_list[i].ypix,point_list[i+1].xpix,point_list[i+1].ypix)==-1)
+          string=" TURN FUCKING LEFT ";
         else
-            string="TURN FUCKING RIGHT";
-      alert(Lines.findOne({xpix:point_list[i+1].xpix,ypix:point_list[i+1].ypix}).description+string);
+            string=" TURN FUCKING RIGHT ";
+       if (Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix})!=null)
+         alert(Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+string);
+        else
+            if (i==1)
+            alert("get the fuck out of here and"+string);
+        else alert("go fucking inside!!! You ARE DONE" +string);
     }
     
     
@@ -437,7 +444,6 @@ if (Meteor.isClient) {
     },
     'submit .new-task': function(event) {
 
-        //find_destination(219,1457,399,289);
         result=event.target.text.value.replace(/\s+/g, '');
         var f = result.charAt(0);
         var r = result.substring(1);
@@ -557,6 +563,8 @@ if (Meteor.isClient) {
     },
     
     'click .startnav': function(event){
+        
+        find_destination(219,1457,399,289);
         Session.set("navTop",0); 
         Session.set("navReady",0);
         
