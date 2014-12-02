@@ -299,6 +299,7 @@ if (Meteor.isClient) {
       return Session.get("navTop"); 
     }
     getSugg: function(){
+      if(Session.get("navReady") !== 1)
       return Session.get("sugg");
     }
   });
