@@ -232,8 +232,8 @@ function find_destination(startx,starty,endx,endy)
         point_list.push({xpix:closestNode(end_point)[1].xpix,ypix:closestNode(end_point)[1].ypix});
     }
     
-    for (i=0; i<point_list.length; i++)
-        alert("x: "+point_list[i].xpix+" y: "+point_list[i].ypix);
+    //for (i=0; i<point_list.length; i++)
+      //  alert("x: "+point_list[i].xpix+" y: "+point_list[i].ypix);
     
     
 }
