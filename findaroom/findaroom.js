@@ -95,48 +95,7 @@ function closestNode(p)
     return closePoints; // closest node is [0], the corresponding room pixels is [1];
 }
 
-function setDestination(re) //For the Buttons sets the destination as if the textbox typed it in
-{
-        var f = re.charAt(0);
-        var r = re.substring(1);
 
-        var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
-
-         if(response==undefined){
-        
-            template.find(".search-main").blur();
-           
-            $("#search-main")
-              .css("background-color","rgb(232, 149, 149)")
-              .css("color","rgb(136, 15, 15)")
-              .css("font-weight","bold")
-              .css("font-size","14px");
-            $(".fa-search").css("color","rgb(174, 40, 40)")
-              .addClass("fa-times");
-            Session.set("navReady",0); 
-            Session.set("posX", 160);
-            Session.set("posY", -100);
-           
-            return false;
-         }
-      
-        posx= response.xpix;
-        posy= response.ypix;
-
-        Session.set("posX", posx);
-        Session.set("posY", posy);
-        Session.set("destination", re );
-        template.find(".search-main").blur();
-        $("#search-main")
-          .css("background-color","rgb(208, 232, 149)")
-          .css("color","rgb(100, 136, 15)")
-          .css("font-weight","bold")
-          .css("font-size","14px");
-        $(".fa-search").css("color","rgb(134, 174, 40)").addClass("fa-check");;
-        Session.set("navReady",1);
-        
-        return false;
-}
 
 function restroom()
 {
@@ -337,6 +296,53 @@ if (Meteor.isClient) {
           qrcode.decode(data);
         }
       });
+    },
+    
+    'click .setDestination': function(event, template)
+    {
+      console.log(event.currentTarget.id);
+      Session.set("scan",1);
+        var re = event.currentTarget.id.replace(/\s+/g, '');
+      
+        var f = re.charAt(0);
+        var r = re.substring(1);
+
+        var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+
+         if(response==undefined){
+        
+            template.find(".search-main").blur();
+           
+            $("#search-main")
+              .css("background-color","rgb(232, 149, 149)")
+              .css("color","rgb(136, 15, 15)")
+              .css("font-weight","bold")
+              .css("font-size","14px");
+            $(".fa-search").css("color","rgb(174, 40, 40)")
+              .addClass("fa-times");
+            Session.set("navReady",0); 
+            Session.set("posX", 160);
+            Session.set("posY", -100);
+           
+            return false;
+         }
+      
+        posx= response.xpix;
+        posy= response.ypix;
+
+        Session.set("posX", posx);
+        Session.set("posY", posy);
+        Session.set("destination", re );
+        template.find(".search-main").blur();
+        $("#search-main")
+          .css("background-color","rgb(208, 232, 149)")
+          .css("color","rgb(100, 136, 15)")
+          .css("font-weight","bold")
+          .css("font-size","14px");
+        $(".fa-search").css("color","rgb(134, 174, 40)").addClass("fa-check");;
+        Session.set("navReady",1);
+        
+        return false;
     },
     'click .gps': function(){
         // return 0, 0 if the location isn't ready
