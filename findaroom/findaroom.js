@@ -44,7 +44,7 @@ if (Meteor.isServer) {
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1130, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1275, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1235, popular: false } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1520, popular: true } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1420, popular: true } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 219, ypix: 1457, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "107", xpix: 250, ypix: 1458, popular: false } );
 
@@ -134,6 +134,8 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
     {
         yhat1=y3-y1;
         yhat2=y3-y2;
+        
+        alert(yhat1*yhat2);
         if (yhat1*yhat2<0)
             return true;
     }
@@ -142,6 +144,7 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
     {
         xhat1=x3-x1;
         xhat2=x3-x2;
+        alert(xhat1*xhat2);
         if (xhat1*xhat2<0)
             return true;
     }
@@ -564,7 +567,19 @@ if (Meteor.isClient) {
     
     'click .startnav': function(event){
         
-        find_destination(219,1457,399,289);
+        
+        start=Session.get("location");
+        dest=Session.get("destination");
+        var f = start .charAt(0);
+        var r = start.substring(1);
+
+        var start_document = Rooms.findOne( { room: r, floor: f });
+        var f = dest .charAt(0);
+        var r = dest.substring(1);
+
+        var dest_document = Rooms.findOne( { room: r, floor: f });
+        find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
+        
         Session.set("navTop",0); 
         Session.set("navReady",0);
         
