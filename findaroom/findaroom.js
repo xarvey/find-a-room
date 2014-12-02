@@ -256,7 +256,7 @@ if (Meteor.isClient) {
     },
     navTop: function(){
       return Session.get("navTop"); 
-    }
+    },
     getSugg: function(){
       if(Session.get("navReady") !== 1)
       return Session.get("sugg");
