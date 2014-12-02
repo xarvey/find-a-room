@@ -206,6 +206,11 @@ header .hide-completed {
   
 }
 
+.something{
+  position: absolute;
+  width: 100%;
+}
+
 .title{
   color: rgb(76, 76, 76);
   position: absolute;
