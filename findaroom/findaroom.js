@@ -277,7 +277,8 @@ function load()
 
 function drawLine(x1, y1, x2, y2)
 {
-  gCanvas = document.getElementById("qr-canvas");
+  gCanvas = document.getElementById("draw-line");
+  console.log("draw a line");
   var ctx = gCanvas.getContext("2d");
   ctx.beginPath();
   ctx.moveTo(x1,y1);
@@ -524,6 +525,7 @@ if (Meteor.isClient) {
             scrollTop: posy-280
           }, 800);
         });
+        drawLine(posx*320/800+'px', posy*320/800+'px', Session.get("posX")*320/800+'px', Session.get("posY")*320/800+'px')
         return false;
     },
 
