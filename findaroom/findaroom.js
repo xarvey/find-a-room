@@ -8,9 +8,12 @@ var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
 var Buildings = new Meteor.Collection("buildings");
 var Lines = new Meteor.Collection("lines"); // for navigation.
+var Messages = new Meteor.Collection("messages"); // for public messages.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
 
+var helper = [];
+var toBeHelped = [];
 
 var mapcanvas = null;
     mapcontext = null;
@@ -18,11 +21,11 @@ var mapcanvas = null;
 
 var posx,posy;
 
+
 if (Meteor.isServer) {
   Meteor.startup(function (){
     if(Buildings.find().count == 0) {
       Buildings.insert( { bldg: "LWSN", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
-      Buildings.insert( { bldg: "HICKS", lowLatitude: 40.428189, highLatitude: 40.427397, lowLongitude: -86.917201, highLongitude:  -86.916739 } )
 
       // 40.428189      40.427397           -86.916739,    -86.917201
       //say your GPS passes lat, log. The following should return the string. "LWSN"
