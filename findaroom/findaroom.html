@@ -70,9 +70,13 @@
   <!-- <img src = {{current_map}} width="100%"/> -->
   <!-- <canvas id="map_canvas" width="800" height="1809"></canvas> -->
   <div class="mapbg" style="position: absolute">
+    <div class="something">
     {{#each getSugg}}
-    <div class="boxed">{{this}}</div>
-    {{/each}}
+        <div class="boxed">
+          {{this}}
+        </div>
+        {{/each}}
+    </div>
     <div class="mapoverlay" style="opacity: {{navReady}};"></div>
     <img src = {{current_map}} width="100%" />
     <div class="point_container" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute;">
