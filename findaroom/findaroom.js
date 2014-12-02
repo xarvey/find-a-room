@@ -138,7 +138,7 @@ function autofill_room(result)
     }
     if(Sugg.length == 0)
     {
-        Sugg[0] = "No Match Found";
+        Sugg[0] = "None";
     }
     Session.set("sugg", Sugg);
     console.log(auto);
