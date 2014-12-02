@@ -186,6 +186,7 @@ if (Meteor.isClient) {
   Meteor.startup(function () {
     Session.set("posX", 160);
     Session.set("posY", -100);
+    Session.set("navTop",-200+"px");
     load();
   });
   Meteor.setInterval(function() {
@@ -237,6 +238,9 @@ if (Meteor.isClient) {
     },
     navReady: function(){
       return Session.get("navReady");
+    },
+    navTop: function(){
+      return Session.get("navTop"); 
     }
   });
 
@@ -404,6 +408,15 @@ if (Meteor.isClient) {
 
         autofill_room(document.getElementById('search-main').value);
     },
+    
+    'click .startnav': function(event){
+        Session.set("navTop",0); 
+        Session.set("navReady",0);
+    },
+    
+    'click .closebtn': function(event){
+        Session.set("navTop",-200+"px"); 
+    }
 
   });
 
