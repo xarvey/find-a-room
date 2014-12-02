@@ -169,15 +169,7 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
- /* for(counter=0;counter<5;counter++) {
-  var point = Rooms.findOne( { bldg: "LWSN", floor: "B"}, {skip:counter});
-  if(point==null) break;
-  alert(point.room);
-  alert(closestNode(point).xpix);
-  alert(closestNode(point).ypix);
 
-  //alert(closestNode(point));
-}*/
 
 
   Template.home.created = function(){
@@ -200,6 +192,7 @@ if (Meteor.isClient) {
   Meteor.startup(function () {
     Session.set("posX", 160);
     Session.set("posY", -100);
+    Session.set("navTop",-200+"px");
     load();
   });
   Meteor.setInterval(function() {
@@ -251,6 +244,9 @@ if (Meteor.isClient) {
     },
     navReady: function(){
       return Session.get("navReady");
+    },
+    navTop: function(){
+      return Session.get("navTop"); 
     }
   });
 
@@ -418,6 +414,15 @@ if (Meteor.isClient) {
 
         autofill_room(document.getElementById('search-main').value);
     },
+    
+    'click .startnav': function(event){
+        Session.set("navTop",0); 
+        Session.set("navReady",0);
+    },
+    
+    'click .closebtn': function(event){
+        Session.set("navTop",-200+"px"); 
+    }
 
   });
 

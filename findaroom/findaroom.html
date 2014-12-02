@@ -34,9 +34,26 @@
     <input type="text" name="text" style="text-align:center" placeholder="Or type your current location here" />
   </form>
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
-
+  
   {{else}}
 
+  <div class="navigation" style="top:{{navTop}}">
+    <div class="navigation-title">
+      <div class="fromPlace">B158</div>
+      <div class="from">from</div>
+      <div class="toPlace">B131</div>
+      <div class="to">to</div>
+      <div class="fromPoint"></div>
+      <div class="toPoint"></div>
+      <div class="dashline"></div>
+      <div class="closebtn"></div>
+    </div>
+    <div class="description">
+      <div class="nav-text">Walk stratight and turn right at room B154</div>
+      <button class="next-btn">Next</button>
+    </div>
+  </div>
+  
   <div class="topbar">
     <div class="title">{{current_building}}</div>
     <span class="fa fa-search fa-lg" style="color: rgb(231, 231, 231);top: 77px;position: absolute;z-index: 100;left: 15px;"></span>
@@ -90,7 +107,7 @@
   -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
   box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
   -webkit-appearance: none;
-  "><span class="fa fa-arrow-right fa-md startbtn"></span>Start Navigation</button>
+  " class="startnav"><span class="fa fa-arrow-right fa-md startbtn"></span>Start Navigation</button>
   </div>
   </div>
     <!-- canvas id="map_canvas" width="800" height="1809" style="display:none"></canvas> -->
@@ -99,5 +116,5 @@
 
 
   {{/unless}}
-
+  
 </template>
