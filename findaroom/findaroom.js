@@ -145,6 +145,8 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
         if (xhat1*xhat2<0)
             return true;
     }
+    if (x1==x2 && y1==y2)
+        return true;
     return false;
 }
 function find_destination(startx,starty,endx,endy)
@@ -178,6 +180,7 @@ function find_destination(startx,starty,endx,endy)
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
         }
+        console.log("seriously");
         head+=1;
         console.log(head);
         nowx=queue[head].xpix;
@@ -191,28 +194,35 @@ function find_destination(startx,starty,endx,endy)
     {
   //      alert("now "+now+" "+"xpix "+queue[now].xpix+"ypix "+queue[now].ypix);
      
+        if (now==0)
+            break;
         point_list.unshift({xpix:queue[now].xpix,ypix:queue[now].ypix});
         now=queue[now].prev;
         
         //alert(now);
-        if (now==0)
-            break;
     }
     point_list.unshift({xpix:startx,ypix:starty});
     
+
     
-    if (on_the_line(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,closestNode(start_point)[1].xpix,closestNode(start_point)[1].ypix))
+    length=point_list.length;
+    flag=0;
+    
+    if ((length==2) && (point_list[0].xpix==point_list[1].xpix) && (point_list[0].ypix==point_list[1].ypix))
+        flag=1;
+                                                                   
+    if (on_the_line(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,closestNode(start_point)[1].xpix,closestNode(start_point)[1].ypix)==true || flag==1)
     {
         point_list[0].xpix=start_point.xpix;
         point_list[0].ypix=start_point.ypix;
+        
     }
     else
     {
         point_list.unshift({xpix:closestNode(start_point)[1].xpix,ypix:closestNode(start_point)[1].ypix});
     }
     
-    length=point_list.length;
-    if (on_the_line(point_list[length-1].xpix,point_list[length-1].ypix,point_list[length-2].xpix,point_list[length-2].ypix,closestNode(end_point)[1].xpix,closestNode(end_point)[1].ypix))
+    if (on_the_line(point_list[length-1].xpix,point_list[length-1].ypix,point_list[length-2].xpix,point_list[length-2].ypix,closestNode(end_point)[1].xpix,closestNode(end_point)[1].ypix)==true || flag==1)
     {
         point_list[length-1].xpix=end_point.xpix;
         point_list[length-1].ypix=end_point.ypix;
@@ -222,8 +232,8 @@ function find_destination(startx,starty,endx,endy)
         point_list.push({xpix:closestNode(end_point)[1].xpix,ypix:closestNode(end_point)[1].ypix});
     }
     
-    //for (i=0; i<point_list.length; i++)
-    //    alert("x: "+point_list[i].xpix+" y: "+point_list[i].ypix);
+    for (i=0; i<point_list.length; i++)
+        alert("x: "+point_list[i].xpix+" y: "+point_list[i].ypix);
     
     
 }
@@ -280,7 +290,7 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-  find_destination(219,1457,399,289);
+  find_destination(308,361,396,349);
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
