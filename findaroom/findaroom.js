@@ -10,7 +10,7 @@ var Buildings = new Meteor.Collection("buildings");
 var Lines = new Meteor.Collection("lines"); // for navigation.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
-
+var Sugg;
 
 var mapcanvas = null;
     mapcontext = null;
@@ -119,6 +119,7 @@ function restroom()
 
 function autofill_room(result)
 {
+  Sugg = [];
   var rs;
   var auto = [];
     current_bldg=Session.get("bldg");
@@ -131,7 +132,13 @@ function autofill_room(result)
         if (rs==null) break;
          var string=rs.floor+rs.room;
         auto.push(string);
+        Sugg.push(string);
     }
+    if(Sugg.length == 0)
+    {
+        Sugg[0] = "No Match Found";
+    }
+    Session.set("sugg", Sugg);
     console.log(auto);
     return auto;
 }
@@ -247,6 +254,9 @@ if (Meteor.isClient) {
     },
     navTop: function(){
       return Session.get("navTop"); 
+    }
+    getSugg: function(){
+      return Session.get("sugg");
     }
   });
 
