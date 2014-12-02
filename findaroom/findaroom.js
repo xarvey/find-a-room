@@ -117,6 +117,117 @@ function restroom()
     return locations_coordinate;
 }
 
+function make_point(x,y)
+{
+
+    var coordinate;
+    coordinate=(
+        {"xpix":x,
+         "ypix":y
+        });
+    return coordinate;
+}
+
+function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1), (x2,y2) now only for straight line
+{
+    if ((x3==x1) && (x3==x2))
+    {
+        yhat1=y3-y1;
+        yhat2=y3-y2;
+        if (yhat1*yhat2<0)
+            return true;
+    }
+    
+    if ((y3==y1) && (y3==y2))
+    {
+        xhat1=x3-x1;
+        xhat2=x3-x2;
+        if (xhat1*xhat2<0)
+            return true;
+    }
+    return false;
+}
+function find_destination(startx,starty,endx,endy)
+{
+    start_point=make_point(startx,starty);
+    end_point=make_point(endx,endy);
+    
+    startx=closestNode(start_point)[0].xpix;
+    starty=closestNode(start_point)[0].ypix;
+    
+    endx=closestNode(end_point)[0].xpix;
+    endy=closestNode(end_point)[0].ypix;
+    
+    
+    
+    var queue=[];
+    queue.push({coordinate:make_point(startx,starty),prev:0,distance:0});
+    
+    nowx=startx;
+    nowy=starty;
+    head=0;
+    tail=0;
+    while (nowx!=endx && nowy!=endy)
+    {
+        for (counter=0;;counter++)
+        {
+            var current=Lines.findOne({'$or': [ {'xpix':nowx ,'ypix' : {$ne : nowy} }, { 'ypix': nowy, 'xpix' : {$ne : nowx}}]} ,{skip:counter});  // nowx==xpix xor nowy==ypix
+                                               
+                                    //make sure the x and y is the same in the future
+            if (current==null) break;
+            tail+=1;
+            queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
+        }
+        head+=1;
+        console.log(head);
+        nowx=queue[head].xpix;
+        nowy=queue[tail].ypix;
+    }
+    
+    now=tail;
+    point_list=[];
+    point_list.push({xpix:endx,ypix:endy});
+    for (counter=0;;counter++)
+    {
+  //      alert("now "+now+" "+"xpix "+queue[now].xpix+"ypix "+queue[now].ypix);
+     
+        point_list.unshift({xpix:queue[now].xpix,ypix:queue[now].ypix});
+        now=queue[now].prev;
+        
+        //alert(now);
+        if (now==0)
+            break;
+    }
+    point_list.unshift({xpix:startx,ypix:starty});
+    
+    
+    if (on_the_line(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,closestNode(start_point)[1].xpix,closestNode(start_point)[1].ypix))
+    {
+        point_list[0].xpix=start_point.xpix;
+        point_list[0].ypix=start_point.ypix;
+    }
+    else
+    {
+        point_list.unshift({xpix:closestNode(start_point)[1].xpix,ypix:closestNode(start_point)[1].ypix});
+    }
+    
+    length=point_list.length;
+    if (on_the_line(point_list[length-1].xpix,point_list[length-1].ypix,point_list[length-2].xpix,point_list[length-2].ypix,closestNode(end_point)[1].xpix,closestNode(end_point)[1].ypix))
+    {
+        point_list[length-1].xpix=end_point.xpix;
+        point_list[length-1].ypix=end_point.ypix;
+    }
+    else
+    {
+        point_list.push({xpix:closestNode(end_point)[1].xpix,ypix:closestNode(end_point)[1].ypix});
+    }
+    
+    //for (i=0; i<point_list.length; i++)
+    //    alert("x: "+point_list[i].xpix+" y: "+point_list[i].ypix);
+    
+    
+}
+
 function autofill_room(result)
 {
   var rs;
@@ -169,9 +280,7 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-
-
-
+  find_destination(219,1457,399,289);
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
