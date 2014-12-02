@@ -10,7 +10,7 @@ var Buildings = new Meteor.Collection("buildings");
 var Lines = new Meteor.Collection("lines"); // for navigation.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
-var Sugg;
+var Sugg = [];
 
 var mapcanvas = null;
     mapcontext = null;
