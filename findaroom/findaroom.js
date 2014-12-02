@@ -67,7 +67,25 @@ if (Meteor.isServer) {
   })
 }
 
-
+// function finding a point () say given a point p {int xpix, int ypix}
+function closestNode(p)
+{
+    var l;
+    var distance = new Array(4);
+    for(i = 0; i < 4; i++) {
+      l = Lines.findOne( { bldg: "LWSN", floor: "B"}, {skip:i});
+      if (l == null)  break;
+      distance[i] = Math.sqrt((l.xpix-p.xpix)*(l.xpix-p.xpix)+(l.ypix - p.ypix)*(l.ypix - p.ypix));
+    }
+    var closest = 0;
+    for(i = 1; i < 4; i++) {
+      if(distance[i] < distance[closest])
+          closest = i;
+    }
+    l = Lines.findOne( { bldg: "LWSN", floor: "B"}, {skip:closest});
+    var node = {xpix:l.xpix, ypix:l.ypix};
+    return node;
+}
 
 function restroom()
 {
@@ -143,6 +161,10 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
+
+  var point ={xpix:10,ypix:20};
+  alert(closestNode(point));
+
 
   Template.home.created = function(){
     if(Session.get("scan")==1)
