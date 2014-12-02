@@ -91,6 +91,61 @@ function restroom()
     return locations_coordinate;
 }
 
+function make_point(x,y)
+{
+
+    var coordinate;
+    coordinate=(
+        {"x":x,
+         "y":y
+        });
+    return coordinate;
+}
+function find_destination(startx,starty,endx,endy)
+{
+    var queue=[];
+    queue.push({coordinate:make_point(startx,starty),prev:0,distance:0});
+    
+    nowx=startx;
+    nowy=starty;
+    head=0;
+    tail=0;
+    while (nowx!=endx && nowy!=endy)
+    {
+        for (counter=0;;counter++)
+        {
+            var current=Lines.findOne({$or:[{xpix:nowx},{ypix:nowy}]},{skip:counter});  //make sure the x and y is the same in the future
+            if (current==null) break;
+            tail+=1;
+            queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
+        }
+        head+=1;
+        console.log(head);
+        nowx=queue[head].xpix;
+        nowy=queue[tail].ypix;
+    }
+    
+    now=tail;
+    point_list=[];
+    point_list.push({xpix:endx,ypix:endy});
+    for (counter=0;;counter++)
+    {
+  //      alert("now "+now+" "+"xpix "+queue[now].xpix+"ypix "+queue[now].ypix);
+     
+        point_list.unshift({xpix:queue[now].xpix,ypix:queue[now].ypix});
+        now=queue[now].prev;
+        
+        //alert(now);
+        if (now==0)
+            break;
+    }
+    point_list.unshift({xpix:startx,ypix:starty});
+//    for (i=0; i<point_list.length; i++)
+  //      alert("x: "+point_list[i].xpix+" y: "+point_list[i].ypix);
+    
+    
+}
+
 function autofill_room(result)
 {
   var rs;
@@ -143,7 +198,8 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-
+   find_destination(88,1486,487,37);
+    
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
