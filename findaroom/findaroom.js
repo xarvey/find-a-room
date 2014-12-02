@@ -141,7 +141,18 @@ if (Meteor.isClient) {
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
-
+    $(function() {
+    $(window).on('resize', function resize()  {
+        $(window).off('resize', resize);
+        setTimeout(function () {
+            var content = $('#mid-window');
+            console.log("center");
+            var top = (window.innerHeight - content.height()) / 2;
+            content.css('top', Math.max(0, top) + 'px');
+            $(window).on('resize', resize);
+        }, 50);
+    }).resize();
+   });
   };
 
   Meteor.startup(function () {
@@ -270,7 +281,12 @@ if (Meteor.isClient) {
         Session.set("bldg", response.bldg);
         Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
         Session.set("location", result );
-
+        $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: posy-280
+          }, 800);
+        });
         return false;
     },
 
@@ -345,7 +361,12 @@ if (Meteor.isClient) {
           .css("font-size","14px");
         $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");;
         Session.set("navReady",1);
-
+        $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: posy-280
+          }, 800);
+        });
         return false;
     },
 
