@@ -198,7 +198,7 @@ header .hide-completed {
   text-align: center;
   line-height: 38px;
   background-color: rgb(255,255,255);
-  z-index: 3;
+  z-index: 10;
   height: 38px;
   opacity: .95;
   font-size: 13px;
