@@ -7,7 +7,7 @@ var dCanvas = null;
 var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
 var Buildings = new Meteor.Collection("buildings");
-
+var Lines = new Meteor.Collection("lines"); // for navigation.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
 
@@ -57,6 +57,11 @@ if (Meteor.isServer) {
          Facilities.insert({ bldg: "LWSN", floor: "B",type:"Exit",room:"0", xpix: 492, ypix: 33 }); //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",type:"Elevator",room:"1", xpix: 317, ypix: 800 });    //elevator
 
+    }
+    if(Lines.find().count() == 0) {
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1486 });
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486});
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 37});
     }
   })
 }
