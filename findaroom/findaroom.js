@@ -291,7 +291,7 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-  find_destination(308,361,396,349);
+  //find_destination(308,361,396,349);
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
@@ -539,6 +539,7 @@ if (Meteor.isClient) {
     'click .startnav': function(event){
         Session.set("navTop",0); 
         Session.set("navReady",0);
+        
     },
     
     'click .closebtn': function(event){
