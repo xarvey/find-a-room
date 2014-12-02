@@ -62,6 +62,7 @@ if (Meteor.isServer) {
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1486 });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486});
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 37});
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 487, ypix: 37});
     }
   })
 }
