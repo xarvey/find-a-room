@@ -333,7 +333,7 @@ header .hide-completed {
   color: rgba(255, 255, 255, 0.28);
   font-size: 12px;
   top: 55px;
-  left: 12px;
+  left: 13px;
 }
 
 .toPlace{
@@ -410,19 +410,20 @@ header .hide-completed {
   top: 14px;
   font-size: 13px;
   width: 195px;
-  word-break: break-all;
+  word-break: break-word;
   left: 14px;
 }
 
 .next-btn{
   position: absolute;
-  top: 14px;
+  top: 13px;
   left: 230px;
   padding: 10px 20px;
   border-radius: 5px;
   border-width: 0px;
   background-color: #d4ea9f;
   color: #70853c;
+  -webkit-appearance: none;
 }
 
 .navigation{
