@@ -551,7 +551,7 @@ if (Meteor.isClient) {
             scrollTop: posy-280
           }, 800);
         });
-        drawLine(posx*320/800+'px', posy*320/800+'px', Session.get("posX")*320/800+'px', Session.get("posY")*320/800+'px')
+        //drawLine(posx*320/800+'px', posy*320/800+'px', Session.get("posX")*320/800+'px', Session.get("posY")*320/800+'px')
         return false;
     },
 
