@@ -60,7 +60,7 @@ if (Meteor.isServer) {
     }
     if(Lines.find().count() == 0) {
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1486, description: "You should see the exit" });
-        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see " });
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see Room 116" });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 37, description: "You should see a vending machine" });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 487, ypix: 37, description: "You should see the exit" });
     }
