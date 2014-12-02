@@ -163,8 +163,6 @@ if (Meteor.isClient) {
   // This code only runs on the client
 
   var point ={xpix:10,ypix:20};
-  alert(closestNode(point));
-
 
   Template.home.created = function(){
     if(Session.get("scan")==1)
