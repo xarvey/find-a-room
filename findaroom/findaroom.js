@@ -40,7 +40,7 @@ if (Meteor.isServer) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "153", xpix: 306, ypix: 490, popular: false } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "151", xpix: 312, ypix: 635, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "148", xpix: 401, ypix: 666, popular: true } );
-      Rooms.insert( { bldg: "LWSN", floor: "B", room: "146", xpix: 401, ypix: 705, popular: true } );
+      Rooms.insert( { bldg: "LWSN", floor: "B", room: "146", xpix: 401, ypix: 755, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "138", xpix: 392, ypix: 924, popular: false } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "136", xpix: 398, ypix: 1000, popular: false } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "134", xpix: 428, ypix: 1030, popular: true } );
@@ -49,8 +49,8 @@ if (Meteor.isServer) {
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1130, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1275, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1235, popular: false } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1420, popular: true } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 219, ypix: 1457, popular: false } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1700, popular: true } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 219, ypix: 1500, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "107", xpix: 250, ypix: 1458, popular: false } );
 
     }
@@ -65,7 +65,7 @@ if (Meteor.isServer) {
     }
     if(Lines.find().count() == 0) {
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1486, description: "You should see the exit" });
-        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see Room 116" });
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see Room 116 " });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 37, description: "You should see a vending machine" });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 487, ypix: 37, description: "You should see the exit" });
     }
@@ -223,6 +223,12 @@ function find_destination(startx,starty,endx,endy)
     tail=0;
     flags=0;
     
+    if ((startx==endx) && (starty==endy))
+    {
+        queue.push({xpix:startx,ypix:starty,prev:0,distance:0});
+        tail=1;
+    }
+    else
     //console.log(endx,endy);
     while (1)
     {
@@ -237,7 +243,7 @@ function find_destination(startx,starty,endx,endy)
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
             console.log(current.xpix,current.ypix);
-            if (current.xpix==endx && current.ypix==endy)
+            if (current.xpix==endx && current.ypix==endy) 
             {
                 console.log("yes find it!!");
                 flags=1;
@@ -402,7 +408,7 @@ if (Meteor.isClient) {
   };
 
   Meteor.startup(function () {
-    Session.set("width", 150+"%");
+    Session.set("width", 100+"%");
     Session.set("posX", 160);
     Session.set("posY", -100);
     Session.set("curY", -100);
@@ -656,7 +662,8 @@ if (Meteor.isClient) {
 
     'click .startnav': function(event){
 
-
+        Session.set("width", 150+"%");
+      
         start=Session.get("location");
         dest=Session.get("destination");
         var f = start .charAt(0);
@@ -679,10 +686,24 @@ if (Meteor.isClient) {
       
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
         
+        console.log( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100)) ));
+        console.log( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100)) ));
+                    
+      
+        $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
+            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
+          }, 400);
+        });
+        
     },
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
+        Session.set("width", 100+"%");
+    
     },
     'click .next-btn': function(event){
         i = Session.get("step");
@@ -718,7 +739,7 @@ if (Meteor.isClient) {
          $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: (posy2*window.innerWidth/800-50)+"px"
+            scrollTop: (psy*window.innerWidth/800-50)+"px"
           }, 800);
         });
       
