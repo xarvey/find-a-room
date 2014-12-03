@@ -18,6 +18,7 @@ fastclick@1.0.1
 follower-livedata@1.0.2
 font-awesome@0.0.0
 geojson-utils@1.0.1
+hammer@0.0.0
 html-tools@1.0.2
 htmljs@1.0.2
 http@1.0.8

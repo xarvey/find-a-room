@@ -11,13 +11,10 @@ var Lines = new Meteor.Collection("lines"); // for navigation.
 var Messages = new Meteor.Collection("messages"); // for public messages.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
-<<<<<<< HEAD
 
 var helper = [];
 var toBeHelped = [];
-=======
 var Sugg = [];
->>>>>>> 4b8979ddaae41124b93c2b96a93731b5b39d7da5
 
 var mapcanvas = null;
     mapcontext = null;
@@ -84,6 +81,7 @@ function getPointPercent(p) //get a point and return the percentage.
 }
 
 // function finding a point () say given a point p {int xpix, int ypix}
+
 function closestNode(p)
 {
     var l;
