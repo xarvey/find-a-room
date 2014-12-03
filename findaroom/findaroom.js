@@ -65,13 +65,36 @@ if (Meteor.isServer) {
     }
     if(Lines.find().count() == 0) {
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1486, description: "You should see the exit" });
-        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see Room 116 " });
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see Room 116" });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 37, description: "You should see a vending machine" });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 487, ypix: 37, description: "You should see the exit" });
     }
   })
 }
 
+function getNearRestroom(p)
+{
+    var l;
+    var distance = new Array(2);
+    alert(p.xpix);
+    alert(p.ypix);
+    for(i=0; i < 2; i++) {
+      l = Facilities.findOne( { bldg: "LWSN", type:"Restroom"}, {skip:i});
+      if (l == null)  break;
+      distance[i] = (Math.sqrt((l.xpix-p.xpix)*(l.xpix-p.xpix)+(l.ypix - p.ypix)*(l.ypix - p.ypix)));
+    }
+    var closest = 0;
+    for(i = 1; i < 2; i++) {
+      if(distance[i] < distance[closest])
+          closest = i;
+    }
+
+    l = Facilities.findOne( { bldg: "LWSN", floor: "B", type:"Restroom"},{skip:closest});
+    alert(l.xpix);
+    alert(l.ypix);
+    var node = {xpix:l.xpix, ypix:l.ypix};
+    return node; 
+}
 
 function getPointPercent(p) //get a point and return the percentage.
 {
@@ -200,12 +223,6 @@ function find_destination(startx,starty,endx,endy)
     tail=0;
     flags=0;
     
-    if ((startx==endx) && (starty==endy))
-    {
-        queue.push({xpix:startx,ypix:starty,prev:0,distance:0});
-        tail=1;
-    }
-    else
     //console.log(endx,endy);
     while (1)
     {
@@ -220,7 +237,7 @@ function find_destination(startx,starty,endx,endy)
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
             console.log(current.xpix,current.ypix);
-            if (current.xpix==endx && current.ypix==endy) 
+            if (current.xpix==endx && current.ypix==endy)
             {
                 console.log("yes find it!!");
                 flags=1;
@@ -385,7 +402,7 @@ if (Meteor.isClient) {
   };
 
   Meteor.startup(function () {
-    Session.set("width", 100+"%");
+    Session.set("width", 150+"%");
     Session.set("posX", 160);
     Session.set("posY", -100);
     Session.set("curY", -100);
@@ -420,8 +437,12 @@ if (Meteor.isClient) {
     scanned: function(){
       return Session.get("scan");
     },
-
- 
+    getCurX: function() {
+      return Session.get("curX");
+    },
+    getCurY: function() {
+      return Session.get("curY");
+    },
     getPosX: function(){
       return Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
     },
@@ -512,7 +533,6 @@ if (Meteor.isClient) {
       current_bldg = Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     },
     'submit .new-task': function(event) {
-
         result=event.target.text.value.replace(/\s+/g, '');
         var f = result.charAt(0);
         var r = result.substring(1);
@@ -636,8 +656,7 @@ if (Meteor.isClient) {
 
     'click .startnav': function(event){
 
-        Session.set("width", 150+"%");
-      
+
         start=Session.get("location");
         dest=Session.get("destination");
         var f = start .charAt(0);
@@ -664,13 +683,21 @@ if (Meteor.isClient) {
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
-        Session.set("width", 100+"%");
-    
     },
     'click .next-btn': function(event){
         i = Session.get("step");
         Session.set("step",i+1);
         Session.set("current_ins", instructions[i+1].instruction);
+        Session.set("curX", instructions[i+1].xpix);
+        Session.set("curY", instructions[i+1].ypix);
+    
+        $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
+            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
+          }, 600);
+        });
     },
     'click .setDestination': function(event){
 
