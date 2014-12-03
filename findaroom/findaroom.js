@@ -123,8 +123,8 @@ function restroom()
 //    alert(current.ypix);
 
     locations_coordinate.push(
-        {"xpix":current.xpix*window.innerWidth/800+"px",
-         "ypix":current.ypix*window.innerWidth/800+"px"
+        {"xpix":current.xpix*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px',
+         "ypix":current.ypix*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px'
         })
     }
    // alert(locations_coordinate[0].xpix);
@@ -365,6 +365,7 @@ if (Meteor.isClient) {
   };
 
   Meteor.startup(function () {
+    Session.set("width", 150+"%");
     Session.set("posX", 160);
     Session.set("posY", -100);
     Session.set("curY", -100);
@@ -389,6 +390,9 @@ if (Meteor.isClient) {
     current_map: function(){
       return Session.get("mapimg");
     },
+    current_width: function(){
+      return Session.get("width");
+    },
     current_building: function(){
       return Session.get("bldg");
     },
@@ -398,22 +402,23 @@ if (Meteor.isClient) {
 
  
     getPosX: function(){
-      return Session.get("curX")*window.innerWidth/800+'px';
+      return Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
     },
     getPosY: function(){
-      return Session.get("curY")*window.innerWidth/800+'px';
+      return Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
     },
 
     getRestRoom: function(){
-      if( Session.get("scan") )
+      if( Session.get("scan") ) 
         return restroom();
+
     },
 
     getDesX: function(){
-      return Session.get("posX")*window.innerWidth/800+'px';
+      return Session.get("posX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
     },
     getDesY: function(){
-      return Session.get("posY")*window.innerWidth/800+'px';
+      return Session.get("posY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
     },
 
     nameCur: function(){
