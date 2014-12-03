@@ -70,6 +70,15 @@ if (Meteor.isServer) {
   })
 }
 
+
+function getPointPercent(p) //get a point and return the percentage.
+{
+    var x = p.xpix/761;
+    var y = p.ypix/1761;
+    var pointPer={xper:x, yper:y};
+    return pointPer;
+}
+
 // function finding a point () say given a point p {int xpix, int ypix}
 function closestNode(p)
 {
