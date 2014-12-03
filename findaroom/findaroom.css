@@ -185,6 +185,25 @@ header .hide-completed {
   -webkit-transition: .2s
 }
 
+.boxed {
+  display: block;
+  border: 1px solid black;
+  text-align: center;
+  line-height: 38px;
+  background-color: rgb(255,255,255);
+  z-index: 10;
+  height: 38px;
+  opacity: .95;
+  font-size: 13px;
+  font-family: Lato;
+  
+}
+
+.something{
+  position: absolute;
+  width: 100%;
+}
+
 .title{
   color: rgb(76, 76, 76);
   position: absolute;
