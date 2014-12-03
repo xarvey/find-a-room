@@ -31,8 +31,8 @@ if (Meteor.isServer) {
 
       // 40.428189      40.427397           -86.916739,    -86.917201
       //say your GPS passes lat, log. The following should return the string. "LWSN"
-//      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
-    }
+//      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} ); 
+    } 
     if(Rooms.find().count() == 0) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "160", xpix: 399, ypix: 289, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "158", xpix: 396, ypix: 349, popular: true } );
@@ -50,8 +50,8 @@ if (Meteor.isServer) {
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1275, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1235, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1420, popular: true } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 219, ypix: 1457, popular: false } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "107", xpix: 250, ypix: 1458, popular: false } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 215, ypix: 1488, popular: false } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "107", xpix: 250, ypix: 1488, popular: false } );
 
     }
     if(Facilities.find().count() == 0) {
