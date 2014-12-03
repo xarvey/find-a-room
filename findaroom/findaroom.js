@@ -11,9 +11,13 @@ var Lines = new Meteor.Collection("lines"); // for navigation.
 var Messages = new Meteor.Collection("messages"); // for public messages.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
+<<<<<<< HEAD
 
 var helper = [];
 var toBeHelped = [];
+=======
+var Sugg = [];
+>>>>>>> 4b8979ddaae41124b93c2b96a93731b5b39d7da5
 
 var mapcanvas = null;
     mapcontext = null;
@@ -147,7 +151,7 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
         yhat1=y3-y1;
         yhat2=y3-y2;
         
-        alert(yhat1*yhat2);
+//        alert(yhat1*yhat2);
         if (yhat1*yhat2<0)
             return true;
     }
@@ -156,7 +160,7 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
     {
         xhat1=x3-x1;
         xhat2=x3-x2;
-        alert(xhat1*xhat2);
+      //  alert(xhat1*xhat2);
         if (xhat1*xhat2<0)
             return true;
     }
@@ -260,30 +264,38 @@ function find_destination(startx,starty,endx,endy)
     point_list.unshift({xpix:start_point.xpix,ypix:start_point.ypix});
     point_list.push({xpix:end_point.xpix,ypix:end_point.ypix});
     
+    instruction_list=[]
     for (i=1; i<point_list.length-1; i++)
     {
-       alert(point_list[i].xpix+"  "+point_list[i].ypix); //alert(check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix));
-      if (check_the_turn(point_list[i-1].xpix,point_list[i-1].ypix,point_list[i].xpix,point_list[i].ypix,point_list[i+1].xpix,point_list[i+1].ypix)==-1)
-          string=" TURN FUCKING LEFT ";
-        else
-            string=" TURN FUCKING RIGHT ";
+       //alert(point_list[i].xpix+"  "+point_list[i].ypix); //alert(check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix));
+        string=""
        if (Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix})!=null)
-         alert(Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+string);
+         string=Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+"then turn";
         else
             if (i==1)
-            alert("get the fuck out of here and"+string);
-        else alert("go fucking inside!!! You ARE DONE" +string);
+                string="Go to the hall way, go straight while make sure the room is on your ";
+            else string="The destination is on your " ;
+        
+     if (check_the_turn(point_list[i-1].xpix,point_list[i-1].ypix,point_list[i].xpix,point_list[i].ypix,point_list[i+1].xpix,point_list[i+1].ypix)==-1)
+            string=string+"left";
+        else
+            string=string+"right";
+        instruction_list.push({xpix:point_list[i].xpix,ypix:point_list[i].ypix,instruction:string})
+        
     }
+    console.log(instruction_list);
+    return instruction_list;
     
     
 }
 
 function autofill_room(result)
 {
+  Sugg = [];
   var rs;
   var auto = [];
     current_bldg=Session.get("bldg");
- for (counter=0;;counter++)
+ for (counter=0;counter < 5;counter++)
     {
   if(result.length == 1)
    rs = Rooms.findOne( { bldg: current_bldg, floor: result, popular: true }, {skip:counter, _id: 0, floor: 1, room: 1});
@@ -292,7 +304,13 @@ function autofill_room(result)
         if (rs==null) break;
          var string=rs.floor+rs.room;
         auto.push(string);
+        Sugg.push(string);
     }
+    if(Sugg.length == 0)
+    {
+        Sugg[0] = "No Match Found";
+    }
+    Session.set("sugg", Sugg);
     console.log(auto);
     return auto;
 }
@@ -408,6 +426,10 @@ if (Meteor.isClient) {
     },
     navTop: function(){
       return Session.get("navTop"); 
+    },
+    getSugg: function(){
+      if(Session.get("navReady") !== 1)
+      return Session.get("sugg");
     }
   });
 
@@ -483,7 +505,7 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: posy-280
+            scrollTop: (posy*320/800-50)+"px"
           }, 800);
         });
         return false;
@@ -548,11 +570,11 @@ if (Meteor.isClient) {
             return false;
          }
 
-        posx= response.xpix;
-        posy= response.ypix;
+        psx= response.xpix;
+        psy= response.ypix;
 
-        Session.set("posX", posx);
-        Session.set("posY", posy);
+        Session.set("posX", psx);
+        Session.set("posY", psy);
         Session.set("destination", re );
         template.find(".search-main").blur();
         $("#search-main")
@@ -563,7 +585,7 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: posy-280
+            scrollTop: (psy*320/800-50)+"px"
           }, 800);
         });
         //drawLine(posx*320/800+'px', posy*320/800+'px', Session.get("posX")*320/800+'px', Session.get("posY")*320/800+'px')
@@ -599,7 +621,42 @@ if (Meteor.isClient) {
     
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px"); 
-    }
+    },
+    
+    'click .setDestination': function(event){
+      
+      
+        var re = event.target.textContent;
+        
+        var f = re.charAt(0);
+        var r = re.substring(1);
+
+        var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+
+        psx= response.xpix;
+        psy= response.ypix;
+
+        Session.set("posX", psx);
+        Session.set("posY", psy);
+        Session.set("destination", re );
+        Sugg = [];
+        Session.set("sugg",Sugg);
+        $("#search-main").blur();
+        $("#search-main")
+          .css("font-weight","bold")
+          .css("font-size","14px");
+        $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");;
+        $("#search-main").val(re);
+        Session.set("navReady",1);
+        
+         $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: (psy*320/800-50)+"px"
+          }, 800);
+        });
+      
+    } 
 
   });
 
