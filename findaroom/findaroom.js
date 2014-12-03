@@ -200,6 +200,12 @@ function find_destination(startx,starty,endx,endy)
     tail=0;
     flags=0;
     
+    if ((startx==endx) && (starty==endy))
+    {
+        queue.push({xpix:startx,ypix:starty,prev:0,distance:0});
+        tail=1;
+    }
+    else
     //console.log(endx,endy);
     while (1)
     {
@@ -214,7 +220,7 @@ function find_destination(startx,starty,endx,endy)
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
             console.log(current.xpix,current.ypix);
-            if (current.xpix==endx && current.ypix==endy)
+            if (current.xpix==endx && current.ypix==endy) 
             {
                 console.log("yes find it!!");
                 flags=1;
