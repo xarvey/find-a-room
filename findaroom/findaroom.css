@@ -511,7 +511,6 @@ header .hide-completed {
   left: 10%;
 }
 
-<<<<<<< HEAD
 .movable{
    -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
@@ -519,7 +518,6 @@ header .hide-completed {
   transition: all 0.4s ease-in-out;
 }
 
-=======
 .plus {
     position: fixed;
     top: 530px;
@@ -540,4 +538,4 @@ header .hide-completed {
     left: 200px;
     z-index:202;
 }
->>>>>>> FETCH_HEAD
+
