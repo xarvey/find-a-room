@@ -1,1 +1,1 @@
-pgsql is more strict, increase the hackiness up to 11
+that's all folks
