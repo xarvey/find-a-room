@@ -44,7 +44,7 @@ if (Meteor.isServer) {
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1130, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1275, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1235, popular: false } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1520, popular: true } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1420, popular: true } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 219, ypix: 1457, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "107", xpix: 250, ypix: 1458, popular: false } );
 
@@ -82,7 +82,7 @@ function closestNode(p)
       if(distance[i] < distance[closest])
           closest = i;
     }
-    l = Lines.findOne( { bldg: "LWSN", floor: "B"}, {skip:closest});
+    l = Lines.findOne( { bldg: "LWSN", floor: "B"},{skip:closest});
     var node = {xpix:l.xpix, ypix:l.ypix};
     var pclose = {xpix:p.xpix, ypix:p.ypix};
     if(Math.abs(pclose.xpix-node.xpix) < Math.abs(pclose.ypix-node.ypix))
@@ -134,14 +134,17 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
     {
         yhat1=y3-y1;
         yhat2=y3-y2;
+
+        alert(yhat1*yhat2);
         if (yhat1*yhat2<0)
             return true;
     }
-    
+
     if ((y3==y1) && (y3==y2))
     {
         xhat1=x3-x1;
         xhat2=x3-x2;
+        alert(xhat1*xhat2);
         if (xhat1*xhat2<0)
             return true;
     }
@@ -149,22 +152,32 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
         return true;
     return false;
 }
+
+function check_the_turn(x0,y0,x1,y1,x2,y2) //1 left -1  right
+{
+    ans=(x1-x0)*(y2-y0)-(x2-x0)*(y1-y0);
+    if (ans>0) return 1;
+    if (ans==0) return 0;
+    if (ans<0) return -1;
+}
 function find_destination(startx,starty,endx,endy)
 {
     start_point=make_point(startx,starty);
     end_point=make_point(endx,endy);
-    
+
+    console.log(start_point.xpix);
+
     startx=closestNode(start_point)[0].xpix;
     starty=closestNode(start_point)[0].ypix;
-    
+
     endx=closestNode(end_point)[0].xpix;
     endy=closestNode(end_point)[0].ypix;
-    
-    
-    
+
+
+
     var queue=[];
     queue.push({coordinate:make_point(startx,starty),prev:0,distance:0});
-    
+
     nowx=startx;
     nowy=starty;
     head=0;
@@ -174,68 +187,83 @@ function find_destination(startx,starty,endx,endy)
         for (counter=0;;counter++)
         {
             var current=Lines.findOne({'$or': [ {'xpix':nowx ,'ypix' : {$ne : nowy} }, { 'ypix': nowy, 'xpix' : {$ne : nowx}}]} ,{skip:counter});  // nowx==xpix xor nowy==ypix
-                                               
+
                                     //make sure the x and y is the same in the future
             if (current==null) break;
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
         }
-        console.log("seriously");
         head+=1;
-        console.log(head);
         nowx=queue[head].xpix;
         nowy=queue[tail].ypix;
     }
-    
+
     now=tail;
     point_list=[];
     point_list.push({xpix:endx,ypix:endy});
     for (counter=0;;counter++)
     {
   //      alert("now "+now+" "+"xpix "+queue[now].xpix+"ypix "+queue[now].ypix);
-     
+
         if (now==0)
             break;
         point_list.unshift({xpix:queue[now].xpix,ypix:queue[now].ypix});
         now=queue[now].prev;
-        
+
         //alert(now);
     }
     point_list.unshift({xpix:startx,ypix:starty});
-    
 
-    
+
+
     length=point_list.length;
     flag=0;
-    
+
     if ((length==2) && (point_list[0].xpix==point_list[1].xpix) && (point_list[0].ypix==point_list[1].ypix))
         flag=1;
-                                                                   
+
     if (on_the_line(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,closestNode(start_point)[1].xpix,closestNode(start_point)[1].ypix)==true || flag==1)
     {
-        point_list[0].xpix=start_point.xpix;
-        point_list[0].ypix=start_point.ypix;
-        
+        point_list[0].xpix=closestNode(start_point)[1].xpix;
+        point_list[0].ypix=closestNode(start_point)[1].ypix;
+
     }
     else
     {
         point_list.unshift({xpix:closestNode(start_point)[1].xpix,ypix:closestNode(start_point)[1].ypix});
     }
-    
+
     if (on_the_line(point_list[length-1].xpix,point_list[length-1].ypix,point_list[length-2].xpix,point_list[length-2].ypix,closestNode(end_point)[1].xpix,closestNode(end_point)[1].ypix)==true || flag==1)
     {
-        point_list[length-1].xpix=end_point.xpix;
-        point_list[length-1].ypix=end_point.ypix;
+        point_list[length-1].xpix=closestNode(end_point)[1].xpix;
+        point_list[length-1].ypix=closestNode(end_point)[1].ypix;
     }
     else
     {
         point_list.push({xpix:closestNode(end_point)[1].xpix,ypix:closestNode(end_point)[1].ypix});
     }
-    
-    //for (i=0; i<point_list.length; i++)
-      //  alert("x: "+point_list[i].xpix+" y: "+point_list[i].ypix);
-    
-    
+
+    //alert("nearest node"+closestNode(start_point)[1].xpix+"y: "+closestNode(start_point)[1].ypix);
+
+    point_list.unshift({xpix:start_point.xpix,ypix:start_point.ypix});
+    point_list.push({xpix:end_point.xpix,ypix:end_point.ypix});
+
+    for (i=1; i<point_list.length-1; i++)
+    {
+       alert(point_list[i].xpix+"  "+point_list[i].ypix); //alert(check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix));
+      if (check_the_turn(point_list[i-1].xpix,point_list[i-1].ypix,point_list[i].xpix,point_list[i].ypix,point_list[i+1].xpix,point_list[i+1].ypix)==-1)
+          string=" TURN FUCKING LEFT ";
+        else
+            string=" TURN FUCKING RIGHT ";
+       if (Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix})!=null)
+         alert(Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+string);
+        else
+            if (i==1)
+            alert("get the fuck out of here and"+string);
+        else alert("go fucking inside!!! You ARE DONE" +string);
+    }
+
+
 }
 
 function autofill_room(result)
@@ -277,36 +305,24 @@ function load()
 
 function drawLine(x1, y1, x2, y2)
 {
-  gCanvas = document.getElementById("draw-line");
+  var ctx = document.getElementById("draw-line").getContext("2d");
   console.log("draw a line");
-  var ctx = gCanvas.getContext("2d");
   ctx.beginPath();
   ctx.moveTo(x1,y1);
   ctx.lineTo(x2,y2);
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 3;
   ctx.strokeStyle = '#4780A6';
+  console.log("x1: "+x1+", y1: "+y1+", x2: "+x2+" y2: "+y2);
   ctx.stroke();
 }
 
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-  find_destination(308,361,396,349);
+  //find_destination(308,361,396,349);
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
-    $(function() {
-    $(window).on('resize', function resize()  {
-        $(window).off('resize', resize);
-        setTimeout(function () {
-            var content = $('#mid-window');
-            console.log("center");
-            var top = (window.innerHeight - content.height()) / 2;
-            content.css('top', Math.max(0, top) + 'px');
-            $(window).on('resize', resize);
-        }, 50);
-    }).resize();
-   });
   };
 
   Meteor.startup(function () {
@@ -314,6 +330,7 @@ if (Meteor.isClient) {
     Session.set("posY", -100);
     Session.set("navTop",-200+"px");
     load();
+
   });
   Meteor.setInterval(function() {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -366,7 +383,7 @@ if (Meteor.isClient) {
       return Session.get("navReady");
     },
     navTop: function(){
-      return Session.get("navTop"); 
+      return Session.get("navTop");
     }
   });
 
@@ -442,7 +459,7 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: posy-280
+            scrollTop: posy*32/80-20
           }, 800);
         });
         return false;
@@ -481,6 +498,8 @@ if (Meteor.isClient) {
           Session.set("navReady",1);
     },
     'submit .search-dest': function(event, template) {
+        var ctx = document.getElementById("draw-line").getContext("2d");
+        ctx.clearRect(0, 0, 320, 743);
         Session.set("scan",1);
         var re = event.target.text.value.replace(/\s+/g, '');
 
@@ -507,25 +526,27 @@ if (Meteor.isClient) {
             return false;
          }
 
-        posx= response.xpix;
-        posy= response.ypix;
+        posx2= response.xpix;
+        posy2= response.ypix;
 
-        Session.set("posX", posx);
-        Session.set("posY", posy);
+        Session.set("posX", posx2);
+        Session.set("posY", posy2);
         Session.set("destination", re );
         template.find(".search-main").blur();
         $("#search-main")
           .css("font-weight","bold")
           .css("font-size","14px");
-        $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");;
+        $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");
         Session.set("navReady",1);
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: posy-280
+            scrollTop: posy2*32/80-20
           }, 800);
         });
-        drawLine(posx*320/800+'px', posy*320/800+'px', Session.get("posX")*320/800+'px', Session.get("posY")*320/800+'px')
+      //  drawLine(140,100,160,30);
+      //  drawLine(posx, posy, posx2, posy2);
+       drawLine(posx/2.35, posy/11.5, posx2/2.5, posy2/11.5);
         return false;
     },
 
@@ -535,14 +556,29 @@ if (Meteor.isClient) {
 
         autofill_room(document.getElementById('search-main').value);
     },
-    
+
     'click .startnav': function(event){
-        Session.set("navTop",0); 
+
+
+        start=Session.get("location");
+        dest=Session.get("destination");
+        var f = start .charAt(0);
+        var r = start.substring(1);
+
+        var start_document = Rooms.findOne( { room: r, floor: f });
+        var f = dest .charAt(0);
+        var r = dest.substring(1);
+
+        var dest_document = Rooms.findOne( { room: r, floor: f });
+        find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
+
+        Session.set("navTop",0);
         Session.set("navReady",0);
+
     },
-    
+
     'click .closebtn': function(event){
-        Session.set("navTop",-200+"px"); 
+        Session.set("navTop",-200+"px");
     }
 
   });

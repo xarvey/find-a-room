@@ -52,7 +52,12 @@ header {
   padding: 20px 15px 15px 15px;
   position: relative;
 }
-
+#draw-line {
+  position: relative;
+  z-index: 21;
+  top: 0%;
+  left: 0%;
+}
 #login-buttons {
   display: block;
 }
@@ -64,7 +69,31 @@ header {
 .mid-wrapper{
   width: 100%;
 }
+.backgnd{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity:0.6;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 16;
+}
+/**.mid-window{
+    width: 250px;
+    height: 150px;
 
+    position: relative;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -150px;
+    background: transparent;
+    background-color: #f1c40f;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 17;
+}**/
 h1 {
   font-size: 1.5em;
   margin: 0;
@@ -84,6 +113,7 @@ form {
   padding: 10px 0;
   background: transparent;
   border: none;
+  /**1px solid black;**/
   width: 100%;
   font-size: 1em;
 }
@@ -241,9 +271,9 @@ header .hide-completed {
 }
 
 .ripple{
-  top:-5px; left:-5px; width:38px; height:38px; opacity: 0.5; background-color: rgba(109, 209, 253, 1); 
+  top:-5px; left:-5px; width:38px; height:38px; opacity: 0.5; background-color: rgba(109, 209, 253, 1);
   border-radius:50%;position:absolute;
-  
+
   -webkit-animation: ripple-animation 1.5s infinite;
 }
 
@@ -268,12 +298,12 @@ header .hide-completed {
 }
 
 .desc{
-  top: -4px; left: -5px; 
-  padding: 4px 8px 4px 25px;  position: absolute; 
+  top: -4px; left: -5px;
+  padding: 4px 8px 4px 25px;  position: absolute;
   -webkit-border-top-left-radius: 40px;
   -webkit-border-bottom-left-radius: 40px;
   -moz-border-radius-topleft: 40px;
-  -moz-border-radius-bottomleft: 40px;  
+  -moz-border-radius-bottomleft: 40px;
   border-top-left-radius: 40px;
   border-bottom-left-radius: 40px;
   opacity: 0.9;
@@ -284,7 +314,7 @@ header .hide-completed {
 }
 
 .dest_desc{
-  background-color: rgb(208, 232, 149); 
+  background-color: rgb(208, 232, 149);
 }
 
 .startbtn{
@@ -301,7 +331,7 @@ header .hide-completed {
   width: 320px;
   height: 568px;
   background-color: rgba(255, 255, 255, 0.7);
-  
+
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
@@ -326,7 +356,7 @@ header .hide-completed {
   top: 40px;
   left: 13px;
 }
-    
+
 .from, .to{
   position: absolute;
   z-index: 104;
@@ -354,7 +384,7 @@ header .hide-completed {
   top: 43px;
   left: 61px;
 }
- 
+
 .toPoint{
   position: absolute;
   z-index: 107;
@@ -382,7 +412,7 @@ header .hide-completed {
 .closebtn{
   z-index: 104;
   position: absolute;
-  background-image: url("closebtn.png");  
+  background-image: url("closebtn.png");
   background-size: contain;
   background-repeat: no-repeat;
   width: 20px;
@@ -426,11 +456,11 @@ header .hide-completed {
 }
 
 .navigation{
-  position: fixed; 
+  position: fixed;
   top: 0px;
   width: 100%;
   z-index: 200;
-  
+
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
