@@ -224,9 +224,17 @@ function find_destination(startx,starty,endx,endy)
     head=0;
     tail=0;
     flags=0;
+    
+    if ((startx==endx) && (starty==endy))
+    {
+        queue.push({xpix:startx,ypix:starty,prev:0,distance:0});
+        tail=1;
+    }
+    else
+    //console.log(endx,endy);
     while (1)
     {
-
+        
 
         for (counter=0;;counter++)
         {
@@ -237,13 +245,13 @@ function find_destination(startx,starty,endx,endy)
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
             console.log(current.xpix,current.ypix);
-            if (current.xpix==endx && current.ypix==endy)
+            if (current.xpix==endx && current.ypix==endy) 
             {
                 console.log("yes find it!!");
                 flags=1;
                 break;
             }
-
+            
         }
         console.log(queue);
         if (flags==1) break;
@@ -305,7 +313,7 @@ function find_destination(startx,starty,endx,endy)
        //alert(point_list[i].xpix+"  "+point_list[i].ypix); //alert(check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix));
         string=""
        if (Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix})!=null)
-         string=Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+" then turn ";
+         string=Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+"then turn";
         else
             if (i==1)
                 string="Go to the hall way, go straight while make sure the room is on your ";
@@ -320,6 +328,7 @@ function find_destination(startx,starty,endx,endy)
     }
     console.log(instruction_list);
     return instruction_list;
+
 
 
 }
