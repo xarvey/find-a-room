@@ -402,7 +402,7 @@ if (Meteor.isClient) {
   };
 
   Meteor.startup(function () {
-    Session.set("width", 150+"%");
+    Session.set("width", 100+"%");
     Session.set("posX", 160);
     Session.set("posY", -100);
     Session.set("curY", -100);
@@ -733,11 +733,11 @@ if (Meteor.isClient) {
         $("#search-main").val(re);
         Session.set("navReady",1);
 
-         $( document ).ready(function() {
+        $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
             scrollTop: (posy2*window.innerWidth/800-50)+"px"
-          }, 800);
+          }, 600);
         });
       
     }
