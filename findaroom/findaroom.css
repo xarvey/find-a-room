@@ -511,3 +511,23 @@ header .hide-completed {
   left: 10%;
 }
 
+.plus {
+    position: fixed;
+    top: 530px;
+    left: 15px;
+    z-index:200;
+}
+
+.minus {
+    position: fixed;
+    top: 530px;
+    left: 45px;
+    z-index:201;
+}
+
+.bafroom {
+    position: fixed;
+    top: 22px;
+    left: 200px;
+    z-index:202;
+}
