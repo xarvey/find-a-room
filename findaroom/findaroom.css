@@ -387,6 +387,7 @@ header .hide-completed {
 
 .description{
   z-index: 103;
+  display: table;
   position: absolute;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.93);
@@ -399,11 +400,12 @@ header .hide-completed {
 }
 
 .nav-text{
+  display: table-cell;
+  vertical-align: middle;
   color: #4D4D4D;
-  position: absolute;
-  top: 14px;
+  position: relative;
   font-size: 13px;
-  width: 195px;
+  width: 210px;
   word-break: break-word;
   left: 14px;
 }
@@ -411,7 +413,7 @@ header .hide-completed {
 .next-btn{
   position: absolute;
   top: 13px;
-  left: 230px;
+  left: 235px;
   padding: 10px 20px;
   border-radius: 5px;
   border-width: 0px;
