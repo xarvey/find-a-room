@@ -31,8 +31,8 @@ if (Meteor.isServer) {
 
       // 40.428189      40.427397           -86.916739,    -86.917201
       //say your GPS passes lat, log. The following should return the string. "LWSN"
-//      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} ); 
-    } 
+//      Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
+    }
     if(Rooms.find().count() == 0) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "160", xpix: 399, ypix: 289, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "158", xpix: 396, ypix: 349, popular: true } );
@@ -93,7 +93,7 @@ function getNearRestroom(p)
     alert(l.xpix);
     alert(l.ypix);
     var node = {xpix:l.xpix, ypix:l.ypix};
-    return node; 
+    return node;
 }
 
 function getPointPercent(p) //get a point and return the percentage.
@@ -132,6 +132,8 @@ function closestNode(p)
     var closePoints= [node,pclose];
     return closePoints; // closest node is [0], the corresponding room pixels is [1];
 }
+
+
 
 function restroom()
 {
@@ -222,11 +224,9 @@ function find_destination(startx,starty,endx,endy)
     head=0;
     tail=0;
     flags=0;
-    
-    //console.log(endx,endy);
     while (1)
     {
-        
+
 
         for (counter=0;;counter++)
         {
@@ -243,7 +243,7 @@ function find_destination(startx,starty,endx,endy)
                 flags=1;
                 break;
             }
-            
+
         }
         console.log(queue);
         if (flags==1) break;
@@ -431,7 +431,7 @@ if (Meteor.isClient) {
     },
 
     current_width: function(){
-      return Session.get("width");     
+      return Session.get("width");
     },
     current_building: function(){
       return Session.get("bldg");
@@ -453,7 +453,7 @@ if (Meteor.isClient) {
     },
 
     getRestRoom: function(){
-      if( Session.get("scan") ) 
+      if( Session.get("scan") )
         return restroom();
 
     },
@@ -482,7 +482,7 @@ if (Meteor.isClient) {
       return Session.get("sugg");
     },
     instruction: function(){
-      
+
       return Session.get("current_ins");
     }
   });
@@ -526,6 +526,53 @@ if (Meteor.isClient) {
         }
       });
     },
+    
+    'click .setDestination': function(event, template)
+    {
+      console.log(event.currentTarget.id);
+      Session.set("scan",1);
+        var re = event.currentTarget.id.replace(/\s+/g, '');
+      
+        var f = re.charAt(0);
+        var r = re.substring(1);
+
+        var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+
+         if(response==undefined){
+        
+            template.find(".search-main").blur();
+           
+            $("#search-main")
+              .css("background-color","rgb(232, 149, 149)")
+              .css("color","rgb(136, 15, 15)")
+              .css("font-weight","bold")
+              .css("font-size","14px");
+            $(".fa-search").css("color","rgb(174, 40, 40)")
+              .addClass("fa-times");
+            Session.set("navReady",0); 
+            Session.set("posX", 160);
+            Session.set("posY", -100);
+           
+            return false;
+         }
+      
+        posx= response.xpix;
+        posy= response.ypix;
+
+        Session.set("posX", posx);
+        Session.set("posY", posy);
+        Session.set("destination", re );
+        template.find(".search-main").blur();
+        $("#search-main")
+          .css("background-color","rgb(208, 232, 149)")
+          .css("color","rgb(100, 136, 15)")
+          .css("font-weight","bold")
+          .css("font-size","14px");
+        $(".fa-search").css("color","rgb(134, 174, 40)").addClass("fa-check");;
+        Session.set("navReady",1);
+        
+        return false;
+    },
     'click .gps': function(){
         // return 0, 0 if the location isn't ready
 
@@ -556,7 +603,7 @@ if (Meteor.isClient) {
         posy= response.ypix; // only know the room and floor
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
-      
+
         Session.set("curX", posx);
         Session.set("curY", posy);
         Session.set("bldg", response.bldg);
@@ -685,19 +732,31 @@ if (Meteor.isClient) {
         var r = dest.substring(1);
 
         var dest_document = Rooms.findOne( { room: r, floor: f });
-      
+
         Session.set("step", 0);
-      
+
         instructions = find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
-        
+
         Session.set("navTop",0);
         Session.set("navReady",0);
         Sugg = [];
         Session.set("sugg", Sugg);
+
         Session.set("width", 150+"%");
-      
+
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
-      
+       console.log(instruction_list);
+
+        var listLen = instruction_list.length;
+        drawLine(posx/1.74,posy/8.5,(instruction_list[0].xpix)/1.74,(instruction_list[0].ypix)/8.5);
+        for(var pdots=0; pdots < listLen-1; pdots++){
+          console.log((instruction_list[pdots].xpix) +" "+(instruction_list[pdots].ypix));
+          console.log(pdots);
+          drawLine((instruction_list[pdots].xpix)/1.74,(instruction_list[pdots].ypix)/8.5,(instruction_list[pdots+1].xpix)/1.74,(instruction_list[pdots+1].ypix)/8.5);
+        }
+        console.log("x1: "+posx+" y1: "+posy);
+        console.log("x2: "+posx2 +" y2: "+posy2);
+       drawLine((instruction_list[listLen-1].xpix)/1.74,(instruction_list[listLen-1].ypix)/8.5,posx2/1.74, posy2/8.5);
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
@@ -705,7 +764,7 @@ if (Meteor.isClient) {
             scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
           }, 600);
         });
-        
+
     },
 
     'click .closebtn': function(event){
@@ -724,7 +783,7 @@ if (Meteor.isClient) {
         Session.set("current_ins", instructions[i+1].instruction);
         Session.set("curX", instructions[i+1].xpix);
         Session.set("curY", instructions[i+1].ypix);
-    
+
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
@@ -765,7 +824,7 @@ if (Meteor.isClient) {
             scrollTop: (posy2*window.innerWidth/800-50)+"px"
           }, 600);
         });
-      
+
     }
 
   });
