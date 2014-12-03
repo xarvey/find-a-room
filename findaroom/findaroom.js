@@ -135,7 +135,7 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
         yhat1=y3-y1;
         yhat2=y3-y2;
         
-        alert(yhat1*yhat2);
+//        alert(yhat1*yhat2);
         if (yhat1*yhat2<0)
             return true;
     }
@@ -144,7 +144,7 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
     {
         xhat1=x3-x1;
         xhat2=x3-x2;
-        alert(xhat1*xhat2);
+      //  alert(xhat1*xhat2);
         if (xhat1*xhat2<0)
             return true;
     }
@@ -248,20 +248,27 @@ function find_destination(startx,starty,endx,endy)
     point_list.unshift({xpix:start_point.xpix,ypix:start_point.ypix});
     point_list.push({xpix:end_point.xpix,ypix:end_point.ypix});
     
+    instruction_list=[]
     for (i=1; i<point_list.length-1; i++)
     {
-       alert(point_list[i].xpix+"  "+point_list[i].ypix); //alert(check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix));
-      if (check_the_turn(point_list[i-1].xpix,point_list[i-1].ypix,point_list[i].xpix,point_list[i].ypix,point_list[i+1].xpix,point_list[i+1].ypix)==-1)
-          string=" TURN FUCKING LEFT ";
-        else
-            string=" TURN FUCKING RIGHT ";
+       //alert(point_list[i].xpix+"  "+point_list[i].ypix); //alert(check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix));
+        string=""
        if (Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix})!=null)
-         alert(Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+string);
+         string=Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+"then turn";
         else
             if (i==1)
-            alert("get the fuck out of here and"+string);
-        else alert("go fucking inside!!! You ARE DONE" +string);
+                string="Go to the hall way, go straight while make sure the room is on your ";
+            else string="The destination is on your " ;
+        
+     if (check_the_turn(point_list[i-1].xpix,point_list[i-1].ypix,point_list[i].xpix,point_list[i].ypix,point_list[i+1].xpix,point_list[i+1].ypix)==-1)
+            string=string+"left";
+        else
+            string=string+"right";
+        instruction_list.push({xpix:point_list[i].xpix,ypix:point_list[i].ypix,instruction:string})
+        
     }
+    console.log(instruction_list);
+    return instruction_list;
     
     
 }
