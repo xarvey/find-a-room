@@ -678,6 +678,14 @@ if (Meteor.isClient) {
         Session.set("sugg", Sugg);
       
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
+      
+        $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
+            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
+          }, 600);
+        });
         
     },
 
