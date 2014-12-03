@@ -65,7 +65,7 @@ if (Meteor.isServer) {
     }
     if(Lines.find().count() == 0) {
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1486, description: "You should see the exit" });
-        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see Room 116" });
+        Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1486, description: "You should see Room 116 " });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 37, description: "You should see a vending machine" });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 487, ypix: 37, description: "You should see the exit" });
     }
@@ -379,7 +379,7 @@ if (Meteor.isClient) {
   };
 
   Meteor.startup(function () {
-    Session.set("width", 150+"%");
+    Session.set("width", 100+"%");
     Session.set("posX", 160);
     Session.set("posY", -100);
     Session.set("curY", -100);
@@ -630,7 +630,8 @@ if (Meteor.isClient) {
 
     'click .startnav': function(event){
 
-
+        Session.set("width", 150+"%");
+      
         start=Session.get("location");
         dest=Session.get("destination");
         var f = start .charAt(0);
@@ -657,6 +658,8 @@ if (Meteor.isClient) {
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
+        Session.set("width", 100+"%");
+    
     },
     'click .next-btn': function(event){
         i = Session.get("step");
