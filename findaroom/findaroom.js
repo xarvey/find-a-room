@@ -144,6 +144,7 @@ function make_point(x,y)
 
 function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1), (x2,y2) ..now only for straight line
 {
+    console.log(x1,y1,x2,y2,x3,y3);
     if ((x3==x1) && (x3==x2))
     {
         yhat1=y3-y1;
@@ -190,14 +191,19 @@ function find_destination(startx,starty,endx,endy)
 
 
     var queue=[];
-    queue.push({coordinate:make_point(startx,starty),prev:0,distance:0});
+    queue.push({xpix:startx,ypix:starty,prev:-1,distance:0});
 
     nowx=startx;
     nowy=starty;
     head=0;
     tail=0;
-    while (nowx!=endx && nowy!=endy)
+    flags=0;
+    
+    //console.log(endx,endy);
+    while (1)
     {
+        
+
         for (counter=0;;counter++)
         {
             var current=Lines.findOne({'$or': [ {'xpix':nowx ,'ypix' : {$ne : nowy} }, { 'ypix': nowy, 'xpix' : {$ne : nowx}}]} ,{skip:counter});  // nowx==xpix xor nowy==ypix
@@ -206,33 +212,40 @@ function find_destination(startx,starty,endx,endy)
             if (current==null) break;
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
+            console.log(current.xpix,current.ypix);
+            if (current.xpix==endx && current.ypix==endy)
+            {
+                console.log("yes find it!!");
+                flags=1;
+                break;
+            }
+            
         }
+        console.log(queue);
+        if (flags==1) break;
         head+=1;
         nowx=queue[head].xpix;
-        nowy=queue[tail].ypix;
+        nowy=queue[head].ypix;
     }
 
     now=tail;
     point_list=[];
-    point_list.push({xpix:endx,ypix:endy});
     for (counter=0;;counter++)
     {
   //      alert("now "+now+" "+"xpix "+queue[now].xpix+"ypix "+queue[now].ypix);
 
-        if (now==0)
+        if (now==-1)
             break;
         point_list.unshift({xpix:queue[now].xpix,ypix:queue[now].ypix});
         now=queue[now].prev;
 
         //alert(now);
     }
-    point_list.unshift({xpix:startx,ypix:starty});
-
 
 
     length=point_list.length;
     flag=0;
-
+    console.log(point_list,length);
     if ((length==2) && (point_list[0].xpix==point_list[1].xpix) && (point_list[0].ypix==point_list[1].ypix))
         flag=1;
 
@@ -389,6 +402,10 @@ if (Meteor.isClient) {
     current_map: function(){
       return Session.get("mapimg");
     },
+      
+    current_width:function(){
+       return Session.get("current_width");   
+    },
     current_building: function(){
       return Session.get("bldg");
     },
@@ -460,6 +477,7 @@ if (Meteor.isClient) {
                 Session.set("bldg", split[0]);
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
                 Session.set("location", split[2] );
+                
 
               }
           };
@@ -504,6 +522,7 @@ if (Meteor.isClient) {
         Session.set("curY", posy);
         Session.set("bldg", response.bldg);
         Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
+        Session.set("current-width",800);
         Session.set("location", result );
         $( document ).ready(function() {
           console.log( "ready!" );
