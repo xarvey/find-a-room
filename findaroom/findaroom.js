@@ -783,6 +783,11 @@ if (Meteor.isClient) {
     'click .next-btn': function(event){
         i = Session.get("step");
         Session.set("step",i+1);
+      
+        if( i+2 >= instructions.length ){
+          $(".next-btn").html("Done");
+        }
+      
         if( i+1 >= instructions.length ){
           Session.set("navTop",-200+"px");
           Session.set("width", 100+"%");
