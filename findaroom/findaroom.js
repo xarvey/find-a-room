@@ -14,7 +14,6 @@ var current_bldg_img;
 
 var helper = [];
 var toBeHelped = [];
-
 var Sugg = [];
 
 var mapcanvas = null;
@@ -82,6 +81,7 @@ function getPointPercent(p) //get a point and return the percentage.
 }
 
 // function finding a point () say given a point p {int xpix, int ypix}
+
 function closestNode(p)
 {
     var l;
@@ -148,12 +148,12 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
     {
         yhat1=y3-y1;
         yhat2=y3-y2;
-        
+
 //        alert(yhat1*yhat2);
         if (yhat1*yhat2<0)
             return true;
     }
-    
+
     if ((y3==y1) && (y3==y2))
     {
         xhat1=x3-x1;
@@ -169,7 +169,7 @@ function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1)
 
 function check_the_turn(x0,y0,x1,y1,x2,y2) //1 left -1  right
 {
-    ans=(x1-x0)*(y2-y0)-(x2-x0)*(y1-y0);   
+    ans=(x1-x0)*(y2-y0)-(x2-x0)*(y1-y0);
     if (ans>0) return 1;
     if (ans==0) return 0;
     if (ans<0) return -1;
@@ -178,20 +178,20 @@ function find_destination(startx,starty,endx,endy)
 {
     start_point=make_point(startx,starty);
     end_point=make_point(endx,endy);
-    
+
     console.log(start_point.xpix);
-    
+
     startx=closestNode(start_point)[0].xpix;
     starty=closestNode(start_point)[0].ypix;
-    
+
     endx=closestNode(end_point)[0].xpix;
     endy=closestNode(end_point)[0].ypix;
-    
-    
-    
+
+
+
     var queue=[];
     queue.push({coordinate:make_point(startx,starty),prev:0,distance:0});
-    
+
     nowx=startx;
     nowy=starty;
     head=0;
@@ -201,7 +201,7 @@ function find_destination(startx,starty,endx,endy)
         for (counter=0;;counter++)
         {
             var current=Lines.findOne({'$or': [ {'xpix':nowx ,'ypix' : {$ne : nowy} }, { 'ypix': nowy, 'xpix' : {$ne : nowx}}]} ,{skip:counter});  // nowx==xpix xor nowy==ypix
-                                               
+
                                     //make sure the x and y is the same in the future
             if (current==null) break;
             tail+=1;
@@ -211,42 +211,42 @@ function find_destination(startx,starty,endx,endy)
         nowx=queue[head].xpix;
         nowy=queue[tail].ypix;
     }
-    
+
     now=tail;
     point_list=[];
     point_list.push({xpix:endx,ypix:endy});
     for (counter=0;;counter++)
     {
   //      alert("now "+now+" "+"xpix "+queue[now].xpix+"ypix "+queue[now].ypix);
-     
+
         if (now==0)
             break;
         point_list.unshift({xpix:queue[now].xpix,ypix:queue[now].ypix});
         now=queue[now].prev;
-        
+
         //alert(now);
     }
     point_list.unshift({xpix:startx,ypix:starty});
-    
 
-    
+
+
     length=point_list.length;
     flag=0;
-    
+
     if ((length==2) && (point_list[0].xpix==point_list[1].xpix) && (point_list[0].ypix==point_list[1].ypix))
         flag=1;
-                                                                   
+
     if (on_the_line(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,closestNode(start_point)[1].xpix,closestNode(start_point)[1].ypix)==true || flag==1)
     {
         point_list[0].xpix=closestNode(start_point)[1].xpix;
         point_list[0].ypix=closestNode(start_point)[1].ypix;
-        
+
     }
     else
     {
         point_list.unshift({xpix:closestNode(start_point)[1].xpix,ypix:closestNode(start_point)[1].ypix});
     }
-    
+
     if (on_the_line(point_list[length-1].xpix,point_list[length-1].ypix,point_list[length-2].xpix,point_list[length-2].ypix,closestNode(end_point)[1].xpix,closestNode(end_point)[1].ypix)==true || flag==1)
     {
         point_list[length-1].xpix=closestNode(end_point)[1].xpix;
@@ -256,12 +256,12 @@ function find_destination(startx,starty,endx,endy)
     {
         point_list.push({xpix:closestNode(end_point)[1].xpix,ypix:closestNode(end_point)[1].ypix});
     }
-    
+
     //alert("nearest node"+closestNode(start_point)[1].xpix+"y: "+closestNode(start_point)[1].ypix);
-    
+
     point_list.unshift({xpix:start_point.xpix,ypix:start_point.ypix});
     point_list.push({xpix:end_point.xpix,ypix:end_point.ypix});
-    
+
     instruction_list=[]
     for (i=1; i<point_list.length-1; i++)
     {
@@ -273,18 +273,18 @@ function find_destination(startx,starty,endx,endy)
             if (i==1)
                 string="Go to the hall way, go straight while make sure the room is on your ";
             else string="The destination is on your " ;
-        
+
      if (check_the_turn(point_list[i-1].xpix,point_list[i-1].ypix,point_list[i].xpix,point_list[i].ypix,point_list[i+1].xpix,point_list[i+1].ypix)==-1)
             string=string+"left";
         else
             string=string+"right";
         instruction_list.push({xpix:point_list[i].xpix,ypix:point_list[i].ypix,instruction:string})
-        
+
     }
     console.log(instruction_list);
     return instruction_list;
-    
-    
+
+
 }
 
 function autofill_room(result)
@@ -333,14 +333,14 @@ function load()
 
 function drawLine(x1, y1, x2, y2)
 {
-  gCanvas = document.getElementById("draw-line");
+  var ctx = document.getElementById("draw-line").getContext("2d");
   console.log("draw a line");
-  var ctx = gCanvas.getContext("2d");
   ctx.beginPath();
   ctx.moveTo(x1,y1);
   ctx.lineTo(x2,y2);
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 3;
   ctx.strokeStyle = '#4780A6';
+  console.log("x1: "+x1+", y1: "+y1+", x2: "+x2+" y2: "+y2);
   ctx.stroke();
 }
 
@@ -372,7 +372,7 @@ if (Meteor.isClient) {
     Session.set("curX", 0);
     Session.set("navTop",-200+"px");
     load();
-    
+
   });
   Meteor.setInterval(function() {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -426,7 +426,7 @@ if (Meteor.isClient) {
       return Session.get("navReady");
     },
     navTop: function(){
-      return Session.get("navTop"); 
+      return Session.get("navTop");
     },
     getSugg: function(){
       if(Session.get("navReady") !== 1)
@@ -573,11 +573,11 @@ if (Meteor.isClient) {
             return false;
          }
 
-        psx= response.xpix;
-        psy= response.ypix;
+        posx2= response.xpix;
+        posy2= response.ypix;
 
-        Session.set("posX", psx);
-        Session.set("posY", psy);
+        Session.set("posX", posx2);
+        Session.set("posY", posy2);
         Session.set("destination", re );
         template.find(".search-main").blur();
         $("#search-main")
@@ -588,10 +588,10 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: (psy*320/800-50)+"px"
+            scrollTop: (posy2*320/800-50)+"px"
           }, 800);
         });
-        //drawLine(posx*320/800+'px', posy*320/800+'px', Session.get("posX")*320/800+'px', Session.get("posY")*320/800+'px')
+        //drawLine(posx/2.5, posy/8, posx2/2.5, posy2/8);
         return false;
     },
 
@@ -601,10 +601,10 @@ if (Meteor.isClient) {
 
         autofill_room(document.getElementById('search-main').value);
     },
-    
+
     'click .startnav': function(event){
-        
-        
+
+
         start=Session.get("location");
         dest=Session.get("destination");
         var f = start .charAt(0);
@@ -616,23 +616,23 @@ if (Meteor.isClient) {
 
         var dest_document = Rooms.findOne( { room: r, floor: f });
         find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
-        
-        Session.set("navTop",0); 
+
+        Session.set("navTop",0);
         Session.set("navReady",0);
         Sugg = [];
         Session.set("sugg", Sugg);
         
     },
-    
+
     'click .closebtn': function(event){
-        Session.set("navTop",-200+"px"); 
+        Session.set("navTop",-200+"px");
     },
-    
+
     'click .setDestination': function(event){
-      
-      
+
+
         var re = event.target.textContent;
-        
+
         var f = re.charAt(0);
         var r = re.substring(1);
 
@@ -653,15 +653,14 @@ if (Meteor.isClient) {
         $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");;
         $("#search-main").val(re);
         Session.set("navReady",1);
-        
+
          $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: (psy*320/800-50)+"px"
+            scrollTop: (posy2*320/800-50)+"px"
           }, 800);
         });
-      
-    } 
+    }
 
   });
 
