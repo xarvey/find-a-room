@@ -305,7 +305,7 @@ function find_destination(startx,starty,endx,endy)
        //alert(point_list[i].xpix+"  "+point_list[i].ypix); //alert(check_the_turn(point_list[0].xpix,point_list[0].ypix,point_list[1].xpix,point_list[1].ypix,point_list[2].xpix,point_list[2].ypix));
         string=""
        if (Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix})!=null)
-         string=Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+"then turn";
+         string=Lines.findOne({xpix:point_list[i].xpix,ypix:point_list[i].ypix}).description+" then turn ";
         else
             if (i==1)
                 string="Go to the hall way, go straight while make sure the room is on your ";
