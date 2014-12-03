@@ -511,6 +511,7 @@ header .hide-completed {
   left: 10%;
 }
 
+<<<<<<< HEAD
 .movable{
    -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
@@ -518,3 +519,25 @@ header .hide-completed {
   transition: all 0.4s ease-in-out;
 }
 
+=======
+.plus {
+    position: fixed;
+    top: 530px;
+    left: 15px;
+    z-index:200;
+}
+
+.minus {
+    position: fixed;
+    top: 530px;
+    left: 45px;
+    z-index:201;
+}
+
+.bafroom {
+    position: fixed;
+    top: 22px;
+    left: 200px;
+    z-index:202;
+}
+>>>>>>> FETCH_HEAD

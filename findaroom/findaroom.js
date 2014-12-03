@@ -76,8 +76,8 @@ function getNearRestroom(p)
 {
     var l;
     var distance = new Array(2);
-    alert(p.xpix);
-    alert(p.ypix);
+    //alert(p.xpix);
+    //alert(p.ypix);
     for(i=0; i < 2; i++) {
       l = Facilities.findOne( { bldg: "LWSN", type:"Restroom"}, {skip:i});
       if (l == null)  break;
@@ -90,8 +90,8 @@ function getNearRestroom(p)
     }
 
     l = Facilities.findOne( { bldg: "LWSN", floor: "B", type:"Restroom"},{skip:closest});
-    alert(l.xpix);
-    alert(l.ypix);
+    //alert(l.xpix);
+    //alert(l.ypix);
     var node = {xpix:l.xpix, ypix:l.ypix};
     return node;
 }
@@ -843,6 +843,50 @@ if (Meteor.isClient) {
           }, 600);
         });
 
+    },
+
+
+    
+    'click .plus' : function()
+    {
+        var zoom = parseInt(Session.get("width"));
+        console.log("Minus");
+        console.log(zoom);
+        Session.set("width", (zoom+10)+"%");
+    },
+    
+    'click .minus' : function()
+    {
+        var zoom = parseInt(Session.get("width"));
+        console.log("Minus");
+        console.log(zoom);
+        Session.set("width", (zoom-10)+"%");
+    },
+    
+    'click .bafroom' : function()
+    {
+        var point = make_point(Session.get("curX"), Session.get("curY"));
+        var bathroom = getNearRestroom(point);
+        console.log(bathroom);
+        console.log("Getting nearest Bathroom");
+        Session.set("step", 0);
+        instructions = find_destination(Session.get("curX"), Session.get("curY"), bathroom.xpix, bathroom.ypix);
+      
+        Session.set("navTop",0);
+        Session.set("navReady",0);
+        Sugg = [];
+        Session.set("sugg", Sugg);
+      
+        Session.set("current_ins", instructions[Session.get("step")].instruction  );
+        
+        $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
+            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
+          }, 600);
+        });
+      
     }
 
   });
