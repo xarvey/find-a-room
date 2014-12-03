@@ -72,6 +72,29 @@ if (Meteor.isServer) {
   })
 }
 
+function getNearRoom(p)
+{
+
+  var l;
+  var distance = new Array(18);
+  for(i=0; i<18; i++) {
+      l = Rooms.findOne( { bldg: "LWSN", floor: "B"}, {skip:i});
+      if (l == null)  break;
+      distance[i] = (Math.sqrt((l.xpix-p.xpix)*(l.xpix-p.xpix)+(l.ypix - p.ypix)*(l.ypix - p.ypix)));
+    }
+    var closest = 0;
+    for(i = 1; i < 18; i++) {
+      if(distance[i] < distance[closest])
+          closest = i;
+    }
+
+    l = Rooms.findOne( { bldg: "LWSN", floor: "B"},{skip:closest});
+    //alert(l.xpix);
+    //alert(l.ypix);
+    var node = {room:l.floor+l.room,xpix:l.xpix, ypix:l.ypix};
+    return node;
+}
+
 function getNearRestroom(p)
 {
     var l;
@@ -499,7 +522,6 @@ if (Meteor.isClient) {
 
   Template.home.events({
     'click .scan-qr': function() {
-
       MeteorCamera.getPicture({width: window.innerWidth}, function(error, data) {
         if (error)
           alert(error.reason);
