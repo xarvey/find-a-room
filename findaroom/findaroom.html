@@ -34,7 +34,7 @@
     <input type="text" name="text" style="text-align:center" placeholder="Or type your current location here" />
   </form>
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
-  
+
   {{else}}
 
   <div class="navigation" style="top:{{navTop}}">
@@ -53,7 +53,7 @@
       <button class="next-btn">Next</button>
     </div>
   </div>
-  
+
   <div class="topbar">
     <div class="title">{{current_building}}</div>
     <span class="fa fa-search fa-lg" style="color: rgb(231, 231, 231);top: 77px;position: absolute;z-index: 100;left: 15px;"></span>
@@ -68,18 +68,19 @@
   <!-- <img src = {{current_map}} width="100%"/> -->
   <!-- <canvas id="map_canvas" width="800" height="1809"></canvas> -->
   <div class="mapbg" style="position: absolute">
-    
+
     <div class="something" style="position: fixed; top: 105px">
     {{#each getSugg}}
         <button class="setDestination" style="background-color: rgba(255,255,255,0.93); border:0px; width:100%; padding-top:15px; padding-bottom: 15px;box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.8);
   -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.8);
   -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.8);
   -webkit-appearance: none;margin: 0" id={{this}}>{{this}}</button>
-        
+
     {{/each}}
     </div>
-    
+
     <div class="mapoverlay" style="opacity: {{navReady}};"></div>
+    <canvas id="draw-line" style ="position:absolute; background-color: transparent;width:320px; height:743px" ></canvas>
     <img src = {{current_map}} width="100%" />
     <!--<canvas id="draw-line" width="100%" height="150%" style ="position:absolute; background-color: transparent;" ></canvas> -->
     <div class="point_container" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute;">
@@ -126,5 +127,5 @@
 
 
   {{/unless}}
-  
+
 </template>
