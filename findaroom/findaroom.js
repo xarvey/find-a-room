@@ -123,8 +123,8 @@ function restroom()
 //    alert(current.ypix);
 
     locations_coordinate.push(
-        {"xpix":current.xpix*320/800+"px",
-         "ypix":current.ypix*320/800+"px"
+        {"xpix":current.xpix*window.innerWidth/800+"px",
+         "ypix":current.ypix*window.innerWidth/800+"px"
         })
     }
    // alert(locations_coordinate[0].xpix);
@@ -142,7 +142,7 @@ function make_point(x,y)
     return coordinate;
 }
 
-function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1), (x2,y2) now only for straight line
+function on_the_line(x1,y1,x2,y2,x3,y3) //check if (x3,y3) is on segment (x1,y1), (x2,y2) ..now only for straight line
 {
     if ((x3==x1) && (x3==x2))
     {
@@ -347,7 +347,6 @@ function drawLine(x1, y1, x2, y2)
 // simple-todos.js
 if (Meteor.isClient) {
   // This code only runs on the client
-  //find_destination(308,361,396,349);
   Template.home.created = function(){
     if(Session.get("scan")==1)
       drawStuff();
@@ -395,11 +394,16 @@ if (Meteor.isClient) {
       return Session.get("scan");
     },
 
-    getPosX: function(){
-      return posx*320/800+'px';
+    getPosX: function(template){
+        
+        alert($(".map_bg").clientWidth );
+      return posx* window.innerWidth/800+'px';
+        
+        //window.innerWidth... phone screen 800...picture width
+        
     },
     getPosY: function(){
-      return posy*320/800+'px';
+      return posy*window.innerWidth/800+'px';
     },
 
     getRestRoom: function(){
@@ -407,10 +411,10 @@ if (Meteor.isClient) {
     },
 
     getDesX: function(){
-      return Session.get("posX")*320/800+'px';
+      return Session.get("posX")*window.innerWidth/800+'px';
     },
     getDesY: function(){
-      return Session.get("posY")*320/800+'px';
+      return Session.get("posY")*window.innerWidth/800+'px';
     },
 
     nameCur: function(){
@@ -435,7 +439,7 @@ if (Meteor.isClient) {
   Template.home.events({
     'click .scan-qr': function() {
 
-      MeteorCamera.getPicture({width: 320}, function(error, data) {
+      MeteorCamera.getPicture({width: window.innerWidth}, function(error, data) {
         if (error)
           alert(error.reason);
         else{
@@ -503,7 +507,7 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: (posy*320/800-50)+"px"
+            scrollTop: (posy*window.innerWidth/800-50)+"px"
           }, 800);
         });
         return false;
@@ -583,10 +587,10 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: (psy*320/800-50)+"px"
+            scrollTop: (psy*window.innerWidth/800-50)+"px"
           }, 800);
         });
-        //drawLine(posx*320/800+'px', posy*320/800+'px', Session.get("posX")*320/800+'px', Session.get("posY")*320/800+'px')
+        //drawLine(posx*window.innerWidth/800+'px', posy*window.innerWidth/800+'px', Session.get("posX")*window.innerWidth/800+'px', Session.get("posY")*window.innerWidth/800+'px')
         return false;
     },
 
@@ -650,7 +654,7 @@ if (Meteor.isClient) {
          $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: (psy*320/800-50)+"px"
+            scrollTop: (psy*window.innerWidth/800-50)+"px"
           }, 800);
         });
       
