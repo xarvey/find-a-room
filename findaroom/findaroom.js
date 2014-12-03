@@ -68,6 +68,7 @@ if (Meteor.isServer) {
 }
 
 // function finding a point () say given a point p {int xpix, int ypix}
+
 function closestNode(p)
 {
     var l;
