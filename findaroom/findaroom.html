@@ -41,9 +41,9 @@
   
   <div class="navigation" style="top:{{navTop}}">
     <div class="navigation-title">
-      <div class="fromPlace">B158</div>
+      <div class="fromPlace">{{nameCur}}</div>
       <div class="from">from</div>
-      <div class="toPlace">B131</div>
+      <div class="toPlace">{{nameDes}}</div>
       <div class="to">to</div>
       <div class="fromPoint"></div>
       <div class="toPoint"></div>
@@ -79,7 +79,9 @@
     </div>
 
     <div class="mapoverlay" style="opacity: {{navReady}};"></div>
+    {{#if curX}}
     <canvas id="draw-line" style ="position:absolute; background-color: transparent;width:320px; height:743px" ></canvas>
+    {{/if}}
     <img class=map_bg src = {{current_map}} width="100%" />
     <!--<canvas id="draw-line" width="100%" height="150%" style ="position:absolute; background-color: transparent;" ></canvas> -->
     <div class="point_container" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute;">
