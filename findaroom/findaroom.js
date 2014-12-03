@@ -417,6 +417,7 @@ if (Meteor.isClient) {
     Session.set("curY", -100);
     Session.set("curX", 0);
     Session.set("navTop",-200+"px");
+    Session.set("scanned", 0);
     load();
 
   });
@@ -433,6 +434,7 @@ if (Meteor.isClient) {
   }); **/
 
   Template.home.helpers({
+    
     current_map: function(){
       return Session.get("mapimg");
     },
@@ -444,7 +446,7 @@ if (Meteor.isClient) {
       return Session.get("bldg");
     },
     scanned: function(){
-      return Session.get("scan");
+      return 1 - Session.get("scan");
     },
     getCurX: function() {
       return Session.get("curX");
@@ -520,7 +522,11 @@ if (Meteor.isClient) {
                 Session.set("bldg", split[0]);
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
                 Session.set("location", split[2] );
-
+                
+                $('html, body').css({
+                    'overflow': 'auto',
+                    'height': 'auto'
+                });
 
               }
           };
@@ -619,6 +625,14 @@ if (Meteor.isClient) {
             scrollTop: (posy*window.innerWidth/800-50)+"px"
           }, 800);
         });
+      
+        $('html, body').css({
+            'overflow': 'default',
+            'height': 'default'
+        });
+      
+        $("#new-task").blur();
+      
         return false;
     },
 
@@ -627,6 +641,10 @@ if (Meteor.isClient) {
         Session.set("posX", 160);
         Session.set("posY", -100);
         Session.set("navReady",0);
+        $('html, body').css({
+            'overflow': 'hidden',
+            'height': '100%'
+        });
     },
     'blur .search-dest': function(){
         $(".fa-search")
@@ -733,6 +751,8 @@ if (Meteor.isClient) {
         Sugg = [];
         Session.set("sugg", Sugg);
 
+        Session.set("width", 150+"%");
+
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
        console.log(instruction_list);
 
@@ -758,10 +778,17 @@ if (Meteor.isClient) {
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
+        Session.set("width", 100+"%");
     },
     'click .next-btn': function(event){
         i = Session.get("step");
         Session.set("step",i+1);
+        if( i+1 >= instructions.length ){
+          Session.set("navTop",-200+"px");
+          Session.set("width", 100+"%");
+          Session.set("location", Session.get("destination"));
+          return ;
+        }
         Session.set("current_ins", instructions[i+1].instruction);
         Session.set("curX", instructions[i+1].xpix);
         Session.set("curY", instructions[i+1].ypix);
