@@ -62,7 +62,7 @@ if (Meteor.isServer) {
          Facilities.insert({ bldg: "LWSN", floor: "B",type:"Exit",room:"0", xpix: 492, ypix: 33 }); //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",type:"Elevator",room:"1", xpix: 317, ypix: 800 });    //elevator
 
-    }
+    } 
     if(Lines.find().count() == 0) {
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1490, description: "You should see the exit" });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1490, description: "You should see Room 116" });
