@@ -11,13 +11,11 @@ var Lines = new Meteor.Collection("lines"); // for navigation.
 var Messages = new Meteor.Collection("messages"); // for public messages.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
-<<<<<<< HEAD
 
 var helper = [];
 var toBeHelped = [];
-=======
+
 var Sugg = [];
->>>>>>> 4b8979ddaae41124b93c2b96a93731b5b39d7da5
 
 var mapcanvas = null;
     mapcontext = null;
@@ -370,6 +368,8 @@ if (Meteor.isClient) {
   Meteor.startup(function () {
     Session.set("posX", 160);
     Session.set("posY", -100);
+    Session.set("curY", -100);
+    Session.set("curX", 0);
     Session.set("navTop",-200+"px");
     load();
     
@@ -398,14 +398,15 @@ if (Meteor.isClient) {
     },
 
     getPosX: function(){
-      return posx*320/800+'px';
+      return Session.get("curX")*320/800+'px';
     },
     getPosY: function(){
-      return posy*320/800+'px';
+      return Session.get("curY")*320/800+'px';
     },
 
     getRestRoom: function(){
-      return restroom();
+      if( Session.get("scan") )
+        return restroom();
     },
 
     getDesX: function(){
@@ -498,7 +499,9 @@ if (Meteor.isClient) {
         posy= response.ypix; // only know the room and floor
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
-
+      
+        Session.set("curX", posx);
+        Session.set("curY", posy);
         Session.set("bldg", response.bldg);
         Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
         Session.set("location", result );
@@ -616,6 +619,8 @@ if (Meteor.isClient) {
         
         Session.set("navTop",0); 
         Session.set("navReady",0);
+        Sugg = [];
+        Session.set("sugg", Sugg);
         
     },
     
