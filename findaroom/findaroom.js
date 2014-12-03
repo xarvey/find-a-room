@@ -775,7 +775,7 @@ if (Meteor.isClient) {
 
         Session.set("width", 150+"%");
       
-        $('#point_container').addClass('.movable');
+        $(".next-btn").html("Next");
 
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
        console.log(instruction_list);
@@ -801,7 +801,6 @@ if (Meteor.isClient) {
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
-        $('#point_container').removeClass("movable");
         Session.set("width", 100+"%");
     },
     'click .next-btn': function(event){
@@ -814,7 +813,6 @@ if (Meteor.isClient) {
       
         if( i+1 >= instructions.length ){
           Session.set("navTop",-200+"px");
-          $('#point_container').removeClass("movable");
           Session.set("width", 100+"%");
           Session.set("location", Session.get("destination"));
           return ;
