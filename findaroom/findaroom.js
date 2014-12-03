@@ -40,7 +40,7 @@ if (Meteor.isServer) {
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "153", xpix: 306, ypix: 490, popular: false } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "151", xpix: 312, ypix: 635, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "148", xpix: 401, ypix: 666, popular: true } );
-      Rooms.insert( { bldg: "LWSN", floor: "B", room: "146", xpix: 401, ypix: 705, popular: true } );
+      Rooms.insert( { bldg: "LWSN", floor: "B", room: "146", xpix: 401, ypix: 755, popular: true } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "138", xpix: 392, ypix: 924, popular: false } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "136", xpix: 398, ypix: 1000, popular: false } );
       Rooms.insert( { bldg: "LWSN", floor: "B", room: "134", xpix: 428, ypix: 1030, popular: true } );
@@ -49,8 +49,8 @@ if (Meteor.isServer) {
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1130, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1275, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1235, popular: false } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1420, popular: true } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 219, ypix: 1457, popular: false } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1700, popular: true } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 219, ypix: 1500, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "107", xpix: 250, ypix: 1458, popular: false } );
 
     }
@@ -660,6 +660,18 @@ if (Meteor.isClient) {
       
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
         
+        console.log( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100)) ));
+        console.log( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100)) ));
+                    
+      
+        $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
+            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
+          }, 400);
+        });
+        
     },
 
     'click .closebtn': function(event){
@@ -701,7 +713,7 @@ if (Meteor.isClient) {
          $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: (posy2*window.innerWidth/800-50)+"px"
+            scrollTop: (psy*window.innerWidth/800-50)+"px"
           }, 800);
         });
       
