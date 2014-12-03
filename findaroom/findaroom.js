@@ -753,7 +753,7 @@ if (Meteor.isClient) {
 
         Session.set("width", 150+"%");
       
-        $('point_container').css('transition', 'all .4s');
+        $('#point_container').addClass('.movable');
 
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
        console.log(instruction_list);
@@ -765,9 +765,8 @@ if (Meteor.isClient) {
           console.log(pdots);
           drawLine((instruction_list[pdots].xpix)/1.74,(instruction_list[pdots].ypix)/8.5,(instruction_list[pdots+1].xpix)/1.74,(instruction_list[pdots+1].ypix)/8.5);
         }
-        console.log("x1: "+posx+" y1: "+posy);
-        console.log("x2: "+posx2 +" y2: "+posy2);
-       drawLine((instruction_list[listLen-1].xpix)/1.74,(instruction_list[listLen-1].ypix)/8.5,posx2/1.74, posy2/8.5);
+        
+        drawLine((instruction_list[listLen-1].xpix)/1.74,(instruction_list[listLen-1].ypix)/8.5,Session.get("posX")/1.74, Session.get("posY")/8.5);
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
@@ -780,7 +779,7 @@ if (Meteor.isClient) {
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
-        $('point_container').css('transition', 'none');
+        $('#point_container').removeClass("movable");
         Session.set("width", 100+"%");
     },
     'click .next-btn': function(event){
@@ -793,7 +792,7 @@ if (Meteor.isClient) {
       
         if( i+1 >= instructions.length ){
           Session.set("navTop",-200+"px");
-          $('point_container').css('transition', 'none');
+          $('#point_container').removeClass("movable");
           Session.set("width", 100+"%");
           Session.set("location", Session.get("destination"));
           return ;
@@ -830,16 +829,17 @@ if (Meteor.isClient) {
         Session.set("sugg",Sugg);
         $("#search-main").blur();
         $("#search-main")
+          .css("background-color","white")
           .css("font-weight","bold")
           .css("font-size","14px");
-        $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");;
+        $(".fa-search").css("color","rgb(195, 219, 137)").removeClass("fa-times").addClass("fa-check");;
         $("#search-main").val(re);
         Session.set("navReady",1);
 
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: (posy2*window.innerWidth/800-50)+"px"
+            scrollTop: (psy*window.innerWidth/800-50)+"px"
           }, 600);
         });
 
