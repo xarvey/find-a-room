@@ -396,24 +396,12 @@ if (Meteor.isClient) {
       return Session.get("scan");
     },
 
-<<<<<<< HEAD
-    getPosX: function(template){
-        
-        alert($(".map_bg").clientWidth );
-      return posx* window.innerWidth/800+'px';
-        
-        //window.innerWidth... phone screen 800...picture width
-        
-    },
-    getPosY: function(){
-      return posy*window.innerWidth/800+'px';
-=======
+ 
     getPosX: function(){
-      return Session.get("curX")*320/800+'px';
+      return Session.get("curX")*window.innerWidth/800+'px';
     },
     getPosY: function(){
-      return Session.get("curY")*320/800+'px';
->>>>>>> 3a18115603617a62260496b0fc24ed5b8e9bd129
+      return Session.get("curY")*window.innerWidth/800+'px';
     },
 
     getRestRoom: function(){
@@ -600,17 +588,10 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-<<<<<<< HEAD
-            scrollTop: (psy*window.innerWidth/800-50)+"px"
+            scrollTop: (posy2*window.innerWidth/800-50)+"px"
           }, 800);
         });
-        //drawLine(posx*window.innerWidth/800+'px', posy*window.innerWidth/800+'px', Session.get("posX")*window.innerWidth/800+'px', Session.get("posY")*window.innerWidth/800+'px')
-=======
-            scrollTop: (posy2*320/800-50)+"px"
-          }, 800);
-        });
-        //drawLine(posx/2.5, posy/8, posx2/2.5, posy2/8);
->>>>>>> 3a18115603617a62260496b0fc24ed5b8e9bd129
+        //drawLine(posx/2.5, posy/8, posx2/2.5, posy2/8
         return false;
     },
 
@@ -676,11 +657,7 @@ if (Meteor.isClient) {
          $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-<<<<<<< HEAD
-            scrollTop: (psy*window.innerWidth/800-50)+"px"
-=======
-            scrollTop: (posy2*320/800-50)+"px"
->>>>>>> 3a18115603617a62260496b0fc24ed5b8e9bd129
+            scrollTop: (posy2*window.innerWidth/800-50)+"px"
           }, 800);
         });
     }
