@@ -272,7 +272,7 @@ function autofill_room(result)
   var rs;
   var auto = [];
     current_bldg=Session.get("bldg");
- for (counter=0;;counter++)
+ for (counter=0;counter < 5;counter++)
     {
   if(result.length == 1)
    rs = Rooms.findOne( { bldg: current_bldg, floor: result, popular: true }, {skip:counter, _id: 0, floor: 1, room: 1});
