@@ -688,6 +688,16 @@ if (Meteor.isClient) {
         i = Session.get("step");
         Session.set("step",i+1);
         Session.set("current_ins", instructions[i+1].instruction);
+        Session.set("curX", instructions[i+1].xpix);
+        Session.set("curY", instructions[i+1].ypix);
+    
+        $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
+            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
+          }, 600);
+        });
     },
     'click .setDestination': function(event){
 
