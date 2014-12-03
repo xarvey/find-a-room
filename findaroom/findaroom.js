@@ -72,6 +72,29 @@ if (Meteor.isServer) {
   })
 }
 
+function getNearRestroom(p)
+{
+    var l;
+    var distance = new Array(2);
+    alert(p.xpix);
+    alert(p.ypix);
+    for(i=0; i < 2; i++) {
+      l = Facilities.findOne( { bldg: "LWSN", type:"Restroom"}, {skip:i});
+      if (l == null)  break;
+      distance[i] = (Math.sqrt((l.xpix-p.xpix)*(l.xpix-p.xpix)+(l.ypix - p.ypix)*(l.ypix - p.ypix)));
+    }
+    var closest = 0;
+    for(i = 1; i < 2; i++) {
+      if(distance[i] < distance[closest])
+          closest = i;
+    }
+
+    l = Facilities.findOne( { bldg: "LWSN", floor: "B", type:"Restroom"},{skip:closest});
+    alert(l.xpix);
+    alert(l.ypix);
+    var node = {xpix:l.xpix, ypix:l.ypix};
+    return node; 
+}
 
 function getPointPercent(p) //get a point and return the percentage.
 {
@@ -414,8 +437,12 @@ if (Meteor.isClient) {
     scanned: function(){
       return Session.get("scan");
     },
-
- 
+    getCurX: function() {
+      return Session.get("curX");
+    },
+    getCurY: function() {
+      return Session.get("curY");
+    },
     getPosX: function(){
       return Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
     },
@@ -506,7 +533,6 @@ if (Meteor.isClient) {
       current_bldg = Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     },
     'submit .new-task': function(event) {
-
         result=event.target.text.value.replace(/\s+/g, '');
         var f = result.charAt(0);
         var r = result.substring(1);
