@@ -22,6 +22,7 @@ var mapcanvas = null;
 
 var posx,posy;
 
+var instructions = [];
 
 if (Meteor.isServer) {
   Meteor.startup(function (){
@@ -450,6 +451,10 @@ if (Meteor.isClient) {
     getSugg: function(){
       if(Session.get("navReady") !== 1)
       return Session.get("sugg");
+    },
+    instruction: function(){
+      
+      return Session.get("current_ins");
     }
   });
 
@@ -636,19 +641,28 @@ if (Meteor.isClient) {
         var r = dest.substring(1);
 
         var dest_document = Rooms.findOne( { room: r, floor: f });
-        find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
-
+      
+        Session.set("step", 0);
+      
+        instructions = find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
+        
         Session.set("navTop",0);
         Session.set("navReady",0);
         Sugg = [];
         Session.set("sugg", Sugg);
+      
+        Session.set("current_ins", instructions[Session.get("step")].instruction  );
         
     },
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
     },
-
+    'click .next-btn': function(event){
+        i = Session.get("step");
+        Session.set("step",i+1);
+        Session.set("current_ins", instructions[i+1].instruction);
+    },
     'click .setDestination': function(event){
 
 
@@ -681,6 +695,7 @@ if (Meteor.isClient) {
             scrollTop: (posy2*window.innerWidth/800-50)+"px"
           }, 800);
         });
+      
     }
 
   });
