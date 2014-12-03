@@ -10,7 +10,7 @@ var Buildings = new Meteor.Collection("buildings");
 var Lines = new Meteor.Collection("lines"); // for navigation.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
-
+var Sugg = [];
 
 var mapcanvas = null;
     mapcontext = null;
@@ -268,6 +268,7 @@ function find_destination(startx,starty,endx,endy)
 
 function autofill_room(result)
 {
+  Sugg = [];
   var rs;
   var auto = [];
     current_bldg=Session.get("bldg");
@@ -280,7 +281,13 @@ function autofill_room(result)
         if (rs==null) break;
          var string=rs.floor+rs.room;
         auto.push(string);
+        Sugg.push(string);
     }
+    if(Sugg.length == 0)
+    {
+        Sugg[0] = "No Match Found";
+    }
+    Session.set("sugg", Sugg);
     console.log(auto);
     return auto;
 }
@@ -396,6 +403,10 @@ if (Meteor.isClient) {
     },
     navTop: function(){
       return Session.get("navTop"); 
+    },
+    getSugg: function(){
+      if(Session.get("navReady") !== 1)
+      return Session.get("sugg");
     }
   });
 
@@ -471,7 +482,7 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: posy-280
+            scrollTop: (posy*320/800-50)+"px"
           }, 800);
         });
         return false;
@@ -536,11 +547,11 @@ if (Meteor.isClient) {
             return false;
          }
 
-        posx= response.xpix;
-        posy= response.ypix;
+        psx= response.xpix;
+        psy= response.ypix;
 
-        Session.set("posX", posx);
-        Session.set("posY", posy);
+        Session.set("posX", psx);
+        Session.set("posY", psy);
         Session.set("destination", re );
         template.find(".search-main").blur();
         $("#search-main")
@@ -551,7 +562,7 @@ if (Meteor.isClient) {
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
-            scrollTop: posy-280
+            scrollTop: (psy*320/800-50)+"px"
           }, 800);
         });
         //drawLine(posx*320/800+'px', posy*320/800+'px', Session.get("posX")*320/800+'px', Session.get("posY")*320/800+'px')
@@ -587,7 +598,42 @@ if (Meteor.isClient) {
     
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px"); 
-    }
+    },
+    
+    'click .setDestination': function(event){
+      
+      
+        var re = event.target.textContent;
+        
+        var f = re.charAt(0);
+        var r = re.substring(1);
+
+        var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+
+        psx= response.xpix;
+        psy= response.ypix;
+
+        Session.set("posX", psx);
+        Session.set("posY", psy);
+        Session.set("destination", re );
+        Sugg = [];
+        Session.set("sugg",Sugg);
+        $("#search-main").blur();
+        $("#search-main")
+          .css("font-weight","bold")
+          .css("font-size","14px");
+        $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");;
+        $("#search-main").val(re);
+        Session.set("navReady",1);
+        
+         $( document ).ready(function() {
+          console.log( "ready!" );
+          $('html, body').animate({
+            scrollTop: (psy*320/800-50)+"px"
+          }, 800);
+        });
+      
+    } 
 
   });
 
