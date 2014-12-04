@@ -944,7 +944,7 @@ if (Meteor.isClient) {
           drawLine((instruction_list[pdots].xpix)/2.67*zoominout,(instruction_list[pdots].ypix)/12.17*zoominout,(instruction_list[pdots+1].xpix)/2.67*zoominout,(instruction_list[pdots+1].ypix)/12.17*zoominout);
         }
         drawLine((instruction_list[listLen-1].xpix)/2.67*zoominout,(instruction_list[listLen-1].ypix)/12.17*zoominout,Session.get("posX")/2.67*zoominout, Session.get("posY")/12.17*zoominout);
-        
+
 
 
         return false;
@@ -967,6 +967,8 @@ if (Meteor.isClient) {
 
           zoominout =1;
           node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
+          var ctx = document.getElementById("draw-line").getContext("2d");
+          ctx.clearRect(0, 0, 320, 743);
           p=getNearRoom(node);
           Session.set("location",p.room );
           Session.set("curX",p.xpix);
@@ -1049,6 +1051,13 @@ if (Meteor.isClient) {
 
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
 
+         var shitLen = instructions.length;
+         console.log(shitLen);
+         drawLine(Session.get("curX")/2.67*zoominout,Session.get("curY")/12.17*zoominout,(instructions[0].xpix)/2.67*zoominout,(instructions[0].ypix)/12.17*zoominout);
+         for(var pdots=0; pdots < shitLen-1; pdots++){
+           drawLine((instructions[pdots].xpix)/2.67*zoominout,(instructions[pdots].ypix)/12.17*zoominout,(instructions[pdots+1].xpix)/2.67*zoominout,(instructions[pdots+1].ypix)/12.17*zoominout);
+         }
+         drawLine((instructions[shitLen-1].xpix)/2.67*zoominout,(instructions[shitLen-1].ypix)/12.17*zoominout,bathroom.xpix/2.67*zoominout, bathroom.ypix/12.17*zoominout);
         smooth_scroll_top((Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
 
     }
