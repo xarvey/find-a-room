@@ -15,6 +15,7 @@ var zoominout = 1;
 var helper = [];
 var toBeHelped = [];
 var Sugg = [];
+var setLineWidth = 1;
 
 var mapcanvas = null;
     mapcontext = null;
@@ -49,7 +50,7 @@ if (Meteor.isServer) {
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "130", xpix: 397, ypix: 1130, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "128", xpix: 397, ypix: 1275, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "129", xpix: 303, ypix: 1235, popular: false } );
-      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1520, popular: true } );
+      Rooms.insert({ bldg: "LWSN", floor: "B", room: "116", xpix: 395, ypix: 1420, popular: true } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "105", xpix: 215, ypix: 1488, popular: false } );
       Rooms.insert({ bldg: "LWSN", floor: "B", room: "107", xpix: 250, ypix: 1488, popular: false } );
 
@@ -552,10 +553,18 @@ function drawLine(x1, y1, x2, y2)
   ctx.beginPath();
   ctx.moveTo(x1,y1);
   ctx.lineTo(x2,y2);
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = '#4780A6';
+  if(Math.abs(y2-y1) <= 7){
+    setLineWidth = 2;
+    ctx.strokeStyle = '#08088A';
+  }
+  if(Math.abs(y2-y1) >7){
+    setLineWidth = 0.25;
+    ctx.strokeStyle = '#9F81F7';
+  }
+  ctx.lineWidth = 1/setLineWidth;
   console.log("x1: "+x1+", y1: "+y1+", x2: "+x2+" y2: "+y2);
   ctx.stroke();
+  setLineWidth = 1;
 }
 
 // simple-todos.js
@@ -841,7 +850,8 @@ if (Meteor.isClient) {
     },
 
     'submit .search-dest': function(event, template) {
-
+        var ctx = document.getElementById("draw-line").getContext("2d");
+        ctx.clearRect(0, 0, 320, 743);
         Session.set("scan",1);
         var re = event.target.text.value.replace(/\s+/g, '');
 
