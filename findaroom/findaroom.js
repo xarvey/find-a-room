@@ -937,7 +937,7 @@ if (Meteor.isClient) {
 
         var listLen = instruction_list.length;
 
-        drawLine(posx/2.67*zoominout,posy/12.17*zoominout,(instruction_list[0].xpix)/2.67*zoominout,(instruction_list[0].ypix)/12.17*zoominout);
+        drawLine(Session.get("curX")/2.67*zoominout,Session.get("curY")/12.17*zoominout,(instruction_list[0].xpix)/2.67*zoominout,(instruction_list[0].ypix)/12.17*zoominout);
         for(var pdots=0; pdots < listLen-1; pdots++){
           console.log((instruction_list[pdots].xpix) +" "+(instruction_list[pdots].ypix));
           console.log(pdots);
