@@ -634,10 +634,10 @@ if (Meteor.isClient) {
       return Session.get("scan");
     },
     getCurX: function() {
-      return Session.get("curX");
+      return Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
     },
     getCurY: function() {
-      return Session.get("curY");
+      return Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
     },
     getPosX: function(){
       return Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))+'px';
