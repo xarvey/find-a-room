@@ -909,6 +909,14 @@ if (Meteor.isClient) {
         smooth_scroll_top( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
         //smooth_scroll_left( (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150) );
 
+        if( Session.get("location")=="SHIT" ){
+            node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
+            p=getNearRoom(node);
+            Session.set("location",p.room );
+            Session.set("curX",p.xpix);
+            Session.set("curY",p.ypix);
+        }
+      
         start=Session.get("location");
         dest=Session.get("destination");
         var f = start .charAt(0);
@@ -952,6 +960,11 @@ if (Meteor.isClient) {
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
+        node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
+        p=getNearRoom(node);
+        Session.set("location",p.room );
+        Session.set("curX",p.xpix);
+        Session.set("curY",p.ypix);
     },
     'click .next-btn': function(event){
         event.preventDefault();
@@ -966,11 +979,18 @@ if (Meteor.isClient) {
           Session.set("navTop",-200+"px");
 
           zoominout =1;
+          
+          Session.set("location", Session.get("destination"));
+          Session.set("curX", Session.get("posX"));
+          Session.set("curY", Session.get("posY"));
+          /*
           node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
           p=getNearRoom(node);
           Session.set("location",p.room );
           Session.set("curX",p.xpix);
           Session.set("curY",p.ypix);
+          */
+          
           console.log(p);
           return ;
         }
@@ -1037,6 +1057,8 @@ if (Meteor.isClient) {
     {
         var point = make_point(Session.get("curX"), Session.get("curY"));
         var bathroom = getNearRestroom(point);
+        Session.set("posX", 1000);
+        Session.set("destination", "SHIT");
         console.log(bathroom);
         console.log("Getting nearest Bathroom");
         Session.set("step", 0);
@@ -1046,6 +1068,9 @@ if (Meteor.isClient) {
         Session.set("navReady",0);
         Sugg = [];
         Session.set("sugg", Sugg);
+      
+        Session.set("posX", bathroom.xpix);
+        Session.set("posY", bathroom.ypix);
 
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
 
