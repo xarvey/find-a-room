@@ -928,7 +928,7 @@ if (Meteor.isClient) {
 
         var dest_document = Rooms.findOne( { room: r, floor: f });
 
-        Session.set("step", 0);
+        Session.set("step", -1);
 
 
         instructions = find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
@@ -940,9 +940,8 @@ if (Meteor.isClient) {
 
         $(".next-btn").html("Next");
 
-        Session.set("current_ins", instructions[Session.get("step")].instruction  );
-       console.log(instruction_list);
-
+        Session.set("current_ins", "Start Navigating!");
+      
         var listLen = instruction_list.length;
 
         drawLine(Session.get("curX")/2.67*zoominout,Session.get("curY")/12.17*zoominout,(instruction_list[0].xpix)/2.67*zoominout,(instruction_list[0].ypix)/12.17*zoominout);
@@ -1061,7 +1060,7 @@ if (Meteor.isClient) {
         Session.set("destination", "SHIT");
         console.log(bathroom);
         console.log("Getting nearest Bathroom");
-        Session.set("step", 0);
+        Session.set("step", -1);
         instructions = find_destination(Session.get("curX"), Session.get("curY"), bathroom.xpix, bathroom.ypix);
 
         Session.set("navTop",0);
@@ -1072,7 +1071,7 @@ if (Meteor.isClient) {
         Session.set("posX", bathroom.xpix);
         Session.set("posY", bathroom.ypix);
 
-        Session.set("current_ins", instructions[Session.get("step")].instruction  );
+         Session.set("current_ins", "GO GO BEFORE IT'S TOO LATE!");
 
         smooth_scroll_top((Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
 
