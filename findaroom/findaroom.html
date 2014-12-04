@@ -12,34 +12,38 @@
 </body>
 
 <template name="home">
-  {{#unless scanned}}
-  <!--<div class ="mid-window" style="background-color: #ffffff; opacity: 0.6">
-  -->
-  <div class="mid-wrapper">
-    <div style="width:100px; text-align:center; padding-top:50%; ">
-      <div class="logo" style="display: inline-block">
-        <i class="fa fa-qrcode fa-4x" style="color: white"></i>
-      </div>
+
+  <div style="position: absolute; opacity: {{scanned}};  -webkit-transition: all .1s ">
+    <div style="display: block;width:320px; text-align:center; padding-top:15px; position:absolute; top: 390px; z-index: 502; color: white;font-size: 18px;">Find-a-room</div>
+    <div class="midbox">
+      <div class="boxdes">Input your location!</div>
+      <form class="new-task">
+        <input id="new-task" type="text" name="text" style="text-align:center" placeholder="e.g. B158" />
+      </form>
+      <button class="scan-qr">Scan QR-code</button>
     </div>
-    <h1 style="display: block;width:320px; text-align:center; padding-top:15px">Find-a-room</h1>
-    <span style="display: block; width:320px; text-align:center; padding-top: 10px; color: #666666">No more adventure to any room!</span>
-  </div>
-  <div style="display:block; text-align:center; position: absolute; bottom:100px; width:100%">
-    <button class="scan-qr" style="padding: 15px 30px; border-radius: 40px; border: 0px; background-color: rgb(58, 70, 79); font-size:14px; font-weight: 700; color: white">Scan the QR code</button>
+      {{#unless curX }}
+      <div class="mapoverlay" style="opacity: 1; background: url('LWSN_1.jpg'); background-size: contain;top: 0px; position: absolute; z-index:400;
+
+       -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+
+      "></div>
+      {{/unless}}
+    <div class="mapoverlay" style="opacity: 0.7; background-color: rgb(33, 101, 132); top: 0px; position: absolute; z-index:400"></div>
+
   </div>
 
-  <form class="new-task" style="display:block; text-align:center; position: absolute; width:100%; bottom:50px">
-    <input type="text" name="text" style="text-align:center" placeholder="Or type your current location here" />
-  </form>
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
-
-  {{else}}
 
   <div class="navigation" style="top:{{navTop}}">
     <div class="navigation-title">
-      <div class="fromPlace">B158</div>
+      <div class="fromPlace">{{nameCur}}</div>
       <div class="from">from</div>
-      <div class="toPlace">B131</div>
+      <div class="toPlace">{{nameDes}}</div>
       <div class="to">to</div>
       <div class="fromPoint"></div>
       <div class="toPoint"></div>
@@ -47,32 +51,58 @@
       <div class="closebtn"></div>
     </div>
     <div class="description">
-      <div class="nav-text">Walk stratight and turn right at room B154</div>
+      <div class="nav-text">{{instruction}}</div>
       <button class="next-btn">Next</button>
     </div>
   </div>
 
   <div class="topbar">
+
     <div class="title">{{current_building}}</div>
     <span class="fa fa-search fa-lg" style="color: rgb(231, 231, 231);top: 77px;position: absolute;z-index: 100;left: 15px;"></span>
     <button class = "backbtn" style="left:0px; position: absolute; z-index: 20; background-color: transparent; border:0px; padding: 33px 30px 20px 15px;">
-      <span class="fa fa-angle-left fa-lg"></span>
+      <span class="fa fa-location-arrow fa-lg" style="color:#5eb8e2"></span>
     </button>
+    <div class="bafroom">
+      <button class="bath">Nearest Bathroom</button>
+    </div>
   </div>
   <form class="search-dest">
         <input type="text" class="search-main" id="search-main" name="text" placeholder="where do you want to go?"/>
     </form>
+  <!-- <canvas id="mymap" width="320px" height="400px" ></canvas> -->
+  <!-- <img src = {{current_map}} width="100%"/> -->
+  <!-- <canvas id="map_canvas" width="800" height="1809"></canvas> -->
   <div class="mapbg" style="position: absolute">
-  <canvas id="draw-line" style ="position:absolute; background-color: transparent;width:320px; height:743px" ></canvas>  
+
+    <div class="something" style="position: fixed; top: 105px">
+    {{#each getSugg}}
+        <button class="setDestination" style="background-color: rgba(255,255,255,0.93); border:0px; width:100%; padding-top:15px; padding-bottom: 15px;box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.8);
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.8);
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.8);
+  -webkit-appearance: none;margin: 0" id={{this}}>{{this}}</button>
+
+    {{/each}}
+    </div>
+
     <div class="mapoverlay" style="opacity: {{navReady}};"></div>
+    <canvas id="draw-line" style ="position:absolute; background-color: transparent; width:{{current_width}};height:{{current_height}}" ></canvas>
+    {{#if curX}}
 
-    <img src = {{current_map}} width="100%" />
+    {{/if}}
 
-    <div class="point_container" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute;">
+    <img class=map_bg src = {{current_map}} width= {{current_width}} />
+
+    <!--<canvas id="draw-line" width="100%" height="150%" style ="position:absolute; background-color: transparent;" ></canvas> -->
+    <div class="point_container" id="current" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute;">
       <img src="ic_location_history_24px.svg" width="125%" style="top:5px; width:20px; height:16px; left:4px; position:absolute; z-index:10"/>
       <div class="current_point" style="top:0px; left:0px;"></div>
       <div class="ripple"></div>
-
+      <!--
+      <div class="cur_desc desc" >
+        <a style="color:white; font-size: 13px">{{nameCur}}</a>
+      </div>
+      -->
     </div>
 
     {{#each getRestRoom}}
@@ -81,19 +111,19 @@
 
     <div class="point_container" style="top: {{getDesY}}; left: {{getDesX}}; position: absolute;
 
-
-    -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-
                                         ">
       <div class="dest_point" style="top:0px; left:0px"></div>
       <div class="dest_desc desc" >
         <a style="color: rgb(128, 157, 62); font-size: 13px">{{nameDes}}</a>
       </div>
     </div>
+    <div class="plus">
+      <button class="zoomIn">+</button>
+    </div>
 
+    <div class="minus">
+      <button class="zoomOut">-</button>
+    </div>
     <div style="display:block; text-align:center; position: fixed; bottom:50px; width:100%;z-index: 100; opacity:{{navReady}};">
         <button style="padding: 12px 25px; border-radius: 50px; border: 0px; background-color: rgba(74, 74, 74, 0.93);; font-size:14px; font-weight: 700; color: rgb(255, 255, 255); font-family: Lato;  -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
   -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
@@ -101,12 +131,11 @@
   -webkit-appearance: none;
   " class="startnav"><span class="fa fa-arrow-right fa-md startbtn"></span>Start Navigation</button>
   </div>
+
+
   </div>
     <!-- canvas id="map_canvas" width="800" height="1809" style="display:none"></canvas> -->
 
     <!-- hard coded -->
-
-
-  {{/unless}}
 
 </template>
