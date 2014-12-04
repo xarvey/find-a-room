@@ -62,6 +62,8 @@ if (Meteor.isServer) {
          Facilities.insert( { bldg: "LWSN", floor: "B",type:"Exit",room:"2", xpix: 88, ypix: 1452 });   //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",type:"Exit",room:"0", xpix: 492, ypix: 33 }); //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",type:"Elevator",room:"1", xpix: 317, ypix: 800 });    //elevator
+         Facilities.insert({ bldg: "LWSN", floor: "B",type:"Corner",room:"3", xpix: 330, ypix: 1525 }); // bottom wall
+         Facilities.insert({ bldg: "LWSN", floor: "B",type:"Corner",room:"4", xpix: 341, ypix: 14 }); // top wall
 
     }
     if(Lines.find().count() == 0) {
@@ -695,8 +697,7 @@ if (Meteor.isClient) {
                 var split = result.split("_");
 
                //find the posx and posy from result
-                alert(result);
-
+                
               if(result.search("error")==-1){
 
                 Session.set("scan", 1);
@@ -711,6 +712,10 @@ if (Meteor.isClient) {
                 Session.set("curY",posy);
 
               }
+            
+              else 
+                alert(result);
+
           };
           gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
           qrcode.decode(data);
@@ -878,7 +883,12 @@ if (Meteor.isClient) {
         var f = start .charAt(0);
         var r = start.substring(1);
 
-        var start_document = Rooms.findOne( { room: r, floor: f });
+      
+        var start_document;
+        if( start.length == 1 )
+            start_document = Facilities.findOne({room:start});
+        else 
+            start_document = Rooms.findOne( { room: r, floor: f });
         var f = dest .charAt(0);
         var r = dest.substring(1);
 
