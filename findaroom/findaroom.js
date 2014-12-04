@@ -836,6 +836,7 @@ if (Meteor.isClient) {
     },
     
     'submit .search-dest': function(event, template) {
+
         Session.set("scan",1);
         var re = event.target.text.value.replace(/\s+/g, '');
 
@@ -938,7 +939,13 @@ if (Meteor.isClient) {
       
         if( i+1 >= instructions.length ){
           Session.set("navTop",-200+"px");
-          Session.set("location", Session.get("destination"));
+          node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
+          p=getNearRoom(node);
+          Session.set("location",p.room );
+          Session.set("curX",p.xpix);
+          Session.set("curY",p.ypix);
+          console.log(p);
+          
           return ;
         }
         Session.set("current_ins", instructions[i+1].instruction);
