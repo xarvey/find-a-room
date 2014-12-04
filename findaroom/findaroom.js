@@ -62,7 +62,7 @@ if (Meteor.isServer) {
          Facilities.insert({ bldg: "LWSN", floor: "B",type:"Exit",room:"0", xpix: 492, ypix: 33 }); //exit
          Facilities.insert({ bldg: "LWSN", floor: "B",type:"Elevator",room:"1", xpix: 317, ypix: 800 });    //elevator
 
-    }
+    } 
     if(Lines.find().count() == 0) {
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 88, ypix: 1490, description: "You should see the exit" });
         Lines.insert( { bldg: "LWSN", floor: "B", xpix: 354, ypix: 1490, description: "You should see Room 116" });
@@ -247,7 +247,7 @@ function find_destination(startx,starty,endx,endy)
     head=0;
     tail=0;
     flags=0;
-
+    
     if ((startx==endx) && (starty==endy))
     {
         queue.push({xpix:startx,ypix:starty,prev:0,distance:0});
@@ -257,7 +257,7 @@ function find_destination(startx,starty,endx,endy)
     //console.log(endx,endy);
     while (1)
     {
-
+        
 
         for (counter=0;;counter++)
         {
@@ -268,13 +268,13 @@ function find_destination(startx,starty,endx,endy)
             tail+=1;
             queue.push({xpix:current.xpix,ypix:current.ypix,prev:head,distance:queue[head].distance+1});
             console.log(current.xpix,current.ypix);
-            if (current.xpix==endx && current.ypix==endy)
+            if (current.xpix==endx && current.ypix==endy) 
             {
                 console.log("yes find it!!");
                 flags=1;
                 break;
             }
-
+            
         }
         console.log(queue);
         if (flags==1) break;
@@ -607,7 +607,7 @@ if (Meteor.isClient) {
   }); **/
 
   Template.home.helpers({
-
+    
     current_map: function(){
       return Session.get("mapimg");
     },
@@ -694,7 +694,7 @@ if (Meteor.isClient) {
                 Session.set("bldg", split[0]);
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
                 Session.set("location", split[2] );
-
+                
                 $('html, body').css({
                     'overflow': 'auto',
                     'height': 'auto'
@@ -707,22 +707,22 @@ if (Meteor.isClient) {
         }
       });
     },
-
+    
     'click .setDestination': function(event, template)
     {
       console.log(event.currentTarget.id);
       Session.set("scan",1);
         var re = event.currentTarget.id.replace(/\s+/g, '');
-
+      
         var f = re.charAt(0);
         var r = re.substring(1);
 
         var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
 
          if(response==undefined){
-
+        
             template.find(".search-main").blur();
-
+           
             $("#search-main")
               .css("background-color","rgb(232, 149, 149)")
               .css("color","rgb(136, 15, 15)")
@@ -730,13 +730,13 @@ if (Meteor.isClient) {
               .css("font-size","14px");
             $(".fa-search").css("color","rgb(174, 40, 40)")
               .addClass("fa-times");
-            Session.set("navReady",0);
+            Session.set("navReady",0); 
             Session.set("posX", 160);
             Session.set("posY", -100);
-
+           
             return false;
          }
-
+      
         posx= response.xpix;
         posy= response.ypix;
 
@@ -751,7 +751,7 @@ if (Meteor.isClient) {
           .css("font-size","14px");
         $(".fa-search").css("color","rgb(134, 174, 40)").addClass("fa-check");;
         Session.set("navReady",1);
-
+        
         return false;
     },
     'click .gps': function(){
@@ -797,14 +797,14 @@ if (Meteor.isClient) {
             scrollTop: (posy*window.innerWidth/800-50)+"px"
           }, 800);
         });
-
+      
         $('html, body').css({
             'overflow': 'default',
             'height': 'default'
         });
-
+      
         $("#new-task").blur();
-
+      
         return false;
     },
 
@@ -848,8 +848,6 @@ if (Meteor.isClient) {
     },
     
     'submit .search-dest': function(event, template) {
-        var ctx= document.getElementById("draw-line").getContext("2d");
-        ctx.clearRect(0, 0, 320, 743);
         Session.set("scan",1);
         var re = event.target.text.value.replace(/\s+/g, '');
 
@@ -927,13 +925,14 @@ if (Meteor.isClient) {
         Session.set("navReady",0);
         Sugg = [];
         Session.set("sugg", Sugg);
-
+      
         $(".next-btn").html("Next");
 
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
        console.log(instruction_list);
 
         var listLen = instruction_list.length;
+        
         return false;
     },
 
@@ -944,11 +943,11 @@ if (Meteor.isClient) {
         event.preventDefault();
         i = Session.get("step");
         Session.set("step",i+1);
-
+      
         if( i+2 >= instructions.length ){
           $(".next-btn").html("Done");
         }
-
+      
         if( i+1 >= instructions.length ){
           Session.set("navTop",-200+"px");
           Session.set("location", Session.get("destination"));
@@ -993,7 +992,7 @@ if (Meteor.isClient) {
     },
 
 
-
+    
     'click .plus' : function()
     {
         var zoom = parseInt(Session.get("width"));
@@ -1001,7 +1000,7 @@ if (Meteor.isClient) {
         console.log(zoom);
         Session.set("width", (zoom+10)+"%");
     },
-
+    
     'click .minus' : function()
     {
         var zoom = parseInt(Session.get("width"));
@@ -1009,7 +1008,7 @@ if (Meteor.isClient) {
         console.log(zoom);
         Session.set("width", (zoom-10)+"%");
     },
-
+    
     'click .bafroom' : function()
     {
         var point = make_point(Session.get("curX"), Session.get("curY"));
@@ -1018,14 +1017,14 @@ if (Meteor.isClient) {
         console.log("Getting nearest Bathroom");
         Session.set("step", 0);
         instructions = find_destination(Session.get("curX"), Session.get("curY"), bathroom.xpix, bathroom.ypix);
-
+      
         Session.set("navTop",0);
         Session.set("navReady",0);
         Sugg = [];
         Session.set("sugg", Sugg);
-
-        Session.set("current_ins", instructions[Session.get("step")].instruction  );
       
+        Session.set("current_ins", instructions[Session.get("step")].instruction  );
+        
         smooth_scroll_top((Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
       
     }
