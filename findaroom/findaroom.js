@@ -864,7 +864,7 @@ if (Meteor.isClient) {
         smooth_scroll_top( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
         //smooth_scroll_left( (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150) );
 
-        if( Session.get("location")=="SHIT" ){
+        if( Session.get("location")=="BATH" ){
             node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
             p=getNearRoom(node);
             Session.set("location",p.room );
@@ -930,6 +930,10 @@ if (Meteor.isClient) {
         }
 
         if( i+1 >= instructions.length ){
+          
+          var ctx = document.getElementById("draw-line").getContext("2d");
+          ctx.clearRect(0, 0, 320, 743);
+          
           Session.set("navTop",-200+"px");
 
           zoominout =1;
@@ -939,8 +943,6 @@ if (Meteor.isClient) {
           Session.set("curY", Session.get("posY"));
           /*
           node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
-          var ctx = document.getElementById("draw-line").getContext("2d");
-          ctx.clearRect(0, 0, 320, 743);
           p=getNearRoom(node);
           Session.set("location",p.room );
           Session.set("curX",p.xpix);
@@ -1005,7 +1007,8 @@ if (Meteor.isClient) {
         var zoom = parseInt(Session.get("width"));
         console.log("Minus");
         console.log(zoom);
-        zoominout+=0.1;
+        zoominout-=0.1;
+        Session.set("width", (zoom-10)+"%");
         Session.set("height", (zoom-10)+"%");
     },
 
@@ -1014,7 +1017,7 @@ if (Meteor.isClient) {
         var point = make_point(Session.get("curX"), Session.get("curY"));
         var bathroom = getNearRestroom(point);
         Session.set("posX", 1000);
-        Session.set("destination", "SHIT");
+        Session.set("destination", "BATH");
         console.log(bathroom);
         console.log("Getting nearest Bathroom");
         Session.set("step", -1);
