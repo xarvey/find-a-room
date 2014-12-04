@@ -45,8 +45,8 @@
     <div class="mapoverlay" style="opacity: 0.7; background-color: rgb(33, 101, 132); top: 0px; position: absolute; z-index:400"></div>
 
   </div>
-  {{/unless}}
-
+  {{else}}
+  
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
 
   <div class="navigation" style="top:{{navTop}}">
@@ -149,5 +149,7 @@
     <!-- canvas id="map_canvas" width="800" height="1809" style="display:none"></canvas> -->
 
     <!-- hard coded -->
+  {{/unless}}
+
 
 </template>
