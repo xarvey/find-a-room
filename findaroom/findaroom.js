@@ -707,7 +707,8 @@ if (Meteor.isClient) {
                 Session.set("bldg", split[0]);
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
                 Session.set("location", split[2] );
-
+                Session.set("curX",posx);
+                Session.set("curY",posy);
 
               }
           };
