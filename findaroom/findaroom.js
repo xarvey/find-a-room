@@ -356,6 +356,151 @@ function find_destination(startx,starty,endx,endy)
 
 }
 
+/**
+    Smoothly scroll element to the given target (element.scrollTop)
+    for the given duration
+
+    Returns a promise that's fulfilled when done, or rejected if
+    interrupted
+ */
+  var smooth_scroll_top = function(target) {
+      var element = document.body;
+      target = Math.round(target);
+      duration = 400;
+      if (duration < 0) {
+          return Promise.reject("bad duration");
+      }
+      if (duration === 0) {
+          element.scrollTop = target;
+          return Promise.resolve();
+      }
+
+      var start_time = Date.now();
+      var end_time = start_time + duration;
+
+      var start_top = element.scrollTop;
+      var distance = target - start_top;
+
+      // based on http://en.wikipedia.org/wiki/Smoothstep
+      var smooth_step = function(start, end, point) {
+          if(point <= start) { return 0; }
+          if(point >= end) { return 1; }
+          var x = (point - start) / (end - start); // interpolation
+          return x*x*(3 - 2*x);
+      }
+
+      return new Promise(function(resolve, reject) {
+          // This is to keep track of where the element's scrollTop is
+          // supposed to be, based on what we're doing
+          var previous_top = element.scrollTop;
+
+          // This is like a think function from a game loop
+          var scroll_frame = function() {
+              if(element.scrollTop != previous_top) {
+                  reject("interrupted");
+                  return;
+              }
+
+              // set the scrollTop for this frame
+              var now = Date.now();
+              var point = smooth_step(start_time, end_time, now);
+              var frameTop = Math.round(start_top + (distance * point));
+              element.scrollTop = frameTop;
+
+              // check if we're done!
+              if(now >= end_time) {
+                  resolve();
+                  return;
+              }
+
+              // If we were supposed to scroll but didn't, then we
+              // probably hit the limit, so consider it done; not
+              // interrupted.
+              if(element.scrollTop === previous_top
+                  && element.scrollTop !== frameTop) {
+                  resolve();
+                  return;
+              }
+              previous_top = element.scrollTop;
+
+              // schedule next frame for execution
+              setTimeout(scroll_frame, 0);
+          }
+
+          // boostrap the animation process
+          setTimeout(scroll_frame, 0);
+      });
+  }
+
+  var smooth_scroll_left = function(target) {
+      var element = document.body;
+      target = Math.round(target);
+      duration = 400;
+      if (duration < 0) {
+          return Promise.reject("bad duration");
+      }
+      if (duration === 0) {
+          element.scrollLeft = target;
+          return Promise.resolve();
+      }
+
+      var start_time = Date.now();
+      var end_time = start_time + duration;
+
+      var start_left = element.scrollLeft;
+      var distance = target - start_left;
+
+      // based on http://en.wikipedia.org/wiki/Smoothstep
+      var smooth_step = function(start, end, point) {
+          if(point <= start) { return 0; }
+          if(point >= end) { return 1; }
+          var x = (point - start) / (end - start); // interpolation
+          return x*x*(3 - 2*x);
+      }
+
+      return new Promise(function(resolve, reject) {
+          // This is to keep track of where the element's scrollTop is
+          // supposed to be, based on what we're doing
+          var previous_left = element.scrollLeft;
+
+          // This is like a think function from a game loop
+          var scroll_frame = function() {
+              if(element.scrollLeft != previous_left) {
+                  reject("interrupted");
+                  return;
+              }
+
+              // set the scrollTop for this frame
+              var now = Date.now();
+              var point = smooth_step(start_time, end_time, now);
+              var frameLeft = Math.round(start_left + (distance * point));
+              element.scrollLeft = frameLeft;
+
+              // check if we're done!
+              if(now >= end_time) {
+                  resolve();
+                  return;
+              }
+
+              // If we were supposed to scroll but didn't, then we
+              // probably hit the limit, so consider it done; not
+              // interrupted.
+              if(element.scrollLeft === previous_left
+                  && element.scrollLeft !== frameLeft) {
+                  resolve();
+                  return;
+              }
+              previous_left = element.scrollLeft;
+
+              // schedule next frame for execution
+              setTimeout(scroll_frame, 0);
+          }
+
+          // boostrap the animation process
+          setTimeout(scroll_frame, 0);
+      });
+  }
+
 function autofill_room(result)
 {
   Sugg = [];
@@ -445,13 +590,16 @@ if (Meteor.isClient) {
     load();
 
   });
+
+  /*
   Meteor.setInterval(function() {
     navigator.geolocation.getCurrentPosition(function(position) {
 
         Session.set('lat', position.coords.latitude);
         Session.set('lon', position.coords.longitude);
     });
-  }, 300);
+  }, 300);*/
+
 /**  Template.location.helpers({
     lat: function() { return Session.get('lat'); },
     lon: function() { return Session.get('lon'); }
@@ -474,7 +622,7 @@ if (Meteor.isClient) {
       return Session.get("bldg");
     },
     scanned: function(){
-      return 1 - Session.get("scan");
+      return Session.get("scan");
     },
     getCurX: function() {
       return Session.get("curX");
@@ -550,10 +698,6 @@ if (Meteor.isClient) {
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
                 Session.set("location", split[2] );
 
-                $('html, body').css({
-                    'overflow': 'auto',
-                    'height': 'auto'
-                });
 
               }
           };
@@ -622,6 +766,9 @@ if (Meteor.isClient) {
       current_bldg = Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     },
     'submit .new-task': function(event) {
+
+        event.preventDefault();
+
         result=event.target.text.value.replace(/\s+/g, '');
         var f = result.charAt(0);
         var r = result.substring(1);
@@ -632,6 +779,8 @@ if (Meteor.isClient) {
           alert("Room not found");
           return false;
         }
+
+        $("#new-task").blur();
 
         Session.set("scan",1);
 
@@ -644,21 +793,14 @@ if (Meteor.isClient) {
         Session.set("curY", posy);
         Session.set("bldg", response.bldg);
         Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
-        Session.set("current-width",800);
         Session.set("location", result );
-        $( document ).ready(function() {
-          console.log( "ready!" );
-          $('html, body').animate({
-            scrollTop: (posy*window.innerWidth/800-50)+"px"
-          }, 800);
-        });
 
-        $('html, body').css({
-            'overflow': 'default',
-            'height': 'default'
-        });
 
-        $("#new-task").blur();
+        smooth_scroll_top( (posy*window.innerWidth/800-50) );
+
+
+
+
 
         return false;
     },
@@ -668,10 +810,6 @@ if (Meteor.isClient) {
         Session.set("posX", 160);
         Session.set("posY", -100);
         Session.set("navReady",0);
-        $('html, body').css({
-            'overflow': 'hidden',
-            'height': '100%'
-        });
     },
     'blur .search-dest': function(){
         $(".fa-search")
@@ -690,18 +828,20 @@ if (Meteor.isClient) {
           .removeClass("fa-times");
         Session.set("navReady",0);
     },
+
     'click .fa-times': function(){
         $("#search-main").val("").focus();
     },
+
     'click .dest_desc': function(){
         if( Session.get("navReady")!=0)
           Session.set("navReady",0);
         else
           Session.set("navReady",1);
     },
+
     'submit .search-dest': function(event, template) {
-        var ctx= document.getElementById("draw-line").getContext("2d");
-        ctx.clearRect(0, 0, 320, 743);
+
         Session.set("scan",1);
         var re = event.target.text.value.replace(/\s+/g, '');
 
@@ -740,12 +880,7 @@ if (Meteor.isClient) {
           .css("font-size","14px");
         $(".fa-search").css("color","rgb(195, 219, 137)").addClass("fa-check");;
         Session.set("navReady",1);
-        $( document ).ready(function() {
-          console.log( "ready!" );
-          $('html, body').animate({
-            scrollTop: (posy2*window.innerWidth/800-50)+"px"
-          }, 800);
-        });
+        smooth_scroll_top( (posy2*window.innerWidth/800-50) );
         //drawLine(posx/2.5, posy/8, posx2/2.5, posy2/8
         return false;
     },
@@ -758,7 +893,11 @@ if (Meteor.isClient) {
     },
 
     'click .startnav': function(event){
-
+        event.preventDefault();
+        //Session.set("width", 100+"%");
+        //document.body.scrollTop = (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300);
+        smooth_scroll_top( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
+        //smooth_scroll_left( (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150) );
 
         start=Session.get("location");
         dest=Session.get("destination");
@@ -773,6 +912,7 @@ if (Meteor.isClient) {
 
         Session.set("step", 0);
 
+
         instructions = find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
 
         Session.set("navTop",0);
@@ -780,14 +920,13 @@ if (Meteor.isClient) {
         Sugg = [];
         Session.set("sugg", Sugg);
 
-        Session.set("width", 150+"%");
-        Session.set("height",100+"%");
         $(".next-btn").html("Next");
 
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
        console.log(instruction_list);
 
         var listLen = instruction_list.length;
+
         drawLine(posx/2.67*zoominout,posy/12.17*zoominout,(instruction_list[0].xpix)/2.67*zoominout,(instruction_list[0].ypix)/12.17*zoominout);
         for(var pdots=0; pdots < listLen-1; pdots++){
           console.log((instruction_list[pdots].xpix) +" "+(instruction_list[pdots].ypix));
@@ -803,14 +942,15 @@ if (Meteor.isClient) {
           }, 600);
         });
 
+
+        return false;
     },
 
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
-        Session.set("width", 100+"%");
-        Session.set("height", 100+"%");
     },
     'click .next-btn': function(event){
+        event.preventDefault();
         i = Session.get("step");
         Session.set("step",i+1);
 
@@ -820,23 +960,22 @@ if (Meteor.isClient) {
 
         if( i+1 >= instructions.length ){
           Session.set("navTop",-200+"px");
-          Session.set("width", 100+"%");
+
           zoominout =1;
-          Session.set("height", 100+"%");
-          Session.set("location", Session.get("destination"));
+          node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
+          p=getNearRoom(node);
+          Session.set("location",p.room );
+          Session.set("curX",p.xpix);
+          Session.set("curY",p.ypix);
+          console.log(p);
           return ;
         }
         Session.set("current_ins", instructions[i+1].instruction);
         Session.set("curX", instructions[i+1].xpix);
         Session.set("curY", instructions[i+1].ypix);
 
-        $( document ).ready(function() {
-          console.log( "ready!" );
-          $('html, body').animate({
-            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
-            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
-          }, 600);
-        });
+        smooth_scroll_top( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300) );
+
     },
     'click .setDestination': function(event){
 
@@ -856,21 +995,16 @@ if (Meteor.isClient) {
         Session.set("destination", re );
         Sugg = [];
         Session.set("sugg",Sugg);
-        $("#search-main").blur();
         $("#search-main")
           .css("background-color","white")
           .css("font-weight","bold")
-          .css("font-size","14px");
+          .css("font-size","14px")
+          .val(re).blur();
         $(".fa-search").css("color","rgb(195, 219, 137)").removeClass("fa-times").addClass("fa-check");;
-        $("#search-main").val(re);
         Session.set("navReady",1);
 
-        $( document ).ready(function() {
-          console.log( "ready!" );
-          $('html, body').animate({
-            scrollTop: (psy*window.innerWidth/800-50)+"px"
-          }, 600);
-        });
+
+        smooth_scroll_top(psy*window.innerWidth/800-50);
 
     },
 
@@ -911,13 +1045,7 @@ if (Meteor.isClient) {
 
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
 
-        $( document ).ready(function() {
-          console.log( "ready!" );
-          $('html, body').animate({
-            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
-            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
-          }, 600);
-        });
+        smooth_scroll_top((Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
 
     }
 

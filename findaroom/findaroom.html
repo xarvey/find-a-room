@@ -13,7 +13,16 @@
 
 <template name="home">
 
-  <div style="position: absolute; opacity: {{scanned}};  -webkit-transition: all .1s ">
+
+  {{#unless scanned}}
+  <div style="position: absolute;
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;"
+  >
+
+
     <div style="display: block;width:320px; text-align:center; padding-top:15px; position:absolute; top: 390px; z-index: 502; color: white;font-size: 18px;">Find-a-room</div>
     <div class="midbox">
       <div class="boxdes">Input your location!</div>
@@ -36,6 +45,7 @@
     <div class="mapoverlay" style="opacity: 0.7; background-color: rgb(33, 101, 132); top: 0px; position: absolute; z-index:400"></div>
 
   </div>
+  {{/unless}}
 
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
 
@@ -64,7 +74,9 @@
       <span class="fa fa-location-arrow fa-lg" style="color:#5eb8e2"></span>
     </button>
     <div class="bafroom">
-      <button class="bath">Nearest Bathroom</button>
+      <button class="bath" style="left:300px; position: absolute; z-index: 20; background-color: transparent; border:0px; padding: 50px 30px 0px 15px;"></button>
+        <span class="fa fa-female fa-lg" style="color:#5eb8e2"></span>
+        <span class="fa fa-male fa-lg" style="color:#5eb8e2"></span>
     </div>
   </div>
   <form class="search-dest">
@@ -94,7 +106,7 @@
     <img class=map_bg src = {{current_map}} width= {{current_width}} />
 
     <!--<canvas id="draw-line" width="100%" height="150%" style ="position:absolute; background-color: transparent;" ></canvas> -->
-    <div class="point_container" id="current" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute;">
+    <div class="point_container" id="current" style="top: {{getPosY}}; left: {{getPosX}}; position: absolute; -webkit-transition: .2s">
       <img src="ic_location_history_24px.svg" width="125%" style="top:5px; width:20px; height:16px; left:4px; position:absolute; z-index:10"/>
       <div class="current_point" style="top:0px; left:0px;"></div>
       <div class="ripple"></div>
