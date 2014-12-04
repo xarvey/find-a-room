@@ -944,13 +944,7 @@ if (Meteor.isClient) {
           drawLine((instruction_list[pdots].xpix)/2.67*zoominout,(instruction_list[pdots].ypix)/12.17*zoominout,(instruction_list[pdots+1].xpix)/2.67*zoominout,(instruction_list[pdots+1].ypix)/12.17*zoominout);
         }
         drawLine((instruction_list[listLen-1].xpix)/2.67*zoominout,(instruction_list[listLen-1].ypix)/12.17*zoominout,Session.get("posX")/2.67*zoominout, Session.get("posY")/12.17*zoominout);
-        $( document ).ready(function() {
-          console.log( "ready!" );
-          $('html, body').animate({
-            scrollTop: (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300)+"px",
-            scrollLeft: (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150)+"px"
-          }, 600);
-        });
+        
 
 
         return false;
