@@ -11,7 +11,7 @@ var Lines = new Meteor.Collection("lines"); // for navigation.
 var Messages = new Meteor.Collection("messages"); // for public messages.
 var current_bldg; // this varibale will be initailed with the GPS
 var current_bldg_img;
-
+var zoominout = 1;
 var helper = [];
 var toBeHelped = [];
 var Sugg = [];
@@ -407,7 +407,7 @@ function drawLine(x1, y1, x2, y2)
   ctx.beginPath();
   ctx.moveTo(x1,y1);
   ctx.lineTo(x2,y2);
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 1;
   ctx.strokeStyle = '#4780A6';
   console.log("x1: "+x1+", y1: "+y1+", x2: "+x2+" y2: "+y2);
   ctx.stroke();
@@ -435,6 +435,7 @@ if (Meteor.isClient) {
 
   Meteor.startup(function () {
     Session.set("width", 100+"%");
+    Session.set("height", 100+"%");
     Session.set("posX", 160);
     Session.set("posY", -100);
     Session.set("curY", -100);
@@ -464,6 +465,10 @@ if (Meteor.isClient) {
 
     current_width: function(){
       return Session.get("width");
+    },
+
+    current_height: function(){
+      return Session.get("height");
     },
     current_building: function(){
       return Session.get("bldg");
@@ -776,21 +781,20 @@ if (Meteor.isClient) {
         Session.set("sugg", Sugg);
 
         Session.set("width", 150+"%");
-
+        Session.set("height",100+"%");
         $(".next-btn").html("Next");
 
         Session.set("current_ins", instructions[Session.get("step")].instruction  );
        console.log(instruction_list);
 
         var listLen = instruction_list.length;
-        drawLine(posx/1.74,posy/8.5,(instruction_list[0].xpix)/1.74,(instruction_list[0].ypix)/8.5);
+        drawLine(posx/2.67*zoominout,posy/12.17*zoominout,(instruction_list[0].xpix)/2.67*zoominout,(instruction_list[0].ypix)/12.17*zoominout);
         for(var pdots=0; pdots < listLen-1; pdots++){
           console.log((instruction_list[pdots].xpix) +" "+(instruction_list[pdots].ypix));
           console.log(pdots);
-          drawLine((instruction_list[pdots].xpix)/1.74,(instruction_list[pdots].ypix)/8.5,(instruction_list[pdots+1].xpix)/1.74,(instruction_list[pdots+1].ypix)/8.5);
+          drawLine((instruction_list[pdots].xpix)/2.67*zoominout,(instruction_list[pdots].ypix)/12.17*zoominout,(instruction_list[pdots+1].xpix)/2.67*zoominout,(instruction_list[pdots+1].ypix)/12.17*zoominout);
         }
-
-        drawLine((instruction_list[listLen-1].xpix)/1.74,(instruction_list[listLen-1].ypix)/8.5,Session.get("posX")/1.74, Session.get("posY")/8.5);
+        drawLine((instruction_list[listLen-1].xpix)/2.67*zoominout,(instruction_list[listLen-1].ypix)/12.17*zoominout,Session.get("posX")/2.67*zoominout, Session.get("posY")/12.17*zoominout);
         $( document ).ready(function() {
           console.log( "ready!" );
           $('html, body').animate({
@@ -804,6 +808,7 @@ if (Meteor.isClient) {
     'click .closebtn': function(event){
         Session.set("navTop",-200+"px");
         Session.set("width", 100+"%");
+        Session.set("height", 100+"%");
     },
     'click .next-btn': function(event){
         i = Session.get("step");
@@ -816,6 +821,8 @@ if (Meteor.isClient) {
         if( i+1 >= instructions.length ){
           Session.set("navTop",-200+"px");
           Session.set("width", 100+"%");
+          zoominout =1;
+          Session.set("height", 100+"%");
           Session.set("location", Session.get("destination"));
           return ;
         }
@@ -875,6 +882,8 @@ if (Meteor.isClient) {
         console.log("Minus");
         console.log(zoom);
         Session.set("width", (zoom+10)+"%");
+        zoominout+=0.1;
+        Session.set("height", (zoom+10)+"%");
     },
 
     'click .minus' : function()
@@ -882,7 +891,8 @@ if (Meteor.isClient) {
         var zoom = parseInt(Session.get("width"));
         console.log("Minus");
         console.log(zoom);
-        Session.set("width", (zoom-10)+"%");
+        zoominout+=0.1;
+        Session.set("height", (zoom-10)+"%");
     },
 
     'click .bafroom' : function()

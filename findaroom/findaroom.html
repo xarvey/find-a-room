@@ -12,7 +12,7 @@
 </body>
 
 <template name="home">
-  
+
   <div style="position: absolute; opacity: {{scanned}};  -webkit-transition: all .1s ">
     <div style="display: block;width:320px; text-align:center; padding-top:15px; position:absolute; top: 390px; z-index: 502; color: white;font-size: 18px;">Find-a-room</div>
     <div class="midbox">
@@ -29,14 +29,14 @@
     -moz-filter: blur(10px);
     -o-filter: blur(10px);
     -ms-filter: blur(10px);
-    filter: blur(10px);                              
+    filter: blur(10px);
 
       "></div>
       {{/unless}}
     <div class="mapoverlay" style="opacity: 0.7; background-color: rgb(33, 101, 132); top: 0px; position: absolute; z-index:400"></div>
 
   </div>
-        
+
   <canvas id="qr-canvas" width="800" height="600" style="display:none"></canvas>
 
   <div class="navigation" style="top:{{navTop}}">
@@ -57,7 +57,7 @@
   </div>
 
   <div class="topbar">
-    
+
     <div class="title">{{current_building}}</div>
     <span class="fa fa-search fa-lg" style="color: rgb(231, 231, 231);top: 77px;position: absolute;z-index: 100;left: 15px;"></span>
     <button class = "backbtn" style="left:0px; position: absolute; z-index: 20; background-color: transparent; border:0px; padding: 33px 30px 20px 15px;">
@@ -86,7 +86,7 @@
     </div>
 
     <div class="mapoverlay" style="opacity: {{navReady}};"></div>
-    <canvas id="draw-line" style ="position:absolute; background-color: transparent; width:320px; height:743px" ></canvas>
+    <canvas id="draw-line" style ="position:absolute; background-color: transparent; width:{{current_width}}; height:{{current_height}}" ></canvas>
     {{#if curX}}
 
     {{/if}}
@@ -120,7 +120,7 @@
     <div class="plus">
       <button class="zoomIn">+</button>
     </div>
-    
+
     <div class="minus">
       <button class="zoomOut">-</button>
     </div>
@@ -131,8 +131,8 @@
   -webkit-appearance: none;
   " class="startnav"><span class="fa fa-arrow-right fa-md startbtn"></span>Start Navigation</button>
   </div>
-  
-  
+
+
   </div>
     <!-- canvas id="map_canvas" width="800" height="1809" style="display:none"></canvas> -->
 
