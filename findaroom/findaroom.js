@@ -410,7 +410,6 @@ function find_destination(startx,starty,endx,endy)
               // check if we're done!
               if(now >= end_time) {
                   resolve();
-                  smooth_scroll_left(left);
                   return;
               }
 
@@ -419,8 +418,7 @@ function find_destination(startx,starty,endx,endy)
               // interrupted.
               if(element.scrollTop === previous_top
                   && element.scrollTop !== frameTop) {
-                  resolve();
-                  smooth_scroll_left(left);  
+                  resolve(); 
                   return;
               }
               previous_top = element.scrollTop;
@@ -619,7 +617,7 @@ if (Meteor.isClient) {
       return Session.get("bldg");
     },
     scanned: function(){
-      return 1 - Session.get("scan");
+      return Session.get("scan");
     },
     getCurX: function() {
       return Session.get("curX");
@@ -695,10 +693,6 @@ if (Meteor.isClient) {
                 Session.set("mapimg", split[0]+"_"+split[1]+".jpg");
                 Session.set("location", split[2] );
                 
-                $('html, body').css({
-                    'overflow': 'auto',
-                    'height': 'auto'
-                });
 
               }
           };
@@ -767,6 +761,9 @@ if (Meteor.isClient) {
       current_bldg = Buildings.findOne( { highLatitude: { $gte: lat}, lowLatitude: { $lte: lat}, highLongitude: { $gte: log}, lowLongitude: { $lte: log} }, { _id: 0, bldg: 1} );
     },
     'submit .new-task': function(event) {
+      
+        event.preventDefault();
+      
         result=event.target.text.value.replace(/\s+/g, '');
         var f = result.charAt(0);
         var r = result.substring(1);
@@ -778,32 +775,27 @@ if (Meteor.isClient) {
           return false;
         }
 
+        $("#new-task").blur();
+      
         Session.set("scan",1);
 
         posx= response.xpix;
         posy= response.ypix; // only know the room and floor
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
                 // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
-
+      
         Session.set("curX", posx);
         Session.set("curY", posy);
         Session.set("bldg", response.bldg);
         Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
-        Session.set("current-width",800);
         Session.set("location", result );
-        $( document ).ready(function() {
-          console.log( "ready!" );
-          $('html, body').animate({
-            scrollTop: (posy*window.innerWidth/800-50)+"px"
-          }, 800);
-        });
       
-        $('html, body').css({
-            'overflow': 'default',
-            'height': 'default'
-        });
       
-        $("#new-task").blur();
+        smooth_scroll_top( (posy*window.innerWidth/800-50) );
+        
+        
+
+       
       
         return false;
     },
@@ -813,10 +805,6 @@ if (Meteor.isClient) {
         Session.set("posX", 160);
         Session.set("posY", -100);
         Session.set("navReady",0);
-        $('html, body').css({
-            'overflow': 'hidden',
-            'height': '100%'
-        });
     },
     'blur .search-dest': function(){
         $(".fa-search")
