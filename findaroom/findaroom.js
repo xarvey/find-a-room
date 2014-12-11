@@ -42,6 +42,15 @@ function getMessage() {
   return msg_collection;
 }
 
+function remove_user(user_name)
+{
+    Chatbox.remove({user:user_name});
+}
+
+function request_help(user_name,xpix,ypix,message)
+{
+    Chatbox.insert({user:user_name,xpix:xpix,ypix:ypix,message:message});
+}
 
 
 if (Meteor.isServer) {
@@ -95,15 +104,6 @@ if (Meteor.isServer) {
 }
 
 
-function remove_user(user_name)
-{
-    Chatbox.remove({user:user_name});
-}
-
-function request_help(user_name,xpix,ypix,message)
-{
-    Chatbox.insert({user:user_name,xpix:xpix,ypix:ypix,message:message});
-}
 
 
 function getNearRoom(p)
