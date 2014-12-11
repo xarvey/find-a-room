@@ -752,18 +752,25 @@ if (Meteor.isClient) {
   Template.mainchatbox.events({
     'submit .new-task2': function(event) {
       console.log("GO TO task2");
-      Session.set("entername",1);
-      event.preventDefault();
       result=event.target.text.value.replace(/\s+/g, '');
+      Session.set("entername",1);
+      setUserStatus(result, 'on');
+      console.log("user:"+result);
+      event.preventDefault();
       insertUser(result);
-
-      //var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
-
       $("#new-task2").blur();
       return false;
     }
-
   });
+
+Template.chatBox.events({
+  'click #send': function(){
+    console.log("send chat");
+    var message = $('textarea#chat-message').val();
+    console.log(message);
+
+  }
+});
 
   Template.home.events({
     'click .scan-qr': function() {
