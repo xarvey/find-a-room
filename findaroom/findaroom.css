@@ -63,6 +63,15 @@ header {
   left: 0%;
 }
 
+#chat-message {
+  width: 320px;
+}
+
+#messages  {
+  width: 320px;
+  margin: 0;
+}
+
 .mid-wrapper > *{
   margin: 0 auto;
 }
@@ -143,6 +152,10 @@ header .hide-completed {
   }
 
   .new-task input {
+    padding-bottom: 5px;
+  }
+
+  .new-task2 input {
     padding-bottom: 5px;
   }
 }
@@ -452,6 +465,18 @@ header .hide-completed {
   transition: all 0.5s ease-in-out;
 }
 
+.chatting{
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 200;
+
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
 .something{
   position: absolute;
   width: 100%;
@@ -493,11 +518,29 @@ header .hide-completed {
   -webkit-appearance: none;
   font-size: 13px;
 }
+.new-task2 input {
+  position: relative;
+  left: 10%;
+  right: 10%;
+  display: block;
+  text-align: center;
+  padding: 10px 0px;
+  margin: 15px 0 50px 0;
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.13);
+  border-radius: 5px;
+  width: 80%;
+  -webkit-appearance: none;
+  font-size: 13px;
+}
 
 .new-task input:focus{
   outline: 0;
 }
 
+.new-task2 input:focus{
+  outline: 0;
+}
 .scan-qr{
   position: relative;
   -webkit-appearance: none;

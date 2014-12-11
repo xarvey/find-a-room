@@ -28,6 +28,7 @@ var posx,posy;
 var instructions = [];
 
 function setUserStatus(usr, stat) {  // change the user status. if the username wasn't found then adds the username to database.
+  Session.set("entername",1);
   if(Userstatus.findOne({user: usr}) == null) {
     Userstatus.insert({ user: usr, status: stat });
   }
@@ -654,6 +655,7 @@ if (Meteor.isClient) {
     Session.set("navTop",-200+"px");
     Session.set("scanned", 0);
     Session.set("navReady",0);
+    Session.set("enteredName",0);
     load();
 
   });
@@ -738,7 +740,30 @@ if (Meteor.isClient) {
       return Session.get("current_ins");
     }
   });
+  Template.mainchatbox.helpers({
+    enteredName: function(){
+      return Session.get("entername");
+    },
+    getUserMsg: function(){
+      return getAvailableUser();
+    }
+  });
 
+  Template.mainchatbox.events({
+    'submit .new-task2': function(event) {
+      console.log("GO TO task2");
+      Session.set("entername",1);
+      event.preventDefault();
+      result=event.target.text.value.replace(/\s+/g, '');
+      insertUser(result);
+
+      //var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+
+      $("#new-task2").blur();
+      return false;
+    }
+
+  });
 
   Template.home.events({
     'click .scan-qr': function() {
@@ -752,7 +777,7 @@ if (Meteor.isClient) {
                 var split = result.split("_");
 
                //find the posx and posy from result
-                
+
               if(result.search("error")==-1){
 
                 Session.set("scan", 1);
@@ -767,8 +792,8 @@ if (Meteor.isClient) {
                 Session.set("curY",posy);
 
               }
-            
-              else 
+
+              else
                 alert(result);
 
           };
@@ -777,7 +802,7 @@ if (Meteor.isClient) {
         }
       });
     },
-    
+
     'click .gps': function(){
         // return 0, 0 if the location isn't ready
 
@@ -932,17 +957,17 @@ if (Meteor.isClient) {
             Session.set("curX",p.xpix);
             Session.set("curY",p.ypix);
         }
-      
+
         start=Session.get("location");
         dest=Session.get("destination");
         var f = start .charAt(0);
         var r = start.substring(1);
 
-      
+
         var start_document;
         if( start.length == 1 )
             start_document = Facilities.findOne({room:start});
-        else 
+        else
             start_document = Rooms.findOne( { room: r, floor: f });
         var f = dest .charAt(0);
         var r = dest.substring(1);
@@ -962,7 +987,7 @@ if (Meteor.isClient) {
         $(".next-btn").html("Next");
 
         Session.set("current_ins", "Start Navigating!");
-      
+
         var listLen = instruction_list.length;
 
         drawLine(Session.get("curX")/2.67*zoominout,Session.get("curY")/12.17*zoominout,(instruction_list[0].xpix)/2.67*zoominout,(instruction_list[0].ypix)/12.17*zoominout);
@@ -996,14 +1021,14 @@ if (Meteor.isClient) {
         }
 
         if( i+1 >= instructions.length ){
-          
+
           var ctx = document.getElementById("draw-line").getContext("2d");
           ctx.clearRect(0, 0, 320, 743);
-          
+
           Session.set("navTop",-200+"px");
 
           zoominout =1;
-          
+
           Session.set("location", Session.get("destination"));
           Session.set("curX", Session.get("posX"));
           Session.set("curY", Session.get("posY"));
@@ -1014,7 +1039,7 @@ if (Meteor.isClient) {
           Session.set("curX",p.xpix);
           Session.set("curY",p.ypix);
           */
-          
+
           console.log(p);
           return ;
         }
@@ -1093,7 +1118,7 @@ if (Meteor.isClient) {
         Session.set("navReady",0);
         Sugg = [];
         Session.set("sugg", Sugg);
-      
+
         Session.set("posX", bathroom.xpix);
         Session.set("posY", bathroom.ypix);
 
