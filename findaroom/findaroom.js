@@ -4,6 +4,7 @@ var gCtx = null;
 var gCanvas = null;
 var dCanvas = null;
 
+Chatbox = new Meteor.Collection("chatbox");
 var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
 var Buildings = new Meteor.Collection("buildings");
@@ -24,6 +25,24 @@ var mapcanvas = null;
 var posx,posy;
 
 var instructions = [];
+
+
+function insertMessage(usr, msg) {
+  Chatbox.insert({user: usr, message: msg}) ;
+}
+
+function getMessage() {
+  var msg_collection=[];
+  for(counter = 0; counter < 20; counter++) {
+    var current=Chatbox.findOne({},{skip:counter});
+    if(current==null) break;
+    msg_collection.push(
+      {'user': current.user, 'message': current.message});
+  }
+  return msg_collection;
+}
+
+
 
 if (Meteor.isServer) {
   Meteor.startup(function (){
