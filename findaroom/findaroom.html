@@ -7,7 +7,7 @@
 <body>
   <div class="container">
       {{> home}}
-
+      {{> mainchatbox}}
   </div>
 </body>
 
@@ -47,8 +47,8 @@
 
   </div>
   {{else}}
-  
-  
+
+
   <div class="navigation" style="top:{{navTop}}">
     <div class="navigation-title">
       <div class="fromPlace">{{nameCur}}</div>
@@ -152,4 +152,29 @@
   {{/unless}}
 
 
+</template>
+
+<template name='mainchatbox'>
+
+  <div class = "chatting">
+    <h2>Message</h2>
+    {{loginButtons}}
+    {{> chatBox}}
+  </div>
+</template>
+
+<template name = 'chatBox'>
+  <div id = 'messages'>
+    {{#each messages}}
+      {{> chatMessage}}
+    {{/each}}
+  </div>
+  <textarea id = 'chat-message'></textarea><br>
+  <button class='btn btn-primary' id='send'>Send Chat</button>
+</template>
+
+<template name ='chatMessage'>
+  <div>
+    <b>{{user}}:</b>{{message}}
+  </div>
 </template>
