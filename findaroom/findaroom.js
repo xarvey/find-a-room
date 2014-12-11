@@ -4,7 +4,8 @@ var gCtx = null;
 var gCanvas = null;
 var dCanvas = null;
 
-Chatbox = new Meteor.Collection("chatbox");
+var Userstatus = new Meteor.Collection("userstatus");
+var Chatbox = new Meteor.Collection("chatbox");
 var Rooms = new Meteor.Collection("rooms");
 var Facilities = new Meteor.Collection("facilities");
 var Buildings = new Meteor.Collection("buildings");
@@ -26,8 +27,31 @@ var posx,posy;
 
 var instructions = [];
 
+function setUserStatus(usr, stat) {  // change the user status. if the username wasn't found then adds the username to database.
+  if(Userstatus.findOne({user: usr}) == null) {
+    Userstatus.insert({ user: usr, status: stat });
+  }
+  else {
+    Userstatus.update({_id: Userstatus.findOne({user: usr})._id}, {user: usr, status: stat});
+  }
+}
 
-function insertMessage(usr, msg) {
+function insertUser(usr) { // adds the user to database, default status off.
+  Userstatus.insert({ user: usr, status: 'off' });
+}
+
+function getAvailableUser() { // returns an array of current user.
+  var user_collection=[];
+  for(counter = 0;; counter++) {
+    var current=Chatbox.findOne({status: on},{skip:counter});
+    if(current==null) break;
+    msg_collection.push(
+      {'user': current.user});
+  }
+  return user_collection;
+}
+
+function insertMessage(usr, msg) { // returns an array of {user: xxx message: xxx}
   Chatbox.insert({user: usr, message: msg}) ;
 }
 
