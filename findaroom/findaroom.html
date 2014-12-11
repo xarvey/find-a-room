@@ -6,8 +6,9 @@
 
 <body>
   <div class="container">
-      {{> home}}
-      {{> mainchatbox}}
+    <!--  {{> home}} -->
+    {{> mainchatbox}}
+
   </div>
 </body>
 
@@ -156,11 +157,31 @@
 
 <template name='mainchatbox'>
 
+  {{#unless enteredName}}
+  <div style="position: absolute;
+  opacity: 1;
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;"
+  >
+
+   <div class="midbox">
+    <div class="boxdes">Input your username!</div>
+    <form class="new-task">
+      <input id="new-task" type="text" name="text" style="text-align:center" />
+    </form>
+   </div>
+   <div class="mapoverlay" style="opacity: 0.7; background-color: rgb(33, 101, 132); top: 0px; position: absolute; z-index:400"></div>
+  </div>
+
+  {{else}}
+
   <div class = "chatting">
     <h2>Message</h2>
-    {{loginButtons}}
     {{> chatBox}}
   </div>
+
+{{/unless}}
 </template>
 
 <template name = 'chatBox'>
