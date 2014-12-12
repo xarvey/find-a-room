@@ -669,6 +669,8 @@ if (Meteor.isClient) {
     Session.set("scanned", 0);
     Session.set("navReady",0);
     Session.set("enteredName",0);
+    Session.set("chatpx", -700+"px");
+    Session.set("offScreen", -200+"px");
     load();
 
   });
@@ -748,15 +750,25 @@ if (Meteor.isClient) {
       if(Session.get("navReady") !== 1)
       return Session.get("sugg");
     },
+    
+    getScreen: function(){
+      return Session.get("offScreen");
+    },
+    
     instruction: function(){
 
       return Session.get("current_ins");
-    }
+    },
+    
   });
   Template.mainchatbox.helpers({
     enteredName: function(){
       return Session.get("entername");
-    }
+    },
+    chatpx: function(){
+      console.log( Session.get("chatpx") );
+      return Session.get("chatpx"); 
+    },
 
   });
 
@@ -790,7 +802,8 @@ Template.chatBox.helpers({
     }
     console.log(msg_collection1);
     return msg_collection1;
-  }
+  },
+  
 });
 
 Template.chatBox.events({
@@ -1172,6 +1185,116 @@ Template.chatBox.events({
          drawLine((instructions[shitLen-1].xpix)/2.67*zoominout,(instructions[shitLen-1].ypix)/12.17*zoominout,bathroom.xpix/2.67*zoominout, bathroom.ypix/12.17*zoominout);
         smooth_scroll_top((Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
 
+     },
+    
+    'click .lost' : function()
+    {
+      console.log("HELLO " + Session.get("offScreen"));
+      console.log(parseInt(Session.get("offScreen"), 10));
+      if(parseInt(Session.get("offScreen")) > 0)
+      {
+        Session.set("offScreen", -200+"px");
+      }
+      else
+      {
+        Session.set("offScreen", 89+"px");
+      }
+    },
+    
+    'submit .newRoom' : function()
+    {
+        event.preventDefault();
+
+        result=event.target.text.value.replace(/\s+/g, '');
+        var f = result.charAt(0);
+        var r = result.substring(1);
+
+        var response = Rooms.findOne( { room: r, floor: f },{_id:0,xpix:1});
+
+        if(response==undefined){
+          alert("Room not found");
+          return false;
+        }
+
+        $("#new-task").blur();
+
+        Session.set("scan",1);
+
+        posx= response.xpix;
+        posy= response.ypix; // only know the room and floor
+                // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,xpix:1}).xpix;
+                // Room.findOne( { bldg: b, fllor: f, room: r}, {_id:0,ypix:1}).ypix;
+
+        Session.set("curX", posx);
+        Session.set("curY", posy);
+        Session.set("bldg", response.bldg);
+        Session.set("mapimg", response.bldg+"_"+response.floor+".jpg");
+        Session.set("location", result );
+        
+
+        smooth_scroll_top( (posy*window.innerWidth/800-50) );
+        Session.set("offScreen", -200+"px");
+
+       var ctx = document.getElementById("draw-line").getContext("2d");
+          ctx.clearRect(0, 0, 320, 743);
+        
+        event.preventDefault();
+        //Session.set("width", 100+"%");
+        //document.body.scrollTop = (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300);
+        smooth_scroll_top( (Session.get("curY")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-300));
+        //smooth_scroll_left( (Session.get("curX")*window.innerWidth/(800/(parseInt(Session.get("width"))/100))-150) );
+
+        if( Session.get("location")=="BATH" ){
+            node={xpix:instructions[i].xpix,ypix:instructions[i].ypix};
+            p=getNearRoom(node);
+            Session.set("location",p.room );
+            Session.set("curX",p.xpix);
+            Session.set("curY",p.ypix);
+        }
+      
+        start=Session.get("location");
+        dest=Session.get("destination");
+        var f = start .charAt(0);
+        var r = start.substring(1);
+
+      
+        var start_document;
+        if( start.length == 1 )
+            start_document = Facilities.findOne({room:start});
+        else 
+            start_document = Rooms.findOne( { room: r, floor: f });
+        var f = dest .charAt(0);
+        var r = dest.substring(1);
+
+        var dest_document = Rooms.findOne( { room: r, floor: f });
+
+        Session.set("step", -1);
+
+
+        instructions = find_destination(start_document.xpix,start_document.ypix,dest_document.xpix,dest_document.ypix);
+
+        Session.set("navTop",0);
+        Session.set("navReady",0);
+        Sugg = [];
+        Session.set("sugg", Sugg);
+
+        $(".next-btn").html("Next");
+
+        Session.set("current_ins", "Start Navigating!");
+      
+        var listLen = instruction_list.length;
+
+        drawLine(Session.get("curX")/2.67*zoominout,Session.get("curY")/12.17*zoominout,(instruction_list[0].xpix)/2.67*zoominout,(instruction_list[0].ypix)/12.17*zoominout);
+        for(var pdots=0; pdots < listLen-1; pdots++){
+          console.log((instruction_list[pdots].xpix) +" "+(instruction_list[pdots].ypix));
+          console.log(pdots);
+          drawLine((instruction_list[pdots].xpix)/2.67*zoominout,(instruction_list[pdots].ypix)/12.17*zoominout,(instruction_list[pdots+1].xpix)/2.67*zoominout,(instruction_list[pdots+1].ypix)/12.17*zoominout);
+        }
+        drawLine((instruction_list[listLen-1].xpix)/2.67*zoominout,(instruction_list[listLen-1].ypix)/12.17*zoominout,Session.get("posX")/2.67*zoominout, Session.get("posY")/12.17*zoominout);
+
+        
+
+        return false;
     }
 
   });
