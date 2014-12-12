@@ -1243,7 +1243,7 @@ Template.chatBox.events({
           return false;
         }
 
-        $("#new-task").blur();
+        $("#lost").blur();
 
         Session.set("scan",1);
 
