@@ -58,11 +58,22 @@ function insertMessage(usr, msg) { // returns an array of {user: xxx message: xx
 
 function getMessage() {
   var msg_collection=[];
-  for(counter = 0; counter < 20; counter++) {
+  var counter = 0;
+  while(1) {
     var current=Chatbox.findOne({},{skip:counter});
     if(current==null) break;
-    msg_collection.push(
-      {'user': current.user, 'message': current.message});
+    counter++;
+  }
+
+  if(counter < 20){
+    counter = 0;
+  }
+  else
+    counter = counter - 20;
+  for(;;counter++) {
+    var current=Chatbox.findOne({},{skip:counter});
+    if(current==null) break;
+    msg_collection.push({'user': current.user, 'message': current.message});
   }
   return msg_collection;
 }
