@@ -467,7 +467,7 @@ function find_destination(startx,starty,endx,endy)
           // This is like a think function from a game loop
           var scroll_frame = function() {
               if(element.scrollTop != previous_top) {
-                  reject("interrupted");
+                  reject("interrupted..");
                   return;
               }
 
@@ -507,7 +507,7 @@ function find_destination(startx,starty,endx,endy)
       target = Math.round(target);
       duration = 400;
       if (duration < 0) {
-          return Promise.reject("bad duration");
+          return Promise.reject("bad duration..");
       }
       if (duration === 0) {
           element.scrollLeft = target;
@@ -766,7 +766,7 @@ if (Meteor.isClient) {
 
   Template.mainchatbox.events({
     'submit .new-task2': function(event) {
-      console.log("GO TO task2");
+      console.log("GO TO task2:)");
       result=event.target.text.value.replace(/\s+/g, '');
       Session.set("entername",1);
       Session.set("username",result);

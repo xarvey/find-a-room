@@ -63,19 +63,13 @@ header {
   left: 0%;
 }
 
-#chat-message {
+
+
+#message  {
   width: 320px;
+  z-index:65;
 }
 
-#messages  {
-  width: 320px;
-  margin: 0;
-}
-
-#send  {
-  width: 320px;
-  top: 540px;
-}
 
 .mid-wrapper > *{
   margin: 0 auto;
@@ -173,6 +167,19 @@ header .hide-completed {
   top: -1px;
   width: 100%;
   height: 64px;
+  z-index: 20;
+  box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.05);
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.05);
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.05);
+}
+.topbar2 {
+  background-color: rgb(255, 255, 255);
+  opacity: 0.94;
+  position: fixed;
+  left: 0px;
+  top: -1px;
+  width: 100%;
+  height: 32px;
   z-index: 20;
   box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.05);
   -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.05);
@@ -436,13 +443,12 @@ header .hide-completed {
 }
 
 .chatting-stream{
-  z-index: 103;
+  z-index: 53;
   display: table;
   position: absolute;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.93);
-  height: 100px;
-  top: 90px;
+  background-color: rgba(255, 0, 255, 0.93);
+  top: 32px;
   left: 0px;
   -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
   -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
@@ -460,15 +466,15 @@ header .hide-completed {
   left: 14px;
 }
 
-.chat-text{
+.chat-history{
   display: table-cell;
   vertical-align: middle;
-  color: #4D4D4D;
-  position: relative;
+  color: green;
+  position: absolute;
   font-size: 13px;
-  width: 320px;
+  width: 230px;
+  background-color: #d4ea9f;
   word-break: break-word;
-  left: 14px;
 }
 
 .next-btn{
