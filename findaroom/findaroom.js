@@ -774,11 +774,13 @@ if (Meteor.isClient) {
       return false;
     }
   });
+
 Template.chatBox.helpers({
   getUserMsg: function(){
     return getMessage();
   }
 });
+
 Template.chatBox.events({
   'click #send': function(){
     console.log("send chat!");
@@ -787,6 +789,13 @@ Template.chatBox.events({
     insertMessage(Session.get("username"), message);
     msgs = getMessage();
     console.log(msgs);
+    for(var i = 0; i < 20;i++){
+      if(msgs[i].user == Session.get("username")){
+        $(".dialog")
+        .css("background-color","rgb(32, 149, 149)")
+        .css("left","160px");
+      }
+    }
   }
 });
 
