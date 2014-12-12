@@ -745,7 +745,7 @@ if (Meteor.isClient) {
       return Session.get("entername");
     },
     getUserMsg: function(){
-      return getAvailableUser();
+      return getMessage();
     }
   });
 
@@ -754,6 +754,7 @@ if (Meteor.isClient) {
       console.log("GO TO task2");
       result=event.target.text.value.replace(/\s+/g, '');
       Session.set("entername",1);
+      Session.set("username",result);
       setUserStatus(result, 'on');
       console.log("user:"+result);
       event.preventDefault();
@@ -765,10 +766,12 @@ if (Meteor.isClient) {
 
 Template.chatBox.events({
   'click #send': function(){
-    console.log("send chat");
+    console.log("send chat!");
     var message = $('textarea#chat-message').val();
-    console.log(message);
-
+    console.log(Session.get("username")+": "+message);
+    insertMessage(Session.get("username"), message);
+    var stream = getMessage();
+    console.log(stream);
   }
 });
 

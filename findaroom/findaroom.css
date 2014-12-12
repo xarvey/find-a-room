@@ -72,6 +72,11 @@ header {
   margin: 0;
 }
 
+#send  {
+  width: 320px;
+  top: 540px;
+}
+
 .mid-wrapper > *{
   margin: 0 auto;
 }
@@ -430,6 +435,20 @@ header .hide-completed {
   box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
 }
 
+.chatting-stream{
+  z-index: 103;
+  display: table;
+  position: absolute;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.93);
+  height: 100px;
+  top: 90px;
+  left: 0px;
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+}
+
 .nav-text{
   display: table-cell;
   vertical-align: middle;
@@ -437,6 +456,17 @@ header .hide-completed {
   position: relative;
   font-size: 13px;
   width: 210px;
+  word-break: break-word;
+  left: 14px;
+}
+
+.chat-text{
+  display: table-cell;
+  vertical-align: middle;
+  color: #4D4D4D;
+  position: relative;
+  font-size: 13px;
+  width: 320px;
   word-break: break-word;
   left: 14px;
 }

@@ -186,16 +186,12 @@
 
 <template name = 'chatBox'>
   <div id = 'messages'>
-    {{#each messages}}
-      {{> chatMessage}}
-    {{/each}}
+    <div class="chatting-stream">
+      <div class="chat-text">{{getUserMsg}}</div>
+    </div>
   </div>
-  <textarea id = 'chat-message'></textarea><br>
-  <button class='btn btn-primary' id='send'>Send Chat</button>
-</template>
-
-<template name ='chatMessage'>
-  <div>
-    <b>{{user}}:</b>{{message}}
-  </div>
+  <!--<div class ="typingMsg" style="opacity: 0.5; background-color: rgb(33, 101, 132); position: absolute; -webkit-transition: .2s;z-index: 89">-->
+    <textarea id = 'chat-message'></textarea><br>
+    <button class='btn btn-primary' id='send' style="padding-bottom: 95px; position: absolute; -webkit-transition: .2s">>Send Chat</button>
+  <!--</div>-->
 </template>
