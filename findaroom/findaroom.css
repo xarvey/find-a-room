@@ -418,6 +418,18 @@ header .hide-completed {
   left: 283px;
 }
 
+.closebtn2{
+  z-index: 704;
+  position: absolute;
+  background-image: url("closebtn.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 15px;
+  height: 15px;
+  top: 38px;
+  left: 290px;
+}
+
 .description{
   z-index: 103;
   display: table;
@@ -455,13 +467,15 @@ header .hide-completed {
 .dialog {
   display: table-cell;
   vertical-align: middle;
-  background-color: #d4ea9f;
+  background-color: #9FD3EA;
   position:relative;
   font-size: 13px;
   z-index:50;
   width:150px;
   word-break: break-word;
   left:15px;
+  padding: 5px;
+  margin-top: 10px;
   border-radius: 7px;
 }
 .next-btn{
@@ -624,4 +638,11 @@ header .hide-completed {
   -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
   -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
   box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+}
+
+.fa-comment{
+    position: fixed;
+    top: 34px;
+    left: 235px;
+    z-index:202;  
 }

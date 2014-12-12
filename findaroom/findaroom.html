@@ -6,9 +6,11 @@
 
 <body>
   <div class="container">
-   {{> home}}
-   {{> mainchatbox}}
-   
+   {{#unless chatting}}
+      {{> home}}
+   {{else}}
+      {{> mainchatbox}}
+   {{/unless}}
   </div>
 </body>
 
@@ -32,7 +34,7 @@
       </form>
       <button class="scan-qr">Scan QR-code</button>
     </div>
-      {{#unless curX }}
+      {{#unless current_map }}
       <div class="mapoverlay" style="opacity: 1; background: url('LWSN_1.jpg'); background-size: contain;top: 0px; position: absolute; z-index:400;
 
        -webkit-filter: blur(10px);
@@ -81,6 +83,7 @@
     <button class = "backbtn" style="left:0px; position: absolute; z-index: 20; background-color: transparent; border:0px; padding: 33px 30px 20px 15px;">
       <span class="fa fa-location-arrow fa-lg" style="color:#5eb8e2"></span>
     </button>
+    <span class="fa fa-comment fa-lg" style="color:#5eb8e2"></span>
     <div class="bafroom">
       <button class="bath" style="left:300px; position: absolute; z-index: 20; background-color: transparent; border:0px; padding: 50px 30px 0px 15px;"></button>
         <span class="fa fa-female fa-lg" style="color:#5eb8e2"></span>
@@ -163,7 +166,7 @@
 </template>
 
 <template name='mainchatbox'>
-  <div style="position:absolute; top:{{chatpx}};">
+              
     {{#unless enteredName}}
     <div style="position: absolute;
     opacity: 1;
@@ -172,36 +175,40 @@
     -webkit-transition: opacity .25s ease-in-out;"
     >
 
-     <div class="midbox">
-      <div class="boxdes">Input your username!</div>
+     <div class="midbox" style="width: 180px; left: 70px">
+      <div class="boxdes">Your name</div>
       <form class="new-task2">
-        <input id="new-task2" type="text" name="text" style="text-align:center" />
+        <input id="new-task2" type="text" name="text" style="text-align:center; width:80%" />
       </form>
      </div>
-     <div class="mapoverlay" style="opacity: 0.7; background-color: rgb(33, 101, 132); top: 0px; position: absolute; z-index:400"></div>
+     <div class="mapoverlay" style="opacity: 0.7; background-color: rgb(59, 59, 59); top: 0px; position: absolute; z-index:400"></div>
     </div>
-
-    {{else}}
-
+  {{/unless}}
+  
     <div class = "chatting">
-      <div id="topbar2" style="height: 38px;opacity: 0.8; background-color: rgb(43, 160, 200); text-align:center; font-size:22px; font-weight: 600; color: rgb(255, 255, 255); font-family: Lato;position: fixed; width:100%;z-index: 700">Message</div>
+      <div class="closebtn2"></div>
+      <div id="topbar2" style="height: 35px;opacity: 1; background-color: #283943; text-align:center; font-size:15px; font-weight: 600; color: rgb(255, 255, 255); font-family: Lato;position: fixed; width:100%;z-index: 700;padding-top: 35px">Message</div>
       {{> chatBox}}
     </div>
-{{/unless}}
-    </div>
-</template>
+
+  </template>
 
 <template name = 'chatBox'>
-  <div id = 'messages' style ="height:540px">
+  <div id = 'messages' style ="top:71px; position: absolute; height: 465px; overflow: scroll">
         {{#each getUserMsg}}
-          <!--<div class ="showMsg" style="width:320px; top:310px;height:160px; background-color: rgb(133, 211, 132)"></div-->>
-          <div class="dialog" style="left: {{this.xcoord}}">{{this.user}}: {{this.message}}</div>
-
+          <!--<div class ="showMsg" style="width:320px; top:a310px;height:160px; background-color: rgb(133, 211, 132)"></div-->
+          <div class="msg" style="margin:5px">
+              <div style="left: {{this.xcoord}}; position: absolute; display: {{this.isuser}}; padding-left: 5px; font-weigth: bold; font-size: 12px;">{{this.user}}</div>
+              <br>
+              <div class="dialog" style="left: {{this.xcoord}}">{{this.message}}</div>
+          </div>
+  
         {{/each}}
-     <div class ="typingMsg" style="width:320px; top:520px;height:60px; background-color: rgb(33, 101, 132);  position:absolute;z-index: 260">
-       <textarea id = 'chat-message' style="left:15px;text-align:center;border-radius: 10px;z-index: 262;width:250px" placeholder="Text Message"></textarea>
+  </div>
+     <div class ="typingMsg" style="width:320px; top:520px;height:60px; background-color:rgb(245, 245, 245);  position:absolute;z-index: 260">
+       <textarea id = 'chat-message' style="position: relative; left:10px;top:8px;border: 1px solid rgba(0,0,0,0.13);border-radius: 5px;z-index: 252;width:230px;height:19px;padding: 5px" placeholder="Text Message"></textarea>
      </div>
-    <button class='btn btn-primary' id='send' style="border-radius: 10px;left:268px;top:522px;height:32px; background-color:transparent;width:50px;position: absolute; z-index: 261; font-size:14px; font-weight: 300; color: rgb(255, 255, 255); font-family: Lato" >Send</button>
- </div>
+    <button class='btn btn-primary' id='send' style="border-radius: 5px;left:261px;top:527px;height:32px; background-color:#6E6E6E;width:50px;position: absolute; z-index: 261; font-size:12px; font-weight: 300; color: rgb(255, 255, 255); font-family: Lato;border: 0px" >Send</button>
+ 
  
 </template>

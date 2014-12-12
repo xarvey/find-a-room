@@ -20,6 +20,7 @@ var Sugg = [];
 var users =[];
 var msgs =[];
 var setLineWidth = 1;
+var oldHeight = 0;
 
 var mapcanvas = null;
     mapcontext = null;
@@ -642,8 +643,8 @@ function drawLine(x1, y1, x2, y2)
 if (Meteor.isClient) {
   // This code only runs on the client
   Template.home.created = function(){
-    if(Session.get("scan")==1)
-      drawStuff();
+    //if(Session.get("scan")==1)
+    //  drawStuff();
     $(function() {
     $(window).on('resize', function resize()  {
         $(window).off('resize', resize);
@@ -671,6 +672,15 @@ if (Meteor.isClient) {
     Session.set("enteredName",0);
     Session.set("chatpx", -700+"px");
     Session.set("offScreen", -200+"px");
+    window.setInterval( function(){
+      var elem = document.getElementById('messages');
+      if(elem){
+        if( oldHeight != elem.scrollHeight){
+          elem.scrollTop = elem.scrollHeight; 
+          oldHeight = elem.scrollHeight;
+        }
+      }
+    }, 100);
     load();
 
   });
@@ -784,9 +794,12 @@ if (Meteor.isClient) {
       insertUser(result);
       $("#new-task2").blur();
       return false;
-    }
+    },
+    'click .closebtn2': function(event){
+        Session.set("chatpx", 1); 
+    },
   });
-
+  
 Template.chatBox.helpers({
   getUserMsg: function(){
     var msg_collection1=[];
@@ -794,10 +807,10 @@ Template.chatBox.helpers({
     var len1 = msg_collection.length;
     for(var i=0; i< len1; i++){
       if(Session.get("username") == msg_collection[i].user ){
-        msg_collection1.push({'user':  msg_collection[i].user , 'message':  msg_collection[i].message,'xcoord':150+'px'});
+        msg_collection1.push({'user':  msg_collection[i].user , 'message':  msg_collection[i].message,'xcoord':140+'px', 'isuser': 'none'});
       }
       else{
-        msg_collection1.push({'user':  msg_collection[i].user , 'message':  msg_collection[i].message,'xcoord':10+'px'});
+        msg_collection1.push({'user':  msg_collection[i].user , 'message':  msg_collection[i].message,'xcoord':5+'px', 'isuser': 'block'});
       }
     }
     console.log(msg_collection1);
@@ -805,7 +818,12 @@ Template.chatBox.helpers({
   },
   
 });
-
+Template.body.helpers({
+    chatting: function(){
+        
+        return Session.get("chatpx") == 0; 
+    }
+});
 Template.chatBox.events({
   'click #send': function(){
     console.log("send chat!");
@@ -813,6 +831,9 @@ Template.chatBox.events({
     console.log(Session.get("username")+": "+message);
     insertMessage(Session.get("username"), message);
     msgs = getMessage();
+    var elem = document.getElementById('messages');
+    elem.scrollTop = elem.scrollHeight; 
+    oldHeight = 0;
     console.log(msgs);
   }
 });
@@ -994,7 +1015,11 @@ Template.chatBox.events({
 
         autofill_room(document.getElementById('search-main').value);
     },
-
+    'click .fa-comment': function(event){
+        smooth_scroll_top(0);
+        Session.set("chatpx",0); 
+    }
+    ,
     'click .startnav': function(event){
         event.preventDefault();
         //Session.set("width", 100+"%");
@@ -1174,6 +1199,8 @@ Template.chatBox.events({
         Session.set("posX", bathroom.xpix);
         Session.set("posY", bathroom.ypix);
 
+        $(".next-btn").html("Next");
+      
          Session.set("current_ins", "GO GO BEFORE IT'S TOO LATE!");
 
          var shitLen = instructions.length;
