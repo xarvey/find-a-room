@@ -6,7 +6,7 @@
 
 <body>
   <div class="container">
-    <!--{{> home}}--> 
+    <!--{{> home}}-->
    {{> mainchatbox}}
 
   </div>
@@ -68,11 +68,11 @@
     </div>
   </div>
   <div class="newRoom" style="top:{{getScreen}}">
-      
+
       <form class="newRoom">
           <input id="lost" type="text" name="text" style="text-align: center; border: 0px; background-color: transparent; position: absolute; top: 5px; height: 30px; width: 100%" placeholder="If you are lost type in the closest room to you."/>
       </form>
-      
+
  </div>
   <div class="topbar">
 
@@ -196,12 +196,13 @@
     <div class="chatting-stream">
       <div class="chat-history">
         {{#each getUserMsg}}
-        <div class ="showMsg">{{this}}</div>
+          <!--<div class ="showMsg" style="width:320px; top:310px;height:160px; background-color: rgb(133, 211, 132)"></div-->>
+          <br>{{this.user}}: {{this.message}}
         {{/each}}
         </div>
      </div>
     <div class ="typingMsg" style="width:320px; top:510px;height:60px; background-color: rgb(33, 101, 132);  position:absolute;z-index: 60">
-      <textarea id = 'chat-message' style="height:55px;left:0px;z-index: 645;width:260px"></textarea><br>
+      <textarea id = 'chat-message' style="height:55px;left:0px;z-index: 25;width:260px"></textarea>
 
     </div>
     <button class='btn btn-primary' id='send' style="left:268px;top:514px;height:50px; background-color: rgb(43, 160, 200);width:50px;position: absolute; z-index: 134; font-size:14px; font-weight: 300; color: rgb(255, 255, 255); font-family: Lato; " >Send</button>
