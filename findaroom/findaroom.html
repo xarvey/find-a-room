@@ -6,8 +6,8 @@
 
 <body>
   <div class="container">
-    <!--  {{> home}} -->
-    {{> mainchatbox}}
+    <!--{{> home}}--> 
+   {{> mainchatbox}}
 
   </div>
 </body>
@@ -52,6 +52,7 @@
 
   <div class="navigation" style="top:{{navTop}}">
     <div class="navigation-title">
+      <div class="lost" style="padding: 50px 30px 0px 15px"></div>
       <div class="fromPlace">{{nameCur}}</div>
       <div class="from">from</div>
       <div class="toPlace">{{nameDes}}</div>
@@ -66,7 +67,13 @@
       <button class="next-btn">Next</button>
     </div>
   </div>
-
+  <div class="newRoom" style="top:{{getScreen}}">
+      
+      <form class="newRoom">
+          <input id="lost" type="text" name="text" style="text-align: center; border: 0px; background-color: transparent; position: absolute; top: 5px; height: 30px; width: 100%" placeholder="If you are lost type in the closest room to you."/>
+      </form>
+      
+ </div>
   <div class="topbar">
 
     <div class="title">{{current_building}}</div>
