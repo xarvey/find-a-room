@@ -462,7 +462,7 @@ header .hide-completed {
   width:150px;
   word-break: break-word;
   left:15px;
-  border-radius: 12px;
+  border-radius: 7px;
 }
 .next-btn{
   position: absolute;

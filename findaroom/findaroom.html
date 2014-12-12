@@ -192,10 +192,10 @@
 </template>
 
 <template name = 'chatBox'>
-  <div id = 'messages'>
+  <div id = 'messages' style ="height:540px">
         {{#each getUserMsg}}
           <!--<div class ="showMsg" style="width:320px; top:310px;height:160px; background-color: rgb(133, 211, 132)"></div-->>
-          <div class="dialog">{{this.user}}: {{this.message}}</div>
+          <div class="dialog" style="left: {{this.xcoord}}">{{this.user}}: {{this.message}}</div>
 
         {{/each}}
      <div class ="typingMsg" style="width:320px; top:520px;height:60px; background-color: rgb(33, 101, 132);  position:absolute;z-index: 260">

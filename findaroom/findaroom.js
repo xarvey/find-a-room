@@ -777,7 +777,19 @@ if (Meteor.isClient) {
 
 Template.chatBox.helpers({
   getUserMsg: function(){
-    return getMessage();
+    var msg_collection1=[];
+    var msg_collection = getMessage();
+    var len1 = msg_collection.length;
+    for(var i=0; i< len1; i++){
+      if(Session.get("username") == msg_collection[i].user ){
+        msg_collection1.push({'user':  msg_collection[i].user , 'message':  msg_collection[i].message,'xcoord':150+'px'});
+      }
+      else{
+        msg_collection1.push({'user':  msg_collection[i].user , 'message':  msg_collection[i].message,'xcoord':10+'px'});
+      }
+    }
+    console.log(msg_collection1);
+    return msg_collection1;
   }
 });
 
@@ -789,13 +801,6 @@ Template.chatBox.events({
     insertMessage(Session.get("username"), message);
     msgs = getMessage();
     console.log(msgs);
-    for(var i = 0; i < 20;i++){
-      if(msgs[i].user == Session.get("username")){
-        $(".dialog")
-        .css("background-color","rgb(32, 149, 149)")
-        .css("left","160px");
-      }
-    }
   }
 });
 
