@@ -10,5 +10,5 @@
 #echo "`curl -s http://whatthecommit.com/index.txt`" > random_commit.txt
 git pull
 git add --all
-git commit -m"Yao's stupid commit"
+git commit -m "`curl -s http://whatthecommit.com/index.txt`"
 git push
